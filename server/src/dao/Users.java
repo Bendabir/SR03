@@ -4,7 +4,7 @@ import beans.*;
 
 public class Users {
 	
-	public User get(String username) throws SQLException{
+	public static User get(String username) throws SQLException{
 		Connection cnx = DatabaseConnection.getInstance().getCnx();
 
 		String sql = "SELECT * FROM users WHERE `username`=?;";
@@ -23,7 +23,7 @@ public class Users {
 		}
 	}
 
-	public ArrayList<User> all() throws SQLException{
+	public static ArrayList<User> all() throws SQLException{
 		ArrayList<User> users = new ArrayList<User>();
 		String sql = "SELECT * FROM users";
 		PreparedStatement ps = cnx.prepareStatement(sql);
@@ -42,7 +42,7 @@ public class Users {
 		return users;
 	}
 
-	public boolean add(User user){
+	public static boolean add(User user){
 		String sql = "INSERT INTO users (username, password, firstname, lastname, birth_date, status) VALUES(?, ?, ?, ?, ?, ?);";
 		PreparedStatement ps = cnx.prepareStatement(sql);
 		ps.setString(1, user.getUsername());
@@ -61,7 +61,7 @@ public class Users {
 		return true;
 	}
 
-	public boolean update(User user){
+	public static boolean update(User user){
 		String sql = "UPDATE users SET (username=?, password=?, firstname=?, lastname=?, birth_date=?, status=?);";
 		PreparedStatement ps = cnx.prepareStatement(sql);
 		ps.setString(1, user.getUsername());

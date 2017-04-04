@@ -3,7 +3,7 @@ package dao;
 import beans.*;
 
 public class Consoles{
-	public Console get(String name) throws SQLException{
+	public static Console get(String name) throws SQLException{
 		Connection cnx = DatabaseConnection.getInstance().getCnx();
 
 		String sql = "SELECT * FROM consoles WHERE `name`=?;";
@@ -19,7 +19,7 @@ public class Consoles{
 		}
 	}
 
-	public ArrayList<Console> all() throws SQLException{
+	public static ArrayList<Console> all() throws SQLException{
 		ArrayList<Console> consoles = new ArrayList<Console>();
 		String sql = "SELECT * FROM consoles";
 		PreparedStatement ps = cnx.prepareStatement(sql);
@@ -35,7 +35,7 @@ public class Consoles{
 		return users;
 	}
 
-	public boolean add(Console console){
+	public static boolean add(Console console){
 		String sql = "INSERT INTO consoles (name, launched_date) VALUES(?, ?);";
 		PreparedStatement ps = cnx.prepareStatement(sql);
 		ps.setString(1, console.getName());
@@ -50,7 +50,7 @@ public class Consoles{
 		return true;
 	}
 
-	public boolean update(Console user){
+	public static boolean update(Console user){
 		String sql = "UPDATE consoles SET (name=?, launched_date=?);";
 		PreparedStatement ps = cnx.prepareStatement(sql);
 		ps.setString(1, console.getName());
