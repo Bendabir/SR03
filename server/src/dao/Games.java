@@ -10,7 +10,7 @@ import bdd.DatabaseConnection;
 import beans.Game;
 
 public class Games {
-	public Game get(int id) throws SQLException {
+	public static Game get(int id) throws SQLException {
 		Game g = null;
 		Connection cnx = null;
 		
@@ -35,11 +35,11 @@ public class Games {
 		return g;
 	}
 
-	public ArrayList<Game> all() throws SQLException {
-		return this.all(0, 1000);
+	public static ArrayList<Game> all() throws SQLException {
+		return Games.all(0, 1000);
 	}
 	
-	public ArrayList<Game> all(int startPoint, int nbGames) throws SQLException {
+	public static ArrayList<Game> all(int startPoint, int nbGames) throws SQLException {
 		ArrayList<Game> lg = new ArrayList<Game>();
 		Connection cnx = null;
 		
@@ -64,7 +64,7 @@ public class Games {
 		return lg;
 	}
 
-	public boolean add(Game game){
+	public static boolean add(Game game){
 		Connection cnx = null;
 		
 		try {
@@ -93,7 +93,7 @@ public class Games {
 		return true;
 	}
 
-	public boolean update(Game game){
+	public static boolean update(Game game){
 		Connection cnx = null;
 		
 		try {
