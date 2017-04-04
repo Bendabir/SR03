@@ -11,6 +11,10 @@ public class Console implements Serializable, Comparable<User> {
 		this.launched_date = launched;
 	}
 
+	public Console(String name) {
+		this.name = name;
+	}
+
 	// SETTERS
 	public Console setName(String uname){
 		this.name = uname;

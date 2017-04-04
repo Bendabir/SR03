@@ -2,7 +2,6 @@ package beans;
 import java.io.Serializable;
 
 public class User implements Serializable, Comparable<User> {
-	private int id;
 	private String username;
 	private String password;
 	private String first_name;
@@ -15,6 +14,10 @@ public class User implements Serializable, Comparable<User> {
 		// TODO: hash password before
 		this.password  = password;
 	}
+
+	public User(String username) {
+		this.username = username;
+	}	
 
 	// SETTERS
 	public User setUsername(String uname){
@@ -49,9 +52,6 @@ public class User implements Serializable, Comparable<User> {
 	}
 
 	// GETTERS
-	public int getId(){
-		return this.id;
-	}
 
 	public String getUsername(){
 		return this.username;
@@ -75,5 +75,10 @@ public class User implements Serializable, Comparable<User> {
 
 	public String getStatus(){
 		return this.status;
+	}
+
+	// returns hashed password anyways...
+	public String getPassword(){
+		return this.password;
 	}
 }
