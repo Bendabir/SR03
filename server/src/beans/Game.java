@@ -11,10 +11,11 @@ public class Game implements Serializable, Comparable<Game> {
 	
 	public Game() {}
 	
-	public Game(int id, String title, float price, String releaseDate, int stock) {
+	public Game(int id, String title, String console, float price, String releaseDate, int stock) {
 		super();
 		this.id = id;
 		this.title = title;
+		this.console = console;
 		this.price = price;
 		this.releaseDate = releaseDate;
 		this.stock = stock;
