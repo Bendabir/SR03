@@ -14,20 +14,14 @@ public final class DatabaseConnection {
 	
 	private DatabaseConnection() {
 		try {
-			
 			Properties p = new Properties();
 			p.load(Thread.currentThread().getContextClassLoader().
-						getResourceAsStream("confBDD.properties"));
-			
-			
+						getResourceAsStream("database.properties"));
 				
-			// chargement du driver
-//			Class.forName(p.getProperty("driver"));
-//			cnx = DriverManager.getConnection(p.getProperty("url"),
-					//p.getProperty("user"), p.getProperty("pwd"));
-			Class.forName("com.mysql.jdbc.Driver");  
-			cnx=DriverManager.getConnection("jdbc:mysql://localhost:3306/formation","root",""); 			
-
+			// Chargement du driver
+			Class.forName(p.getProperty("driver"));
+			cnx = DriverManager.getConnection(p.getProperty("url"), p.getProperty("user"), p.getProperty("pwd"));			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}catch (ClassNotFoundException e) {
