@@ -1,17 +1,13 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import bdd.DatabaseConnection;
 import beans.Game;
-import beans.User;
-import beans.Utilisateur;
 
 public class Games {
 	public Game get(int id) throws SQLException {
@@ -40,7 +36,32 @@ public class Games {
 	}
 
 	public ArrayList<Game> all() throws SQLException {
+		return this.all(0, 1000);
+	}
+	
+	public ArrayList<Game> all(int startPoint, int nbGames) throws SQLException {
+		ArrayList<Game> lg = new ArrayList<Game>();
+		Connection cnx = null;
+		
+		cnx = DatabaseConnection.getInstance().getCnx();
+		
+		// Requête
+		String sql = "SELECT * FROM games LIMIT ?, ?;";
+		PreparedStatement ps = cnx.prepareStatement(sql);
+		ps.setInt(1, startPoint);
+		ps.setInt(2, nbGames);
+		
+		//Execution et traitement de la réponse
+		ResultSet res = ps.executeQuery();
+		
+		while(res.next()){
+			lg.add(new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getFloat("price"), res.getString("releaseDate"), res.getInt("stock")));
+		}
+		
+		res.close();
+		DatabaseConnection.getInstance().closeCnx();			
 
+		return lg;
 	}
 
 	public boolean add(Game game){
