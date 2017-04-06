@@ -10,4 +10,13 @@
       <servlet-name>Games</servlet-name>
       <url-pattern>/api/games</url-pattern>
    </servlet-mapping>
+   
+   <servlet>
+      <servlet-name>Consoles</servlet-name>
+      <servlet-class>api.Consoles</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>Consoles</servlet-name>
+      <url-pattern>/api/consoles</url-pattern>
+   </servlet-mapping>   
 </web-app>

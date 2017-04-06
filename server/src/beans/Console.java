@@ -1,42 +1,50 @@
 package beans;
-import java.io.Serializable;
 
-public class Console implements Serializable, Comparable<User> {
-	private int id;
+// Date constructor for String is deprecated
+// import java.util.Date; 
+
+public class Console implements Comparable<Console> {
 	private String name;
-	private Date launched_date;
-
-	public Console(String name, Date launched) {
+	private String launchedDate;
+	
+	public Console(String name, String launched) {
 		this.name = name;
-		this.launched_date = launched;
+		this.launchedDate = launched;
 	}
 
 	public Console(String name) {
 		this.name = name;
+		this.launchedDate = "0000-00-00";
 	}
-
+	
 	// SETTERS
 	public Console setName(String uname){
 		this.name = uname;
 		return this;
 	}
 
-	public Date setLaunchedDate(Date date){
-		// TODO: Hash password before
-		this.launched_date = date;
+	public Console setLaunchedDate(String date){
+		this.launchedDate = date;
 		return this;
 	}
 
 	// GETTERS
-	public int getId(){
-		return this.id;
-	}
 
 	public String getName(){
 		return this.name;
 	}
 
-	public Date getLaunchedDate(){
-		return this.launched_date;
+	public String getLaunchedDate(){
+		return this.launchedDate;
+	}
+	
+	@Override
+	public int compareTo(Console c){
+		return this.name.compareTo(c.name);
+	}
+	
+	@Override
+	public String toString(){
+		return "Name: " + this.name + "; Launched Date: " + this.launchedDate + ";";
 	}
 }

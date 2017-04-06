@@ -41,10 +41,6 @@ public class Games {
 	}
 
 	public static ArrayList<Game> all(){
-		return Games.all(0, 1000);
-	}
-	
-	public static ArrayList<Game> all(int startPoint, int nbGames){
 		ArrayList<Game> lg = new ArrayList<Game>();
 		Connection cnx = null;
 		
@@ -52,10 +48,8 @@ public class Games {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
 			// Requête
-			String sql = "SELECT * FROM games LIMIT ?, ?;";
+			String sql = "SELECT * FROM games;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
-			ps.setInt(1, startPoint);
-			ps.setInt(2, nbGames);
 			
 			//Execution et traitement de la réponse
 			ResultSet res = ps.executeQuery();

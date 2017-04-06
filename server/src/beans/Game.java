@@ -8,8 +8,6 @@ public class Game implements Comparable<Game> {
 	private String releaseDate;
 	private int stock;
 	
-	public Game() {}
-	
 	public Game(int id, String title, String console, double price, String releaseDate, int stock) {
 		super();
 		this.id = id;
@@ -32,45 +30,51 @@ public class Game implements Comparable<Game> {
 	}
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
-	public void setId(int id) {
+	public Game setId(int id) {
 		this.id = id;
+		return this;
 	}
 	
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
-	public void setTitle(String title) {
+	public Game setTitle(String title) {
 		this.title = title;
+		return this;
 	}
 	
 	public String getConsole() {
-		return console;
+		return this.console;
 	}
-	public void setConsole(String console) {
+	public Game setConsole(String console) {
 		this.console = console;
+		return this;
 	}
 	
 	public double getPrice() {
-		return price;
+		return this.price;
 	}
-	public void setPrice(double price) {
+	public Game setPrice(double price) {
 		this.price = price;
+		return this;
 	}
 	
 	public String getReleaseDate() {
-		return releaseDate;
+		return this.releaseDate;
 	}
-	public void setReleaseDate(String releaseDate){
+	public Game setReleaseDate(String releaseDate){
 		this.releaseDate = releaseDate;
+		return this;
 	}
 	
 	public int getStock() {
-		return stock;
+		return this.stock;
 	}
-	public void setStock(int stock) {
+	public Game setStock(int stock) {
 		this.stock = stock;
+		return this;
 	}
 
 	@Override
@@ -80,6 +84,6 @@ public class Game implements Comparable<Game> {
 
 	@Override
 	public String toString(){
-		return "ID: " + id + "; Title: " + title + "; Console: " + console + "; Price: " + price + "; Release Date: " + releaseDate + "; Stock: " + stock + ";";
+		return "ID: " + this.id + "; Title: " + this.title + "; Console: " + this.console + "; Price: " + this.price + "; Release Date: " + this.releaseDate + "; Stock: " + this.stock + ";";
 	}	
 }
