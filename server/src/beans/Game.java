@@ -1,19 +1,29 @@
 package beans;
-import java.io.Serializable;
 
-public class Game implements Serializable, Comparable<Game> {
+public class Game implements Comparable<Game> {
 	private int id;
 	private String title;
 	private String console;
-	private float price;
+	private double price;
 	private String releaseDate;
 	private int stock;
 	
 	public Game() {}
 	
-	public Game(int id, String title, String console, float price, String releaseDate, int stock) {
+	public Game(int id, String title, String console, double price, String releaseDate, int stock) {
 		super();
 		this.id = id;
+		this.title = title;
+		this.console = console;
+		this.price = price;
+		this.releaseDate = releaseDate;
+		this.stock = stock;
+	}
+	
+	// Building new Game before being inserted in database
+	public Game(String title, String console, double price, String releaseDate, int stock) {
+		super();
+		this.id = -1;
 		this.title = title;
 		this.console = console;
 		this.price = price;
@@ -42,10 +52,10 @@ public class Game implements Serializable, Comparable<Game> {
 		this.console = console;
 	}
 	
-	public float getPrice() {
+	public double getPrice() {
 		return price;
 	}
-	public void setPrice(float price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 	
@@ -68,4 +78,8 @@ public class Game implements Serializable, Comparable<Game> {
 		return this.id - g.id;
 	}	
 
+	@Override
+	public String toString(){
+		return "ID: " + id + "; Title: " + title + "; Console: " + console + "; Price: " + price + "; Release Date: " + releaseDate + "; Stock: " + stock + ";";
+	}	
 }

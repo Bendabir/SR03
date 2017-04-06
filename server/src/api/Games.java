@@ -42,7 +42,25 @@ public class Games extends HttpServlet {
         // Setting headers
         response.setHeader("Content-Type", "application/json");
 		
-        // Printing answer
+        // Printing response
         response.getWriter().print(gson.toJson(lg));			
+	}
+	
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// If Content-Type doesn't match
+		if(request.getContentType().compareTo("application/json") == 0){
+			// Getting data from client
+			Gson gson = new Gson();			
+			Game g = gson.fromJson(request.getReader(), Game.class);
+			
+			// No check on data integrity
+			
+			// Add game
+			response.getWriter().print(gson.toJson(dao.Games.add(g)));			
+		}
 	}
 }
