@@ -3,8 +3,6 @@ package api;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import java.sql.SQLException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,13 +31,7 @@ public class Games extends HttpServlet {
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			ArrayList<Game> lg = dao.Games.all();
-			response.getWriter().print(lg.toString());			
-		}
-		catch(SQLException e){
-			e.printStackTrace();
-			response.setStatus(418);
-		}
+		ArrayList<Game> lg = dao.Games.all();
+		response.getWriter().print(lg.toString());			
 	}
 }

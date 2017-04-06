@@ -10,56 +10,66 @@ import bdd.DatabaseConnection;
 import beans.Game;
 
 public class Games {
-	public static Game get(int id) throws SQLException {
+	public static Game get(int id){
 		Game g = null;
 		Connection cnx = null;
 		
-		cnx = DatabaseConnection.getInstance().getCnx();
+		try {
+			cnx = DatabaseConnection.getInstance().getCnx();
 
-		// Requête
-		String sql = "SELECT * FROM games WHERE id = ?;";
-		PreparedStatement ps = cnx.prepareStatement(sql);
-		ps.setInt(1, id);
-		
-		//Execution et traitement de la réponse
-		ResultSet res = ps.executeQuery();
-		
-		while(res.next()){
-			g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getFloat("price"), res.getString("releaseDate"), res.getInt("stock"));
-			break;
+			// Requête
+			String sql = "SELECT * FROM games WHERE id = ?;";
+			PreparedStatement ps = cnx.prepareStatement(sql);
+			ps.setInt(1, id);
+			
+			//Execution et traitement de la réponse
+			ResultSet res = ps.executeQuery();
+			
+			while(res.next()){
+				g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getFloat("price"), res.getString("release_date"), res.getInt("stock"));
+				break;
+			}
+			
+			res.close();
+			DatabaseConnection.getInstance().closeCnx();					
+		}
+		catch(SQLException e){
+			e.printStackTrace();		
 		}
 		
-		res.close();
-		DatabaseConnection.getInstance().closeCnx();			
-
-		return g;
+		return g;			
 	}
 
-	public static ArrayList<Game> all() throws SQLException {
+	public static ArrayList<Game> all(){
 		return Games.all(0, 1000);
 	}
 	
-	public static ArrayList<Game> all(int startPoint, int nbGames) throws SQLException {
+	public static ArrayList<Game> all(int startPoint, int nbGames){
 		ArrayList<Game> lg = new ArrayList<Game>();
 		Connection cnx = null;
 		
-		cnx = DatabaseConnection.getInstance().getCnx();
-		
-		// Requête
-		String sql = "SELECT * FROM games LIMIT ?, ?;";
-		PreparedStatement ps = cnx.prepareStatement(sql);
-		ps.setInt(1, startPoint);
-		ps.setInt(2, nbGames);
-		
-		//Execution et traitement de la réponse
-		ResultSet res = ps.executeQuery();
-		
-		while(res.next()){
-			lg.add(new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getFloat("price"), res.getString("releaseDate"), res.getInt("stock")));
+		try {
+			cnx = DatabaseConnection.getInstance().getCnx();
+			
+			// Requête
+			String sql = "SELECT * FROM games LIMIT ?, ?;";
+			PreparedStatement ps = cnx.prepareStatement(sql);
+			ps.setInt(1, startPoint);
+			ps.setInt(2, nbGames);
+			
+			//Execution et traitement de la réponse
+			ResultSet res = ps.executeQuery();
+			
+			while(res.next()){
+				lg.add(new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getFloat("price"), res.getString("release_date"), res.getInt("stock")));
+			}
+			
+			res.close();
+			DatabaseConnection.getInstance().closeCnx();			
 		}
-		
-		res.close();
-		DatabaseConnection.getInstance().closeCnx();			
+		catch(SQLException e){
+			e.printStackTrace();			
+		}			
 
 		return lg;
 	}
