@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import beans.Game;
 
@@ -35,8 +36,13 @@ public class Games extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<Game> lg = dao.Games.all();
 		
-        Gson gson = new Gson();
+        // Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
         
-		response.getWriter().print(gson.toJson(lg));			
+        // Setting headers
+        response.setHeader("Content-Type", "application/json");
+		
+        // Printing answer
+        response.getWriter().print(gson.toJson(lg));			
 	}
 }
