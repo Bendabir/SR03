@@ -12,19 +12,19 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import beans.GameType;
+import beans.GameGenre;
 
 /**
  * Servlet implementation class GestionUsers
  */
-@WebServlet("/api/gameTypes")
-public class GameTypes extends HttpServlet {
+@WebServlet("/api/gameGenres")
+public class GameGenres extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public GameTypes() {
+	public GameGenres() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -34,7 +34,7 @@ public class GameTypes extends HttpServlet {
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<GameType> lt = dao.GameTypes.all();
+		ArrayList<GameGenre> lg = dao.GameGenres.all();
 		
         // Gson gson = new Gson();
         Gson gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
@@ -43,7 +43,7 @@ public class GameTypes extends HttpServlet {
         response.setHeader("Content-Type", "application/json");
 		
         // Printing response
-        response.getWriter().print(gson.toJson(lt));			
+        response.getWriter().print(gson.toJson(lg));			
 	}
 	
 	/**
@@ -55,12 +55,12 @@ public class GameTypes extends HttpServlet {
 		if(request.getContentType().compareTo("application/json") == 0){
 			// Getting data from client
 			Gson gson = new Gson();			
-			GameType t = gson.fromJson(request.getReader(), GameType.class);
+			GameGenre g = gson.fromJson(request.getReader(), GameGenre.class);
 			
 			// No check on data integrity
 			
 			// Add console
-			response.getWriter().print(gson.toJson(dao.GameTypes.add(t)));			
+			response.getWriter().print(gson.toJson(dao.GameGenres.add(g)));			
 		}
 	}
 }

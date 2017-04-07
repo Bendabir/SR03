@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import bdd.DatabaseConnection;
 import beans.Game;
-import beans.GameType;
+import beans.GameGenre;
 
 public class Games {
 	public static Game get(int id){
@@ -19,15 +19,15 @@ public class Games {
 			cnx = DatabaseConnection.getInstance().getCnx();
 
 			// Get game types
-			String sqlTypes = "SELECT type FROM assoc_game_types_games WHERE game = ?;";
-			PreparedStatement psTypes = cnx.prepareStatement(sqlTypes);
-			psTypes.setInt(1, id);
+			String sqlGenres = "SELECT genre FROM assoc_game_genres_games WHERE game = ?;";
+			PreparedStatement psGenres = cnx.prepareStatement(sqlGenres);
+			psGenres.setInt(1, id);
 			
-			ResultSet resTypes = psTypes.executeQuery();
-			ArrayList<GameType> types = new ArrayList<GameType>();
+			ResultSet resGenres = psGenres.executeQuery();
+			ArrayList<GameGenre> genres = new ArrayList<GameGenre>();
 			
-			while(resTypes.next()){
-				types.add(new GameType(resTypes.getString("type")));
+			while(resGenres.next()){
+				genres.add(new GameGenre(resGenres.getString("genre")));
 			}
 			
 			// Requête
@@ -39,7 +39,7 @@ public class Games {
 			ResultSet res = ps.executeQuery();
 			
 			while(res.next()){
-				g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getFloat("price"), res.getString("release_date"), res.getInt("stock"), types);
+				g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getFloat("price"), res.getString("release_date"), res.getInt("stock"), genres);
 				break;
 			}
 			
@@ -69,18 +69,18 @@ public class Games {
 			
 			while(res.next()){
 				// New request for types
-				String sqlTypes = "SELECT type FROM assoc_game_types_games WHERE game = ?;";
-				PreparedStatement psTypes = cnx.prepareStatement(sqlTypes);
-				psTypes.setInt(1, res.getInt("id"));
-				ResultSet resTypes = psTypes.executeQuery();
+				String sqlGenres = "SELECT genre FROM assoc_game_genres_games WHERE game = ?;";
+				PreparedStatement psGenres = cnx.prepareStatement(sqlGenres);
+				psGenres.setInt(1, res.getInt("id"));
+				ResultSet resGenres = psGenres.executeQuery();
 				
-				ArrayList<GameType> types = new ArrayList<GameType>();
+				ArrayList<GameGenre> genres = new ArrayList<GameGenre>();
 				
-				while(resTypes.next()){
-					types.add(new GameType(resTypes.getString("type")));
+				while(resGenres.next()){
+					genres.add(new GameGenre(resGenres.getString("genre")));
 				}
 				
-				lg.add(new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getFloat("price"), res.getString("release_date"), res.getInt("stock"), types));
+				lg.add(new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getFloat("price"), res.getString("release_date"), res.getInt("stock"), genres));
 			}
 			
 			res.close();

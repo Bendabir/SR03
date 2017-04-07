@@ -7,18 +7,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import bdd.DatabaseConnection;
-import beans.GameType;
+import beans.GameGenre;
 
-public class GameTypes {
-	public static GameType get(String name){
-		GameType t = null;
+public class GameGenres {
+	public static GameGenre get(String name){
+		GameGenre t = null;
 		Connection cnx = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 
 			// Requête
-			String sql = "SELECT * FROM game_types WHERE name = ?;";
+			String sql = "SELECT * FROM game_genres WHERE name = ?;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, name);
 			
@@ -26,7 +26,7 @@ public class GameTypes {
 			ResultSet res = ps.executeQuery();
 			
 			while(res.next()){
-				t = new GameType(res.getString("name"));
+				t = new GameGenre(res.getString("name"));
 				break;
 			}
 			
@@ -40,22 +40,22 @@ public class GameTypes {
 		return t;				
 	}
 
-	public static ArrayList<GameType> all(){
-		ArrayList<GameType> lt = new ArrayList<GameType>();
+	public static ArrayList<GameGenre> all(){
+		ArrayList<GameGenre> lt = new ArrayList<GameGenre>();
 		Connection cnx = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
 			// Requête
-			String sql = "SELECT * FROM game_types;";
+			String sql = "SELECT * FROM game_genres;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			
 			//Execution et traitement de la réponse
 			ResultSet res = ps.executeQuery();
 			
 			while(res.next()){
-				lt.add(new GameType(res.getString("name")));
+				lt.add(new GameGenre(res.getString("name")));
 			}
 			
 			res.close();
@@ -68,14 +68,14 @@ public class GameTypes {
 		return lt;
 	}	
 	
-	public static boolean add(GameType type){
+	public static boolean add(GameGenre type){
 		Connection cnx = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
 			// Requête
-			String sql = "INSERT INTO game_types (name) VALUES (?);";
+			String sql = "INSERT INTO game_genres (name) VALUES (?);";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, type.getName());
@@ -92,14 +92,14 @@ public class GameTypes {
 		return true;
 	}
 
-	public static boolean update(GameType type){
+	public static boolean update(GameGenre type){
 		Connection cnx = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
 			// Requête
-			String sql = "UPDATE game_types SET name = ? WHERE name = ?";
+			String sql = "UPDATE game_genres SET name = ? WHERE name = ?";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, type.getName());
@@ -124,7 +124,7 @@ public class GameTypes {
 			cnx = DatabaseConnection.getInstance().getCnx();	
 			
 			// Requête
-			String sql = "DELETE FROM game_types WHERE name = ?;";
+			String sql = "DELETE FROM game_genres WHERE name = ?;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, name);
 
@@ -148,7 +148,7 @@ public class GameTypes {
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 		
-			String sql = "SELECT COUNT(*) AS counter FROM game_types;";
+			String sql = "SELECT COUNT(*) AS counter FROM game_genres;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ResultSet res = ps.executeQuery();
 			

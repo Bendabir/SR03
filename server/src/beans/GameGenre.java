@@ -1,14 +1,14 @@
 package beans;
 
-public class GameType implements Comparable<GameType> {
+public class GameGenre implements Comparable<GameGenre> {
 	private String name;
 	
-	public GameType(String name) {
+	public GameGenre(String name) {
 		this.name = name;
 	}
 	
 	// SETTERS
-	public GameType setName(String uname){
+	public GameGenre setName(String uname){
 		this.name = uname;
 		return this;
 	}
@@ -19,7 +19,7 @@ public class GameType implements Comparable<GameType> {
 	}
 	
 	@Override
-	public int compareTo(GameType c){
+	public int compareTo(GameGenre c){
 		return this.name.compareTo(c.name);
 	}
 	

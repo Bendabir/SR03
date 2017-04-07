@@ -21,11 +21,11 @@
    </servlet-mapping> 
    
    <servlet>
-      <servlet-name>GameTypes</servlet-name>
-      <servlet-class>api.GameTypes</servlet-class>
+      <servlet-name>GameGenres</servlet-name>
+      <servlet-class>api.GameGenres</servlet-class>
    </servlet>
    <servlet-mapping>
-      <servlet-name>GameTypes</servlet-name>
-      <url-pattern>/api/gameTypes</url-pattern>
+      <servlet-name>GameGenres</servlet-name>
+      <url-pattern>/api/gameGenres</url-pattern>
    </servlet-mapping> 
 </web-app>
