@@ -3,6 +3,15 @@
   <display-name>server</display-name>
 
    <servlet>
+      <servlet-name>Users</servlet-name>
+      <servlet-class>api.Users</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>Users</servlet-name>
+      <url-pattern>/api/users</url-pattern>
+   </servlet-mapping>
+
+   <servlet>
       <servlet-name>Games</servlet-name>
       <servlet-class>api.Games</servlet-class>
    </servlet>

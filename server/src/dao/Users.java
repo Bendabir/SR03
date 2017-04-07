@@ -1,99 +1,168 @@
 package dao;
 
-import beans.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import bdd.DatabaseConnection;
+
+import beans.User;
 
 public class Users {
 	
-	public static User get(String username) throws SQLException{
-		Connection cnx = DatabaseConnection.getInstance().getCnx();
+	public static User get(String username){
+		User u = null;
+		Connection cnx = null;
+		
+		try {
+			cnx = DatabaseConnection.getInstance().getCnx();
+			
+			String sql = "SELECT * FROM users WHERE username = ?;";
+			PreparedStatement ps = cnx.prepareStatement(sql);
+			ps.setString(1, username);
 
-		String sql = "SELECT * FROM users WHERE `username`=?;";
-		PreparedStatement ps = cnx.prepareStatement(sql);
-		ps.setString(1, username);
+			ResultSet res = ps.executeQuery();
 
-		ResultSet res = ps.executeQuery();
-
-		while(res.next()){
-			User user = new User(res.getString('username'));
-			user.setFirstName(res.getString('first_name'));
-			user.setLastName(res.getString('last_name'));
-			user.setBirthDate(new Date(res.getString('brith_date')));
-			user.setStatus(res.getString('status'));
-			return user;
+			while(res.next()){
+				u = new User(res.getString("username"), res.getString("firstname"), res.getString("lastname"), res.getString("birth_date"), res.getString("status"));
+				break;
+			}	
+			
+			res.close();
+			DatabaseConnection.getInstance().closeCnx();			
 		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		return u;
 	}
 
-	public static ArrayList<User> all() throws SQLException{
-		ArrayList<User> users = new ArrayList<User>();
-		String sql = "SELECT * FROM users";
-		PreparedStatement ps = cnx.prepareStatement(sql);
+	public static ArrayList<User> all(){
+		ArrayList<User> lu = new ArrayList<User>();
+		Connection cnx = null;
+		
+		try {
+			cnx = DatabaseConnection.getInstance().getCnx();
+			
+			String sql = "SELECT * FROM users;";
+			PreparedStatement ps = cnx.prepareStatement(sql);
 
-		ResultSet res = ps.executeQuery();
+			ResultSet res = ps.executeQuery();
 
-		while(res.next()){
-			User user = new User(res.getString('username'));
-			user.setFirstName(res.getString('first_name'));
-			user.setLastName(res.getString('last_name'));
-			user.setBirthDate(new Date(res.getString('brith_date')));
-			user.setStatus(res.getString('status'));
-			users.add(user);
+			while(res.next()){
+				lu.add(new User(res.getString("username"), res.getString("firstname"), res.getString("lastname"), res.getString("birth_date"), res.getString("status")));
+			}		
+
+			res.close();
+			DatabaseConnection.getInstance().closeCnx();
 		}
-
-		return users;
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		return lu;		
 	}
 
 	public static boolean add(User user){
-		String sql = "INSERT INTO users (username, password, firstname, lastname, birth_date, status) VALUES(?, ?, ?, ?, ?, ?);";
-		PreparedStatement ps = cnx.prepareStatement(sql);
-		ps.setString(1, user.getUsername());
-		ps.setString(2, user.getPassword());
-		ps.setString(3, user.getFirstName());
-		ps.setString(4, user.getLastName());
-		ps.setString(5, user.getBirthDate().toString());
-		ps.setString(6, user.getStatus());
-
-		try{
-			ResultSet res = ps.executeQuery();
-		} catch(SQLException e){
+		Connection cnx = null;
+		
+		try {
+			cnx = DatabaseConnection.getInstance().getCnx();
+			
+			// Requête
+			String sql = "INSERT INTO users (username, password, firstname, lastname, birth_date, status) VALUES(?, ?, ?, ?, ?, ?);";
+			
+			PreparedStatement ps = cnx.prepareStatement(sql);
+			ps.setString(1, user.getUsername());
+			ps.setString(2, user.getPassword());
+			ps.setString(3, user.getFirstName());
+			ps.setString(4, user.getLastName());
+			ps.setString(5, user.getBirthDate());
+			ps.setString(6, user.getStatus());
+			
+			//Execution et traitement de la réponse
+			ps.executeUpdate();
+			
+			DatabaseConnection.getInstance().closeCnx();			
+		} catch (SQLException e) {
 			e.printStackTrace();
+			
 			return false;
 		}
-		return true;
+
+		return true;		
 	}
 
 	public static boolean update(User user){
-		String sql = "UPDATE users SET (username=?, password=?, firstname=?, lastname=?, birth_date=?, status=?);";
-		PreparedStatement ps = cnx.prepareStatement(sql);
-		ps.setString(1, user.getUsername());
-		ps.setString(2, user.getPassword());
-		ps.setString(3, user.getFirstName());
-		ps.setString(4, user.getLastName());
-		ps.setString(5, user.getBirthDate().toString());
-		ps.setString(6, user.getStatus());
+		Connection cnx = null;
+		
+		try {
+			cnx = DatabaseConnection.getInstance().getCnx();
+			
+			// Requête
+			String sql = "UPDATE users SET username = ?, password = ?, firstname = ?, lastname = ?, birth_date = ?, status = ?;";
+			
+			PreparedStatement ps = cnx.prepareStatement(sql);
+			ps.setString(1, user.getUsername());
+			ps.setString(2, user.getPassword());
+			ps.setString(3, user.getFirstName());
+			ps.setString(4, user.getLastName());
+			ps.setString(5, user.getBirthDate());
+			ps.setString(6, user.getStatus());
+			
+			//Execution et traitement de la réponse
+			ps.executeUpdate();
+			
+			DatabaseConnection.getInstance().closeCnx();			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+			return false;
+		}
 
-		try{
-			ResultSet res = ps.executeQuery();
-		} catch(SQLException e){
+		return true;		
+	}
+
+	public static boolean delete(String username){
+		Connection cnx = null;
+		
+		try {
+			cnx = DatabaseConnection.getInstance().getCnx();	
+			
+			// Requête
+			String sql = "DELETE FROM users WHERE username = ?;";
+			PreparedStatement ps = cnx.prepareStatement(sql);
+			ps.setString(1, username);
+
+			//Execution et traitement de la réponse
+			ps.executeUpdate();
+			
+			DatabaseConnection.getInstance().closeCnx();
+		}
+		catch(SQLException e){
 			e.printStackTrace();
 			return false;
 		}
+		
 		return true;
-	}
-
-	public static int count(){
+	}	
 	
+	public static int count(){
 		int counter = 0;
 		Connection cnx = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 		
-			String sql = "SELECT COUNT(*) FROM users;";
+			String sql = "SELECT COUNT(*) AS counter FROM users;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ResultSet res = ps.executeQuery();
 			
 			while(res.next()){
-				counter = res.getInt("COUNT(*)");
+				counter = res.getInt("counter");
 				break;
 			}	
 		}catch (SQLException e) {

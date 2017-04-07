@@ -14,7 +14,7 @@ public class Console implements Comparable<Console> {
 
 	public Console(String name) {
 		this.name = name;
-		this.launchedDate = "0000-00-00";
+		this.launchedDate = null;
 	}
 	
 	// SETTERS
