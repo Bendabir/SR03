@@ -28,4 +28,13 @@
       <servlet-name>GameGenres</servlet-name>
       <url-pattern>/api/gameGenres</url-pattern>
    </servlet-mapping> 
+   
+   <servlet>
+      <servlet-name>Orders</servlet-name>
+      <servlet-class>api.Orders</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>Orders</servlet-name>
+      <url-pattern>/api/orders</url-pattern>
+   </servlet-mapping>    
 </web-app>

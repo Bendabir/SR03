@@ -1,8 +1,5 @@
 package beans;
 
-// Date constructor for String is deprecated
-// import java.util.Date; 
-
 public class OrderLine implements Comparable<OrderLine> {
 	// private int orderNum;
 	// private int game;

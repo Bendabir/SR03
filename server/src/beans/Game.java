@@ -10,9 +10,9 @@ public class Game implements Comparable<Game> {
 	private double price;
 	private String releaseDate;
 	private int stock;
-	private ArrayList<GameGenre> types; // Could also use strings instead since a game type is only a name for now
+	private ArrayList<GameGenre> genres; // Could also use strings instead since a game type is only a name for now
 	
-	public Game(int id, String title, String console, double price, String releaseDate, int stock, ArrayList<GameGenre> types) {
+	public Game(int id, String title, String console, double price, String releaseDate, int stock, ArrayList<GameGenre> genres) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -20,11 +20,11 @@ public class Game implements Comparable<Game> {
 		this.price = price;
 		this.releaseDate = releaseDate;
 		this.stock = stock;
-		this.types = types;
+		this.genres = genres;
 	}
 	
 	// Building new Game before being inserted in database
-	public Game(String title, String console, double price, String releaseDate, int stock,  ArrayList<GameGenre> types) {
+	public Game(String title, String console, double price, String releaseDate, int stock,  ArrayList<GameGenre> genres) {
 		super();
 		this.id = -1;
 		this.title = title;
@@ -32,7 +32,7 @@ public class Game implements Comparable<Game> {
 		this.price = price;
 		this.releaseDate = releaseDate;
 		this.stock = stock;
-		this.types = types;
+		this.genres = genres;
 	}
 
 	public int getId() {
@@ -83,11 +83,11 @@ public class Game implements Comparable<Game> {
 		return this;
 	}
 	
-	public ArrayList<GameGenre> getTypes(){
-		return this.types;
+	public ArrayList<GameGenre> getGenres(){
+		return this.genres;
 	}
-	public Game setTypes(ArrayList<GameGenre> types){
-		this.types = types;
+	public Game setGenres(ArrayList<GameGenre> genres){
+		this.genres = genres;
 		return this;
 	}
 
@@ -98,6 +98,6 @@ public class Game implements Comparable<Game> {
 
 	@Override
 	public String toString(){
-		return "ID: " + this.id + "; Title: " + this.title + "; Console: " + this.console + "; Price: " + this.price + "; Release Date: " + this.releaseDate + "; Stock: " + this.stock + ";";
+		return "ID: " + this.id + "; Title: " + this.title + "; Console: " + this.console + "; Price: " + this.price + "; Release Date: " + this.releaseDate + "; Stock: " + this.stock + "; Genres: " + this.genres.toString() + ";";
 	}	
 }
