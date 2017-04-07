@@ -1,5 +1,8 @@
 package beans;
 
+import java.util.ArrayList;
+import beans.GameType;
+
 public class Game implements Comparable<Game> {
 	private int id;
 	private String title;
@@ -7,8 +10,9 @@ public class Game implements Comparable<Game> {
 	private double price;
 	private String releaseDate;
 	private int stock;
+	private ArrayList<GameType> types; // Could also use strings instead since a game type is only a name for now
 	
-	public Game(int id, String title, String console, double price, String releaseDate, int stock) {
+	public Game(int id, String title, String console, double price, String releaseDate, int stock, ArrayList<GameType> types) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -16,10 +20,11 @@ public class Game implements Comparable<Game> {
 		this.price = price;
 		this.releaseDate = releaseDate;
 		this.stock = stock;
+		this.types = types;
 	}
 	
 	// Building new Game before being inserted in database
-	public Game(String title, String console, double price, String releaseDate, int stock) {
+	public Game(String title, String console, double price, String releaseDate, int stock,  ArrayList<GameType> types) {
 		super();
 		this.id = -1;
 		this.title = title;
@@ -27,6 +32,7 @@ public class Game implements Comparable<Game> {
 		this.price = price;
 		this.releaseDate = releaseDate;
 		this.stock = stock;
+		this.types = types;
 	}
 
 	public int getId() {
@@ -74,6 +80,14 @@ public class Game implements Comparable<Game> {
 	}
 	public Game setStock(int stock) {
 		this.stock = stock;
+		return this;
+	}
+	
+	public ArrayList<GameType> getTypes(){
+		return this.types;
+	}
+	public Game setTypes(ArrayList<GameType> types){
+		this.types = types;
 		return this;
 	}
 

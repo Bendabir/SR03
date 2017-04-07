@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import bdd.DatabaseConnection;
 import beans.Game;
+import beans.GameType;
 
 public class Games {
 	public static Game get(int id){
@@ -17,6 +18,18 @@ public class Games {
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 
+			// Get game types
+			String sqlTypes = "SELECT type FROM assoc_game_types_games WHERE game = ?;";
+			PreparedStatement psTypes = cnx.prepareStatement(sqlTypes);
+			psTypes.setInt(1, id);
+			
+			ResultSet resTypes = psTypes.executeQuery();
+			ArrayList<GameType> types = new ArrayList<GameType>();
+			
+			while(resTypes.next()){
+				types.add(new GameType(resTypes.getString("type")));
+			}
+			
 			// Requête
 			String sql = "SELECT * FROM games WHERE id = ?;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
@@ -26,7 +39,7 @@ public class Games {
 			ResultSet res = ps.executeQuery();
 			
 			while(res.next()){
-				g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getFloat("price"), res.getString("release_date"), res.getInt("stock"));
+				g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getFloat("price"), res.getString("release_date"), res.getInt("stock"), types);
 				break;
 			}
 			
@@ -55,7 +68,19 @@ public class Games {
 			ResultSet res = ps.executeQuery();
 			
 			while(res.next()){
-				lg.add(new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getFloat("price"), res.getString("release_date"), res.getInt("stock")));
+				// New request for types
+				String sqlTypes = "SELECT type FROM assoc_game_types_games WHERE game = ?;";
+				PreparedStatement psTypes = cnx.prepareStatement(sqlTypes);
+				psTypes.setInt(1, res.getInt("id"));
+				ResultSet resTypes = psTypes.executeQuery();
+				
+				ArrayList<GameType> types = new ArrayList<GameType>();
+				
+				while(resTypes.next()){
+					types.add(new GameType(resTypes.getString("type")));
+				}
+				
+				lg.add(new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getFloat("price"), res.getString("release_date"), res.getInt("stock"), types));
 			}
 			
 			res.close();
@@ -68,6 +93,7 @@ public class Games {
 		return lg;
 	}
 
+	// Need to add game types handling
 	public static boolean add(Game game){
 		Connection cnx = null;
 		
@@ -97,6 +123,7 @@ public class Games {
 		return true;
 	}
 
+	// Need to add game types handling
 	public static boolean update(Game game){
 		Connection cnx = null;
 		
