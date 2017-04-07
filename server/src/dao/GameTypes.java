@@ -117,6 +117,30 @@ public class GameTypes {
 		return true;
 	}	
 	
+	public static boolean delete(String name){
+		Connection cnx = null;
+		
+		try {
+			cnx = DatabaseConnection.getInstance().getCnx();	
+			
+			// Requête
+			String sql = "DELETE FROM game_types WHERE name = ?;";
+			PreparedStatement ps = cnx.prepareStatement(sql);
+			ps.setString(1, name);
+
+			//Execution et traitement de la réponse
+			ps.executeUpdate();
+			
+			DatabaseConnection.getInstance().closeCnx();
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}		
+	
 	public static int count(){
 		int counter = 0;
 		Connection cnx = null;

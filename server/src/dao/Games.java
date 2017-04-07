@@ -127,6 +127,30 @@ public class Games {
 		return true;
 	}	
 	
+	public static boolean delete(int id){
+		Connection cnx = null;
+		
+		try {
+			cnx = DatabaseConnection.getInstance().getCnx();	
+			
+			// Requête
+			String sql = "DELETE FROM games WHERE id = ?;";
+			PreparedStatement ps = cnx.prepareStatement(sql);
+			ps.setInt(1, id);
+
+			//Execution et traitement de la réponse
+			ps.executeUpdate();
+			
+			DatabaseConnection.getInstance().closeCnx();
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public static int count(){
 	
 		int counter = 0;
