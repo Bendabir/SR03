@@ -135,12 +135,12 @@ public class Games {
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 		
-			String sql = "SELECT COUNT(*) FROM games;";
+			String sql = "SELECT COUNT(*) AS counter FROM games;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ResultSet res = ps.executeQuery();
 			
 			while(res.next()){
-				counter = res.getInt("COUNT(*)");
+				counter = res.getInt("counter");
 				break;
 			}	
 		}catch (SQLException e) {

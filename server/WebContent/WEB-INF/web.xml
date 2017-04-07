@@ -18,5 +18,14 @@
    <servlet-mapping>
       <servlet-name>Consoles</servlet-name>
       <url-pattern>/api/consoles</url-pattern>
-   </servlet-mapping>   
+   </servlet-mapping> 
+   
+   <servlet>
+      <servlet-name>GameTypes</servlet-name>
+      <servlet-class>api.GameTypes</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>GameTypes</servlet-name>
+      <url-pattern>/api/gameTypes</url-pattern>
+   </servlet-mapping> 
 </web-app>

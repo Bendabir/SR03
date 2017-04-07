@@ -7,18 +7,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import bdd.DatabaseConnection;
-import beans.Console;
+import beans.GameType;
 
-public class Consoles{
-	public static Console get(String name){
-		Console c = null;
+public class GameTypes {
+	public static GameType get(String name){
+		GameType t = null;
 		Connection cnx = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 
 			// Requête
-			String sql = "SELECT * FROM consoles WHERE name = ?;";
+			String sql = "SELECT * FROM game_types WHERE name = ?;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, name);
 			
@@ -26,7 +26,7 @@ public class Consoles{
 			ResultSet res = ps.executeQuery();
 			
 			while(res.next()){
-				c = new Console(res.getString("name"), res.getString("launched_date"));
+				t = new GameType(res.getString("name"));
 				break;
 			}
 			
@@ -37,25 +37,25 @@ public class Consoles{
 			e.printStackTrace();		
 		}
 		
-		return c;				
+		return t;				
 	}
 
-	public static ArrayList<Console> all(){
-		ArrayList<Console> lc = new ArrayList<Console>();
+	public static ArrayList<GameType> all(){
+		ArrayList<GameType> lt = new ArrayList<GameType>();
 		Connection cnx = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
 			// Requête
-			String sql = "SELECT * FROM consoles;";
+			String sql = "SELECT * FROM game_types;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			
 			//Execution et traitement de la réponse
 			ResultSet res = ps.executeQuery();
 			
 			while(res.next()){
-				lc.add(new Console(res.getString("name"), res.getString("launched_date")));
+				lt.add(new GameType(res.getString("name")));
 			}
 			
 			res.close();
@@ -65,21 +65,20 @@ public class Consoles{
 			e.printStackTrace();			
 		}			
 
-		return lc;
+		return lt;
 	}	
 	
-	public static boolean add(Console console){
+	public static boolean add(GameType type){
 		Connection cnx = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
 			// Requête
-			String sql = "INSERT INTO consoles (name, launched_date) VALUES (?, ?);";
+			String sql = "INSERT INTO game_types (name) VALUES (?);";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
-			ps.setString(1, console.getName());
-			ps.setString(2, console.getLaunchedDate());
+			ps.setString(1, type.getName());
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
@@ -93,19 +92,18 @@ public class Consoles{
 		return true;
 	}
 
-	public static boolean update(Console console){
+	public static boolean update(GameType type){
 		Connection cnx = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
 			// Requête
-			String sql = "UPDATE consoles SET name = ?, launched_date = ? WHERE name = ?";
+			String sql = "UPDATE game_types SET name = ? WHERE name = ?";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
-			ps.setString(1, console.getName());
-			ps.setString(2, console.getLaunchedDate());
-			ps.setString(3, console.getName());			
+			ps.setString(1, type.getName());
+			ps.setString(2, type.getName());			
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
@@ -126,7 +124,7 @@ public class Consoles{
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 		
-			String sql = "SELECT COUNT(*) AS counter FROM consoles;";
+			String sql = "SELECT COUNT(*) AS counter FROM game_types;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ResultSet res = ps.executeQuery();
 			
