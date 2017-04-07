@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import bdd.DatabaseConnection;
+import beans.Game;
 import beans.Order;
 import beans.OrderLine;
 
@@ -28,7 +29,7 @@ public class Orders{
 			
 			while(res.next()){
 				// Get lines
-				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
+				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
 				PreparedStatement psLines = cnx.prepareStatement(sqlLines);
 				psLines.setInt(1, res.getInt("num"));
 				
@@ -37,7 +38,7 @@ public class Orders{
 				ResultSet resLines = psLines.executeQuery();
 				
 				while(resLines.next()){
-					lines.add(new OrderLine(resLines.getString("game"), resLines.getDouble("unit_price"), resLines.getInt("quantity")));
+					lines.add(new OrderLine(new Game(resLines.getString("game"), resLines.getString("console")), resLines.getDouble("unit_price"), resLines.getInt("quantity")));
 				}
 				
 				o = new Order(res.getInt("num"), res.getString("order_date"), res.getString("user"), lines);
@@ -70,7 +71,7 @@ public class Orders{
 			
 			while(res.next()){
 				// Get lines
-				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
+				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
 				PreparedStatement psLines = cnx.prepareStatement(sqlLines);
 				psLines.setInt(1, res.getInt("num"));
 				
@@ -79,7 +80,7 @@ public class Orders{
 				ResultSet resLines = psLines.executeQuery();
 				
 				while(resLines.next()){
-					lines.add(new OrderLine(resLines.getString("game"), resLines.getDouble("unit_price"), resLines.getInt("quantity")));
+					lines.add(new OrderLine(new Game(resLines.getString("game"), resLines.getString("console")), resLines.getDouble("unit_price"), resLines.getInt("quantity")));
 				}
 				
 				lo.add(new Order(res.getInt("num"), res.getString("order_date"), res.getString("user"), lines));

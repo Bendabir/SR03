@@ -1,18 +1,20 @@
 package beans;
 
+import beans.Game;
+
 public class OrderLine implements Comparable<OrderLine> {
 	// private int orderNum;
-	private String game;
+	private Game game;
 	private double unitPrice;
 	private int quantity;
 	
-	public OrderLine(String game, double price, int quantity){
+	public OrderLine(Game game, double price, int quantity){
 		this.game = game;
 		this.unitPrice = price;
 		this.quantity = quantity;		
 	}
 	
-	public OrderLine(String game, double price){
+	public OrderLine(Game game, double price){
 		this.game = game;		
 		this.unitPrice = price;
 		this.quantity = 1;
@@ -38,7 +40,7 @@ public class OrderLine implements Comparable<OrderLine> {
 	//	return this;
 	// }
 
-	 public OrderLine setGame(String game){
+	 public OrderLine setGame(Game game){
 	 	this.game = game;
 	 	return this;
 	 }
@@ -58,7 +60,7 @@ public class OrderLine implements Comparable<OrderLine> {
 	// 	return this.orderNum;
 	// }
 	
-	 public String getGame(){
+	 public Game getGame(){
 		return this.game;
 	 }
 	
@@ -91,6 +93,6 @@ public class OrderLine implements Comparable<OrderLine> {
 	
 	@Override
 	public String toString(){
-		return "Game: " + this.game + "; Unit Price: " + this.unitPrice + "; Quantity: " + this.quantity + ";";
+		return "Game: [" + this.game.toString() + "]; Unit Price: " + this.unitPrice + "; Quantity: " + this.quantity + ";";
 	}	
 }

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import utils.GameExclusionStrategy;
+
 import beans.Order;
 import beans.OrderLine;
 
@@ -38,7 +40,7 @@ public class Orders extends HttpServlet {
 		ArrayList<Order> lo = dao.Orders.all();
 		
         // Gson gson = new Gson();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
+        Gson gson = new GsonBuilder().setExclusionStrategies(new GameExclusionStrategy()).setPrettyPrinting().create(); // Human readable and exclude some fields
         
         // Setting headers
         response.setHeader("Content-Type", "application/json");

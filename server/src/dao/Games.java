@@ -106,9 +106,9 @@ public class Games {
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, game.getTitle());
 			ps.setString(2, game.getConsole());
-			ps.setDouble(3, game.getPrice());
+			ps.setDouble(3, game.getPrice().doubleValue());
 			ps.setString(4, game.getReleaseDate());
-			ps.setInt(5, game.getStock());
+			ps.setInt(5, game.getStock().intValue());
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
@@ -136,10 +136,10 @@ public class Games {
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, game.getTitle());
 			ps.setString(2, game.getConsole());
-			ps.setDouble(3, game.getPrice());
+			ps.setDouble(3, game.getPrice().doubleValue());
 			ps.setString(4, game.getReleaseDate());
-			ps.setInt(5, game.getStock());
-			ps.setInt(6, game.getId());
+			ps.setInt(5, game.getStock().intValue());
+			ps.setInt(6, game.getId().intValue());
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
