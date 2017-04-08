@@ -94,7 +94,7 @@ public class Games {
 	}
 
 	// Need to add game types handling
-	public static boolean add(Game game){
+	public static Boolean add(Game game){
 		Connection cnx = null;
 		
 		try {
@@ -148,7 +148,7 @@ public class Games {
 	}
 
 	// Need to add game types handling
-	public static boolean update(Game game){
+	public static Boolean update(Game game){
 		Connection cnx = null;
 		
 		try {
@@ -199,7 +199,7 @@ public class Games {
 		return true;
 	}	
 	
-	public static boolean delete(int id){
+	public static Boolean delete(int id){
 		Connection cnx = null;
 		
 		try {
@@ -230,7 +230,7 @@ public class Games {
 		return true;
 	}
 	
-	public static int count(){
+	public static Integer count(){
 	
 		int counter = 0;
 		Connection cnx = null;

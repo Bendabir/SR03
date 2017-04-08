@@ -1,13 +1,6 @@
 package api;
 
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -19,84 +12,53 @@ import beans.Game;
 
 @Path("/games")
 public class Games extends Application {
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{game: [0-9]+}")
-    public Response get(@PathParam("game") String gameName) {
-		// Getting param
-    	return Response.ok(gameName).build();
-		
-//		ArrayList<Game> lg = dao.Games.all();
-//		
-//        // Gson gson = new Gson();
-//        Gson gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
-//        
-//        // Setting headers
-//        response.setHeader("Content-Type", "application/json");
-//		
-//        // Printing response
-//        response.getWriter().print(gson.toJson(lg));
-    }
-    
+	private Gson gson; // Gson builder
+	
+	public Games(){
+		this.gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
+	}
+	
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(){
-    	return Response.ok("All games").build();
+		ArrayList<Game> lg = dao.Games.all();
+
+    	return Response.ok(this.gson.toJson(lg)).build();
+    }	
+	
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{game: [0-9]+}")
+    public Response get(@PathParam("game") String gameID){
+    	Game g = dao.Games.get(Integer.parseInt(gameID));
+    	
+    	return Response.ok(this.gson.toJson(g)).build();
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response post(String game){
+		// Getting data from client
+		Game g = this.gson.fromJson(game, Game.class);
+		
+		return Response.ok(dao.Games.add(g).toString()).build();
+    }
+    
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{game: [0-9]+}")    
+    public Response put(String gameData, @PathParam("game") String gameID){
+    	return Response.ok("PUT").build();
+    }
+    
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{game: [0-9]+}")      
+    public Response delete(@PathParam("game") String gameID){
+    	return Response.ok("DELETE").build();
     }
 }
 
-///**
-// * Servlet implementation class GestionUsers
-// */
-////@WebServlet("/api/games")
-//@Path("/{game}")
-//public class Games extends HttpServlet {
-//	private static final long serialVersionUID = 1L;
-//
-//	/**
-//	 * @see HttpServlet#HttpServlet()
-//	 */
-//	public Games() {
-//		super();
-//		// TODO Auto-generated constructor stub
-//	}
-//	
-//	/**
-//	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-//	 *      response)
-//	 */
-//	@GET
-//	protected void doGet(HttpServletRequest request, HttpServletResponse response, @PathParam("game") String gameName) throws ServletException, IOException {
-//		// Getting param
-//		System.out.println(gameName);
-//		
-//		ArrayList<Game> lg = dao.Games.all();
-//		
-//        // Gson gson = new Gson();
-//        Gson gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
-//        
-//        // Setting headers
-//        response.setHeader("Content-Type", "application/json");
-//		
-//        // Printing response
-//        response.getWriter().print(gson.toJson(lg));			
-//	}
-//	
-//	/**
-//	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-//	 *      response)
-//	 */
-//	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		// If Content-Type doesn't match
-//		if(request.getContentType().compareTo("application/json") == 0){
-//			// Getting data from client
-//			Gson gson = new Gson();			
-//			Game g = gson.fromJson(request.getReader(), Game.class);
-//			
-//			// No check on data integrity
-//			
-//			// Add game
-//			response.getWriter().print(gson.toJson(dao.Games.add(g)));			
-//		}
-//	}
-//}
