@@ -42,6 +42,8 @@ public class Games extends Application {
 		// Getting data from client
 		Game g = this.gson.fromJson(game, Game.class);
 		
+		// We could also return a 201 (created) HTTP code
+		// return Response.status(Status.CREATED).entity(dao.Games.add(g).toString()).build();
 		return Response.ok(dao.Games.add(g).toString()).build();
     }
     
