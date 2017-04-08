@@ -13,15 +13,15 @@ import beans.Order;
 import beans.OrderLine;
 
 public class Orders{
-	public static Order get(String user){
-		Order o = null;
+	public static ArrayList<Order> get(String user){
+		ArrayList<Order> lo = new ArrayList<Order>();
 		Connection cnx = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 
 			// Requête
-			String sql = "SELECT * FROM oders WHERE user = ?;";
+			String sql = "SELECT * FROM orders WHERE user = ?;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, user);
 			
@@ -42,7 +42,7 @@ public class Orders{
 					lines.add(new OrderLine(new Game(resLines.getString("game"), resLines.getString("console")), resLines.getDouble("unit_price"), resLines.getInt("quantity")));
 				}
 				
-				o = new Order(res.getInt("num"), res.getString("order_date"), res.getString("user"), lines);
+				lo.add(new Order(res.getInt("num"), res.getString("order_date"), res.getString("user"), lines));
 				break;
 			}
 			
@@ -53,7 +53,7 @@ public class Orders{
 			e.printStackTrace();		
 		}
 		
-		return o;				
+		return lo;				
 	}
 
 	public static ArrayList<Order> all(){

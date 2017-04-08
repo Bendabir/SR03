@@ -28,7 +28,7 @@ public class Consoles extends Application {
 	
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{console: [a-bA-B0-9]+}")
+    @Path("/{console}")
     public Response get(@PathParam("console") String consoleName){
     	Console c = dao.Consoles.get(consoleName);
     	
@@ -48,7 +48,7 @@ public class Consoles extends Application {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{console: [a-bA-B0-9]+}")    
+    @Path("/{console}")    
     public Response put(String consoleData, @PathParam("console") String consoleName){
     	return Response.ok("PUT").build();
     }
@@ -56,7 +56,7 @@ public class Consoles extends Application {
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{console: [a-bA-B0-9]+}")      
+    @Path("/{console}")      
     public Response delete(@PathParam("console") String consoleName){
     	return Response.ok("DELETE").build();
     }

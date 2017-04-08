@@ -30,9 +30,9 @@ public class Orders extends Application {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{user}")
     public Response get(@PathParam("user") String user){
-    	Order o = dao.Orders.get(user);
+    	ArrayList<Order> lo = dao.Orders.get(user);
     	
-    	return Response.ok(this.gson.toJson(o)).build();
+    	return Response.ok(this.gson.toJson(lo)).build();
     }
     
     @POST
