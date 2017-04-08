@@ -18,13 +18,13 @@ public class Orders extends Application {
 		this.gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
 	}
 	
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response get(){
-		ArrayList<Order> lo = dao.Orders.all();
-
-    	return Response.ok(this.gson.toJson(lo)).build();
-    }	
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response get(){
+//		ArrayList<Order> lo = dao.Orders.all();
+//
+//    	return Response.ok(this.gson.toJson(lo)).build();
+//    }	
 	
     @GET
     @Produces(MediaType.APPLICATION_JSON)

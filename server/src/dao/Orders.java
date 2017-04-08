@@ -43,7 +43,6 @@ public class Orders{
 				}
 				
 				lo.add(new Order(res.getInt("num"), res.getString("order_date"), res.getString("user"), lines));
-				break;
 			}
 			
 			res.close();
