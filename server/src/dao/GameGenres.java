@@ -10,35 +10,35 @@ import bdd.DatabaseConnection;
 import beans.GameGenre;
 
 public class GameGenres {
-	public static GameGenre get(String name){
-		GameGenre t = null;
-		Connection cnx = null;
-		
-		try {
-			cnx = DatabaseConnection.getInstance().getCnx();
-
-			// Requête
-			String sql = "SELECT * FROM game_genres WHERE name = ?;";
-			PreparedStatement ps = cnx.prepareStatement(sql);
-			ps.setString(1, name);
-			
-			//Execution et traitement de la réponse
-			ResultSet res = ps.executeQuery();
-			
-			while(res.next()){
-				t = new GameGenre(res.getString("name"));
-				break;
-			}
-			
-			res.close();
-			DatabaseConnection.getInstance().closeCnx();					
-		}
-		catch(SQLException e){
-			e.printStackTrace();		
-		}
-		
-		return t;				
-	}
+//	public static GameGenre get(String name){
+//		GameGenre t = null;
+//		Connection cnx = null;
+//		
+//		try {
+//			cnx = DatabaseConnection.getInstance().getCnx();
+//
+//			// Requête
+//			String sql = "SELECT * FROM game_genres WHERE name = ?;";
+//			PreparedStatement ps = cnx.prepareStatement(sql);
+//			ps.setString(1, name);
+//			
+//			//Execution et traitement de la réponse
+//			ResultSet res = ps.executeQuery();
+//			
+//			while(res.next()){
+//				t = new GameGenre(res.getString("name"));
+//				break;
+//			}
+//			
+//			res.close();
+//			DatabaseConnection.getInstance().closeCnx();					
+//		}
+//		catch(SQLException e){
+//			e.printStackTrace();		
+//		}
+//		
+//		return t;				
+//	}
 
 	public static ArrayList<GameGenre> all(){
 		ArrayList<GameGenre> lt = new ArrayList<GameGenre>();

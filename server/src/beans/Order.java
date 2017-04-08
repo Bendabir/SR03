@@ -5,23 +5,42 @@ import beans.OrderLine;
 import java.util.ArrayList;
 
 public class Order implements Comparable<Order> {
-	private int num;
+	private Integer num;
 	private String date;
 	private String user; // Perhaps not necessary
 	private ArrayList<OrderLine> lines;
 	
-	public Order(int num, String date, String user, ArrayList<OrderLine> lines){
+	public Order(Integer num, String date, String user, ArrayList<OrderLine> lines){
 		this.num = num;
 		this.date = date;
 		this.user = user;
 		this.lines = lines;
 	}
 	
+	public Order(int num, String date, String user, ArrayList<OrderLine> lines){
+		this.num = new Integer(num);
+		this.date = date;
+		this.user = user;
+		this.lines = lines;
+	}	
+	
+	public Order(String user, ArrayList<OrderLine> lines){
+		this.num = null;
+		this.date = null;
+		this.user = user;
+		this.lines = lines;
+	}
+	
 	// SETTERS
 	public Order setNum(int num){
-		this.num = num;
+		this.num = new Integer(num);
 		return this;
 	}
+	
+	public Order setNum(Integer num){
+		this.num = num;
+		return this;
+	}	
 	
 	public Order setDate(String date){
 		this.date = date;
@@ -40,7 +59,7 @@ public class Order implements Comparable<Order> {
 	
 
 	// GETTERS
-	public int getNum(){
+	public Integer getNum(){
 		return this.num;
 	}
 	
@@ -64,6 +83,6 @@ public class Order implements Comparable<Order> {
 	
 	@Override
 	public String toString(){
-		return "Num: " + this.num + "; Date: " + this.date + "; User: " + this.user + "; Lines: " + this.lines.toString() + ";";
+		return "Num: " + this.num.toString() + "; Date: " + this.date + "; User: " + this.user + "; Lines: " + this.lines.toString() + ";";
 	}
 }

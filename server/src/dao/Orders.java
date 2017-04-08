@@ -103,11 +103,10 @@ public class Orders{
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
 			// Requête
-			String sql = "INSERT INTO orders (date, user) VALUES (?, ?);";
+			String sql = "INSERT INTO orders (date, user) VALUES (CURDATE(), ?);";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
-			ps.setString(1, order.getDate());
-			ps.setString(2, order.getUser());
+			ps.setString(1, order.getUser());
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();

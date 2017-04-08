@@ -19,7 +19,7 @@ On implémente le modèle relationnel suivant :
 
 ![UML de la BDD](UML.png)
 
-On se propose d'ajouter un clef artificielle `ID` pour les jeux afin de simplifier leur référencement. 
+On se propose d'ajouter un clef artificielle `ID` pour les jeux afin de simplifier leur référencement. Les commandes (`orders`) sont identifiées par un ID unique également.
 
 ## API
 
@@ -45,14 +45,34 @@ Le modèle REST est utilisé. On définit les chemins ci-dessous. On utilisera l
 | `PUT /api/games/:game` | Modifie un jeu. |
 | `DELETE /api/games/:game` | Supprime un jeu. |
 
-#### Paniers
+#### Consoles
 
 | Chemin | Description |
 |:------:|:-----------:|
-| `GET /api/users/:user/cart` | Retourne le panier d'un utilisateur. |
-| `POST /api/users/:user/cart` | Ajoute un item dans le panier d'un utilisateur. |
-| `PUT /api/users/:user/cart` | Modifie un item dans le panier d'un utilisateur. |
-| `DELETE /api/users/:user/cart` | Supprime un item dans le panier d'un utilisateur. |
+| `GET /api/consoles` | Retourne toutes les consoles. |
+| `POST /api/consoles` | Ajoute une console. |
+| `GET /api/consoles/:console` | Retourne une console spécifique. |
+| `PUT /api/consoles/:console` | Modifie une console. |
+| `DELETE /api/consoles/:console` | Supprime une console. |
+
+#### Types de jeu
+
+| Chemin | Description |
+|:------:|:-----------:|
+| `GET /api/gameGenres` | Retourne tous les types. |
+| `POST /api/gameGenres` | Ajoute un type. |
+| `PUT /api/gameGenres/:gameGenre` | Modifie un type. |
+| `DELETE /api/gameGenres/:gameGenre` | Supprime une type. |
+
+#### Commandes
+
+| Chemin | Description |
+|:------:|:-----------:|
+| `GET /api/orders` | Retourne toutes les commandes. |
+| `POST /api/orders` | Ajoute une commande. |
+| `GET /api/orders/:user` | Retourne toutes les commandes d'un utilisateur. |
+
+A voir le type de route : `/api/users/:user/orders` ou `/api/orders/:user` ou `/api/orders` qui retourne uniquement les commandes de l'utilisateur logué.
 
 ## Protections
 
