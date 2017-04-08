@@ -1,7 +1,6 @@
 package beans;
 
 import java.util.ArrayList;
-import beans.GameGenre;
 
 public class Game implements Comparable<Game> {
 	private Integer id;
@@ -10,9 +9,9 @@ public class Game implements Comparable<Game> {
 	private Double price;
 	private String releaseDate;
 	private Integer stock;
-	private ArrayList<GameGenre> genres; // Could also use strings instead since a game type is only a name for now
+	private ArrayList<String> genres; // Could also use strings instead since a game type is only a name for now
 	
-	public Game(Integer id, String title, String console, Double price, String releaseDate, Integer stock, ArrayList<GameGenre> genres) {
+	public Game(Integer id, String title, String console, Double price, String releaseDate, Integer stock, ArrayList<String> genres) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -23,7 +22,7 @@ public class Game implements Comparable<Game> {
 		this.genres = genres;
 	}
 	
-	public Game(int id, String title, String console, double price, String releaseDate, int stock, ArrayList<GameGenre> genres) {
+	public Game(int id, String title, String console, double price, String releaseDate, int stock, ArrayList<String> genres) {
 		super();
 		this.id = new Integer(id);
 		this.title = title;
@@ -35,7 +34,7 @@ public class Game implements Comparable<Game> {
 	}	
 	
 	// Building new Game before being inserted in database
-	public Game(String title, String console, Double price, String releaseDate, Integer stock,  ArrayList<GameGenre> genres) {
+	public Game(String title, String console, Double price, String releaseDate, Integer stock,  ArrayList<String> genres) {
 		super();
 		this.id = null;
 		this.title = title;
@@ -46,7 +45,7 @@ public class Game implements Comparable<Game> {
 		this.genres = genres;
 	}
 	
-	public Game(String title, String console, double price, String releaseDate, int stock,  ArrayList<GameGenre> genres) {
+	public Game(String title, String console, double price, String releaseDate, int stock,  ArrayList<String> genres) {
 		super();
 		this.id = null;
 		this.title = title;
@@ -129,10 +128,10 @@ public class Game implements Comparable<Game> {
 		return this;
 	}
 	
-	public ArrayList<GameGenre> getGenres(){
+	public ArrayList<String> getGenres(){
 		return this.genres;
 	}
-	public Game setGenres(ArrayList<GameGenre> genres){
+	public Game setGenres(ArrayList<String> genres){
 		this.genres = genres;
 		return this;
 	}

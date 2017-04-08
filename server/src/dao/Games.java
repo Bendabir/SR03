@@ -9,7 +9,6 @@ import java.util.Iterator;
 
 import bdd.DatabaseConnection;
 import beans.Game;
-import beans.GameGenre;
 
 public class Games {
 	public static Game get(int id){
@@ -25,10 +24,10 @@ public class Games {
 			psGenres.setInt(1, id);
 			
 			ResultSet resGenres = psGenres.executeQuery();
-			ArrayList<GameGenre> genres = new ArrayList<GameGenre>();
+			ArrayList<String> genres = new ArrayList<String>();
 			
 			while(resGenres.next()){
-				genres.add(new GameGenre(resGenres.getString("genre")));
+				genres.add(resGenres.getString("genre"));
 			}
 			
 			// Requête
@@ -75,10 +74,10 @@ public class Games {
 				psGenres.setInt(1, res.getInt("id"));
 				ResultSet resGenres = psGenres.executeQuery();
 				
-				ArrayList<GameGenre> genres = new ArrayList<GameGenre>();
+				ArrayList<String> genres = new ArrayList<String>();
 				
 				while(resGenres.next()){
-					genres.add(new GameGenre(resGenres.getString("genre")));
+					genres.add(resGenres.getString("genre"));
 				}
 				
 				lg.add(new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getFloat("price"), res.getString("release_date"), res.getInt("stock"), genres));
@@ -127,12 +126,12 @@ public class Games {
 			// Add genres
 			sql = "INSERT INTO assoc_game_genres_games (genre, game) VALUES (?, ?);";			
 			
-			for(Iterator<GameGenre> i = game.getGenres().iterator(); i.hasNext(); ) {
-			    GameGenre genre= i.next();
+			for(Iterator<String> i = game.getGenres().iterator(); i.hasNext(); ) {
+			    String genre= i.next();
 			    
 				ps = cnx.prepareStatement(sql);
 				
-				ps.setString(1, genre.getName());
+				ps.setString(1, genre);
 				ps.setInt(2, res.getInt("id"));
 				
 				ps.executeUpdate();			    
@@ -169,6 +168,27 @@ public class Games {
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
 			
+			// Delete genres
+			sql = "DELETE FROM assoc_game_genres_games WHERE game = ?;";
+			
+			ps = cnx.prepareStatement(sql);
+			ps.setInt(1, game.getId());
+			ps.executeUpdate();				
+			
+			// Add new genres
+			sql = "INSERT INTO assoc_game_genres_games (genre, game) VALUES (?, ?);";			
+			
+			for(Iterator<String> i = game.getGenres().iterator(); i.hasNext(); ) {
+			    String genre= i.next();
+			    
+				ps = cnx.prepareStatement(sql);
+				
+				ps.setString(1, genre);
+				ps.setInt(2, game.getId());
+				
+				ps.executeUpdate();			    
+			}			
+			
 			DatabaseConnection.getInstance().closeCnx();			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -185,9 +205,16 @@ public class Games {
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();	
 			
-			// Requête
-			String sql = "DELETE FROM games WHERE id = ?;";
+			// First delete genres assoc
+			String sql = "DELETE FROM assoc_game_genres_games WHERE game = ?;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
+			ps.setInt(1, id);
+
+			ps.executeUpdate();			
+			
+			// Requête
+			sql = "DELETE FROM games WHERE id = ?;";
+			ps = cnx.prepareStatement(sql);
 			ps.setInt(1, id);
 
 			//Execution et traitement de la réponse
