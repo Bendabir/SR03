@@ -10,7 +10,7 @@ import javax.ws.rs.WebApplicationException;
 public class RequestsExceptionHandler implements ExceptionMapper<WebApplicationException> {
     @Override
     public Response toResponse(WebApplicationException exception){
-    	// Bad request by default if an error occured
+    	// Bad request by default if an error occurred
         return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).build();  
     }
 }
