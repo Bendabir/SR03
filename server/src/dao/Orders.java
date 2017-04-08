@@ -97,7 +97,7 @@ public class Orders{
 		return lo;
 	}	
 
-	public static boolean add(Order order){
+	public static Boolean add(Order order){
 		Connection cnx = null;
 		
 		try {
@@ -152,58 +152,10 @@ public class Orders{
 	}
 
 	// Orders cannot be updated
-//	public static boolean update(Console console){
-//		Connection cnx = null;
-//		
-//		try {
-//			cnx = DatabaseConnection.getInstance().getCnx();
-//			
-//			// Requête
-//			String sql = "UPDATE consoles SET name = ?, launched_date = ? WHERE name = ?";
-//			
-//			PreparedStatement ps = cnx.prepareStatement(sql);
-//			ps.setString(1, console.getName());
-//			ps.setString(2, console.getLaunchedDate());
-//			ps.setString(3, console.getName());			
-//			
-//			//Execution et traitement de la réponse
-//			ps.executeUpdate();
-//			
-//			DatabaseConnection.getInstance().closeCnx();			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			return false;
-//		}
-//
-//		return true;
-//	}	
 	
 	// Orders cannot be deleted
-//	public static boolean delete(int name){
-//		Connection cnx = null;
-//		
-//		try {
-//			cnx = DatabaseConnection.getInstance().getCnx();	
-//			
-//			// Requête
-//			String sql = "DELETE FROM consoles WHERE name = ?;";
-//			PreparedStatement ps = cnx.prepareStatement(sql);
-//			ps.setString(1, name);
-//
-//			//Execution et traitement de la réponse
-//			ps.executeUpdate();
-//			
-//			DatabaseConnection.getInstance().closeCnx();
-//		}
-//		catch(SQLException e){
-//			e.printStackTrace();
-//			return false;
-//		}
-//		
-//		return true;
-//	}	
 	
-	public static int count(){
+	public static Integer count(){
 		int counter = 0;
 		Connection cnx = null;
 		

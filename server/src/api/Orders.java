@@ -1,67 +1,47 @@
 package api;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import beans.Order;
-import beans.OrderLine;
 
-/**
- * Servlet implementation class GestionUsers
- */
-@WebServlet("/api/orders")
-public class Orders extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public Orders() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Order> lo = dao.Orders.all();
-		
-        // Gson gson = new Gson();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable and exclude some fields
-        
-        // Setting headers
-        response.setHeader("Content-Type", "application/json");
-		
-        // Printing response
-        response.getWriter().print(gson.toJson(lo));			
+@Path("/orders")
+public class Orders extends Application {
+	private Gson gson; // Gson builder
+	
+	public Orders(){
+		this.gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
 	}
 	
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// If Content-Type doesn't match
-		if(request.getContentType().compareTo("application/json") == 0){
-			// Getting data from client
-			Gson gson = new Gson();			
-			Order o = gson.fromJson(request.getReader(), Order.class);
-			
-			// No check on data integrity
-			
-			// Add console
-			response.getWriter().print(gson.toJson(dao.Orders.add(o)));			
-		}
-	}
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response get(){
+		ArrayList<Order> lo = dao.Orders.all();
+
+    	return Response.ok(this.gson.toJson(lo)).build();
+    }	
+	
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{user}")
+    public Response get(@PathParam("user") String user){
+    	Order o = dao.Orders.get(user);
+    	
+    	return Response.ok(this.gson.toJson(o)).build();
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response post(String order){
+		// Getting data from client
+    	Order o = this.gson.fromJson(order, Order.class);
+		
+		return Response.ok(dao.Orders.add(o).toString()).build();
+    }
 }

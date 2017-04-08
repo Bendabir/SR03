@@ -1,66 +1,63 @@
 package api;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import beans.Console;
 
-/**
- * Servlet implementation class GestionUsers
- */
-@WebServlet("/api/consoles")
-public class Consoles extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public Consoles() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Console> lc = dao.Consoles.all();
-		
-        // Gson gson = new Gson();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
-        
-        // Setting headers
-        response.setHeader("Content-Type", "application/json");
-		
-        // Printing response
-        response.getWriter().print(gson.toJson(lc));			
+@Path("/consoles")
+public class Consoles extends Application {
+	private Gson gson; // Gson builder
+	
+	public Consoles(){
+		this.gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
 	}
 	
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// If Content-Type doesn't match
-		if(request.getContentType().compareTo("application/json") == 0){
-			// Getting data from client
-			Gson gson = new Gson();			
-			Console c = gson.fromJson(request.getReader(), Console.class);
-			
-			// No check on data integrity
-			
-			// Add console
-			response.getWriter().print(gson.toJson(dao.Consoles.add(c)));			
-		}
-	}
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response get(){
+		ArrayList<Console> lc = dao.Consoles.all();
+
+    	return Response.ok(this.gson.toJson(lc)).build();
+    }	
+	
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{console: [a-bA-B0-9]+}")
+    public Response get(@PathParam("console") String consoleName){
+    	Console c = dao.Consoles.get(consoleName);
+    	
+    	return Response.ok(this.gson.toJson(c)).build();
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response post(String console){
+		// Getting data from client
+		Console c = this.gson.fromJson(console, Console.class);
+		
+		return Response.ok(dao.Consoles.add(c).toString()).build();
+    }
+    
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{console: [a-bA-B0-9]+}")    
+    public Response put(String consoleData, @PathParam("console") String consoleName){
+    	return Response.ok("PUT").build();
+    }
+    
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{console: [a-bA-B0-9]+}")      
+    public Response delete(@PathParam("console") String consoleName){
+    	return Response.ok("DELETE").build();
+    }
 }

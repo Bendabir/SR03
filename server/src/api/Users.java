@@ -1,67 +1,63 @@
 package api;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import beans.User;
 
-/**
- * Servlet implementation class GestionUsers
- */
-@WebServlet("/api/users")
-public class Users extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public Users() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<User> lu = dao.Users.all();
-		
-        // Gson gson = new Gson();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
-        
-        // Setting headers
-        response.setHeader("Content-Type", "application/json");
-		
-        // Printing response
-        response.getWriter().print(gson.toJson(lu));			
+@Path("/users")
+public class Users extends Application {
+	private Gson gson; // Gson builder
+	
+	public Users(){
+		this.gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
 	}
 	
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// If Content-Type doesn't match
-		if(request.getContentType().compareTo("application/json") == 0){
-			// Getting data from client
-			Gson gson = new Gson();			
-			User u = gson.fromJson(request.getReader(), User.class);
-			u.hash();
-			
-			// No check on data integrity
-			
-			// Add game
-			response.getWriter().print(gson.toJson(dao.Users.add(u)));			
-		}
-	}
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response get(){
+		ArrayList<User> lu = dao.Users.all();
+
+    	return Response.ok(this.gson.toJson(lu)).build();
+    }	
+	
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{user}")
+    public Response get(@PathParam("user") String username){
+    	User u = dao.Users.get(username);
+    	
+    	return Response.ok(this.gson.toJson(u)).build();
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response post(String user){
+		// Getting data from client
+    	User u = this.gson.fromJson(user, User.class);
+		
+		return Response.ok(dao.Users.add(u).toString()).build();
+    }
+    
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{user}")    
+    public Response put(String userData, @PathParam("user") String username){
+    	return Response.ok("PUT").build();
+    }
+    
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{user}")      
+    public Response delete(@PathParam("user") String username){
+    	return Response.ok("DELETE").build();
+    }
 }

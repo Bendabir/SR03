@@ -68,7 +68,7 @@ public class Consoles{
 		return lc;
 	}	
 	
-	public static boolean add(Console console){
+	public static Boolean add(Console console){
 		Connection cnx = null;
 		
 		try {
@@ -93,7 +93,7 @@ public class Consoles{
 		return true;
 	}
 
-	public static boolean update(Console console){
+	public static Boolean update(Console console){
 		Connection cnx = null;
 		
 		try {
@@ -119,7 +119,7 @@ public class Consoles{
 		return true;
 	}	
 	
-	public static boolean delete(String name){
+	public static Boolean delete(String name){
 		Connection cnx = null;
 		
 		try {
@@ -143,7 +143,7 @@ public class Consoles{
 		return true;
 	}	
 	
-	public static int count(){
+	public static Integer count(){
 		int counter = 0;
 		Connection cnx = null;
 		

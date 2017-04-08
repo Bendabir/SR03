@@ -1,66 +1,63 @@
 package api;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import beans.GameGenre;
 
-/**
- * Servlet implementation class GestionUsers
- */
-@WebServlet("/api/gameGenres")
-public class GameGenres extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public GameGenres() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<GameGenre> lg = dao.GameGenres.all();
-		
-        // Gson gson = new Gson();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
-        
-        // Setting headers
-        response.setHeader("Content-Type", "application/json");
-		
-        // Printing response
-        response.getWriter().print(gson.toJson(lg));			
+@Path("/gameGenres")
+public class GameGenres extends Application {
+	private Gson gson; // Gson builder
+	
+	public GameGenres(){
+		this.gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
 	}
 	
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// If Content-Type doesn't match
-		if(request.getContentType().compareTo("application/json") == 0){
-			// Getting data from client
-			Gson gson = new Gson();			
-			GameGenre g = gson.fromJson(request.getReader(), GameGenre.class);
-			
-			// No check on data integrity
-			
-			// Add console
-			response.getWriter().print(gson.toJson(dao.GameGenres.add(g)));			
-		}
-	}
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response get(){
+		ArrayList<GameGenre> lgg = dao.GameGenres.all();
+
+    	return Response.ok(this.gson.toJson(lgg)).build();
+    }	
+	
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{genre}")
+    public Response get(@PathParam("genre") String genreName){
+    	GameGenre gg = dao.GameGenres.get(genreName);
+    	
+    	return Response.ok(this.gson.toJson(gg)).build();
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response post(String gameGenre){
+		// Getting data from client
+    	GameGenre gg = this.gson.fromJson(gameGenre, GameGenre.class);
+		
+		return Response.ok(dao.GameGenres.add(gg).toString()).build();
+    }
+    
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{genre}")    
+    public Response put(String genreData, @PathParam("genre") String genreName){
+    	return Response.ok("PUT").build();
+    }
+    
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{genre}")      
+    public Response delete(@PathParam("genre") String genreName){
+    	return Response.ok("DELETE").build();
+    }
 }

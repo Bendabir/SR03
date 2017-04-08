@@ -66,7 +66,7 @@ public class Users {
 		return lu;		
 	}
 
-	public static boolean add(User user){
+	public static Boolean add(User user){
 		Connection cnx = null;
 		
 		try {
@@ -96,7 +96,7 @@ public class Users {
 		return true;		
 	}
 
-	public static boolean update(User user){
+	public static Boolean update(User user){
 		Connection cnx = null;
 		
 		try {
@@ -126,7 +126,7 @@ public class Users {
 		return true;		
 	}
 
-	public static boolean delete(String username){
+	public static Boolean delete(String username){
 		Connection cnx = null;
 		
 		try {
@@ -150,7 +150,7 @@ public class Users {
 		return true;
 	}	
 	
-	public static int count(){
+	public static Integer count(){
 		int counter = 0;
 		Connection cnx = null;
 		

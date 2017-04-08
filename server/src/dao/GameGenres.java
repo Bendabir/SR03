@@ -10,35 +10,35 @@ import bdd.DatabaseConnection;
 import beans.GameGenre;
 
 public class GameGenres {
-//	public static GameGenre get(String name){
-//		GameGenre t = null;
-//		Connection cnx = null;
-//		
-//		try {
-//			cnx = DatabaseConnection.getInstance().getCnx();
-//
-//			// Requête
-//			String sql = "SELECT * FROM game_genres WHERE name = ?;";
-//			PreparedStatement ps = cnx.prepareStatement(sql);
-//			ps.setString(1, name);
-//			
-//			//Execution et traitement de la réponse
-//			ResultSet res = ps.executeQuery();
-//			
-//			while(res.next()){
-//				t = new GameGenre(res.getString("name"));
-//				break;
-//			}
-//			
-//			res.close();
-//			DatabaseConnection.getInstance().closeCnx();					
-//		}
-//		catch(SQLException e){
-//			e.printStackTrace();		
-//		}
-//		
-//		return t;				
-//	}
+	public static GameGenre get(String name){
+		GameGenre t = null;
+		Connection cnx = null;
+		
+		try {
+			cnx = DatabaseConnection.getInstance().getCnx();
+
+			// Requête
+			String sql = "SELECT * FROM game_genres WHERE name = ?;";
+			PreparedStatement ps = cnx.prepareStatement(sql);
+			ps.setString(1, name);
+			
+			//Execution et traitement de la réponse
+			ResultSet res = ps.executeQuery();
+			
+			while(res.next()){
+				t = new GameGenre(res.getString("name"));
+				break;
+			}
+			
+			res.close();
+			DatabaseConnection.getInstance().closeCnx();					
+		}
+		catch(SQLException e){
+			e.printStackTrace();		
+		}
+		
+		return t;				
+	}
 
 	public static ArrayList<GameGenre> all(){
 		ArrayList<GameGenre> lt = new ArrayList<GameGenre>();
@@ -68,7 +68,7 @@ public class GameGenres {
 		return lt;
 	}	
 	
-	public static boolean add(GameGenre type){
+	public static Boolean add(GameGenre type){
 		Connection cnx = null;
 		
 		try {
@@ -92,7 +92,7 @@ public class GameGenres {
 		return true;
 	}
 
-	public static boolean update(GameGenre type){
+	public static Boolean update(GameGenre type){
 		Connection cnx = null;
 		
 		try {
@@ -117,7 +117,7 @@ public class GameGenres {
 		return true;
 	}	
 	
-	public static boolean delete(String name){
+	public static Boolean delete(String name){
 		Connection cnx = null;
 		
 		try {
@@ -141,7 +141,7 @@ public class GameGenres {
 		return true;
 	}		
 	
-	public static int count(){
+	public static Integer count(){
 		int counter = 0;
 		Connection cnx = null;
 		
