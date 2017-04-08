@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import bdd.DatabaseConnection;
 import beans.Game;
@@ -112,6 +113,30 @@ public class Games {
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
+			
+			// Getting ID
+			sql = "SELECT id FROM games WHERE title = ? AND console = ? AND release_date = ?;";
+			ps = cnx.prepareStatement(sql);
+			ps.setString(1, game.getTitle());
+			ps.setString(2, game.getConsole());
+			ps.setString(3, game.getReleaseDate());
+			
+			ResultSet res = ps.executeQuery();
+			res.next();
+			
+			// Add genres
+			sql = "INSERT INTO assoc_game_genres_games (genre, game) VALUES (?, ?);";			
+			
+			for(Iterator<GameGenre> i = game.getGenres().iterator(); i.hasNext(); ) {
+			    GameGenre genre= i.next();
+			    
+				ps = cnx.prepareStatement(sql);
+				
+				ps.setString(1, genre.getName());
+				ps.setInt(2, res.getInt("id"));
+				
+				ps.executeUpdate();			    
+			}
 			
 			DatabaseConnection.getInstance().closeCnx();			
 		} catch (SQLException e) {
