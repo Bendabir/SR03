@@ -56,6 +56,28 @@ public class Game implements Comparable<Game> {
 		this.genres = genres;
 	}	
 	
+	public Game(int id){
+		super();
+		this.id = new Integer(id);
+		this.title = null;
+		this.console = null;
+		this.price = null;
+		this.releaseDate = null;
+		this.stock = null;
+		this.genres = null;	
+	}
+	
+	public Game(Integer id){
+		super();
+		this.id = id;
+		this.title = null;
+		this.console = null;
+		this.price = null;
+		this.releaseDate = null;
+		this.stock = null;
+		this.genres = null;	
+	}	
+	
 	// Simplified version of a Game
 	public Game(String title, String console){
 		super();

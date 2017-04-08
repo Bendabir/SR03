@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import bdd.DatabaseConnection;
 import beans.Game;
@@ -103,7 +104,7 @@ public class Orders{
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
 			// Requête
-			String sql = "INSERT INTO orders (date, user) VALUES (CURDATE(), ?);";
+			String sql = "INSERT INTO orders (order_date, user) VALUES (CURDATE(), ?);";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, order.getUser());
@@ -112,8 +113,34 @@ public class Orders{
 			ps.executeUpdate();
 			
 			// Need a good way to retrieve added order (num)
+			sql = "SELECT MAX(num) AS order_num FROM orders;";
+			
+			ps = cnx.prepareStatement(sql);
+			ResultSet res = ps.executeQuery();
+			res.next();
 			
 			// Updating lines
+			sql = "INSERT INTO orders_lines (order_num, game, unit_price, quantity) VALUES (?, ?, 0, ?);";
+			
+			for(Iterator<OrderLine> i = order.getLines().iterator(); i.hasNext(); ){
+				OrderLine line = i.next();
+				
+				ps = cnx.prepareStatement(sql);
+				ps.setInt(1, res.getInt("order_num"));
+				ps.setInt(2, line.getGame().getId());
+				ps.setInt(3, line.getQuantity());
+				
+				ps.executeUpdate();
+				
+				// Save price
+				String savePriceSql = "UPDATE orders_lines SET unit_price = (SELECT price FROM games WHERE id = ?) WHERE order_num = ? AND game = ?;";
+				PreparedStatement savePricePs = cnx.prepareStatement(savePriceSql);
+				savePricePs.setInt(1, line.getGame().getId());				
+				savePricePs.setInt(2, res.getInt("order_num"));
+				savePricePs.setInt(3, line.getGame().getId());
+				
+				savePricePs.executeUpdate();
+			}
 			
 			DatabaseConnection.getInstance().closeCnx();			
 		} catch (SQLException e) {

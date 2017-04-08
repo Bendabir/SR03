@@ -126,7 +126,7 @@ public class Games {
 			// Add genres
 			sql = "INSERT INTO assoc_game_genres_games (genre, game) VALUES (?, ?);";			
 			
-			for(Iterator<String> i = game.getGenres().iterator(); i.hasNext(); ) {
+			for(Iterator<String> i = game.getGenres().iterator(); i.hasNext(); ){
 			    String genre= i.next();
 			    
 				ps = cnx.prepareStatement(sql);

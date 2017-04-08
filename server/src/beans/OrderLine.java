@@ -5,55 +5,104 @@ import beans.Game;
 public class OrderLine implements Comparable<OrderLine> {
 	// private int orderNum;
 	private Game game;
-	private double unitPrice;
-	private int quantity;
+	private Double unitPrice;
+	private Integer quantity;
 	
 	public OrderLine(Game game, double price, int quantity){
+		super();
+		this.game = game;
+		this.unitPrice = new Double(price);
+		this.quantity = new Integer(quantity);		
+	}
+	
+	public OrderLine(Game game, Double price, Integer quantity){
+		super();		
 		this.game = game;
 		this.unitPrice = price;
 		this.quantity = quantity;		
-	}
+	}	
 	
 	public OrderLine(Game game, double price){
+		super();		
 		this.game = game;		
-		this.unitPrice = price;
-		this.quantity = 1;
+		this.unitPrice = new Double(price);
+		this.quantity = new Integer(1);
 	}
 	
-	// public OrderLine(int num, int game, double price, int quantity){
-	//	this.orderNum = num;
-	//	this.game = game;
-	//	this.unitPrice = price;
-	//	this.quantity = quantity;		
-	// }
+	public OrderLine(Game game, Double price){
+		super();		
+		this.game = game;		
+		this.unitPrice = price;
+		this.quantity = new Integer(1);
+	}	
 	
-	// public OrderLine(int num, int game, double price){
-	//	this.orderNum = num;
-	//	this.game = game;
-	//	this.unitPrice = price;
-	//	this.quantity = 1;
-	// }
+	public OrderLine(double price, int quantity){
+		super();		
+		this.game = null;
+		this.unitPrice = price;
+		this.quantity = quantity;
+	}
+	
+	public OrderLine(Double price, Integer quantity){
+		super();		
+		this.game = null;
+		this.unitPrice = price;
+		this.quantity = quantity;
+	}	
+	
+	public OrderLine(int quantity){
+		super();		
+		this.game = null;
+		this.unitPrice = null;
+		this.quantity = new Integer(quantity);
+	}
+	
+	public OrderLine(Integer quantity){
+		super();
+		this.game = null;
+		this.unitPrice = null;
+		this.quantity = quantity;
+	}
+	
+	public OrderLine(Game game, int quantity){
+		super();		
+		this.game = game;		
+		this.unitPrice = null;
+		this.quantity = new Integer(quantity);
+	}
+	
+	public OrderLine(Game game, Integer quantity){
+		super();		
+		this.game = game;		
+		this.unitPrice = null;
+		this.quantity = quantity;
+	}		
 	
 	// SETTERS
-	// public OrderLine setOrderNum(int num){
-	//	this.orderNum = num;
-	//	return this;
-	// }
-
 	 public OrderLine setGame(Game game){
 	 	this.game = game;
 	 	return this;
 	 }
 	
 	public OrderLine setUnitPrice(double price){
-		this.unitPrice = price;
+		this.unitPrice = new Double(price);
 		return this;
 	}
 	
-	public OrderLine setQuantity(int quantity){
-		this.quantity = quantity;
+	public OrderLine setUnitPrice(Double price){
+		this.unitPrice = price;
 		return this;
 	}	
+	
+	public OrderLine setQuantity(int quantity){
+		this.quantity = new Integer(quantity);
+		return this;
+	}	
+	
+	public OrderLine setQuantity(Integer quantity){
+		this.quantity = quantity;
+		return this;
+	}		
 
 	// GETTERS
 	// public int getOrderNum(){
@@ -64,11 +113,11 @@ public class OrderLine implements Comparable<OrderLine> {
 		return this.game;
 	 }
 	
-	public double getPrice(){
+	public Double getPrice(){
 		return this.unitPrice;
 	}
 	
-	public int getQuantity(){
+	public Integer getQuantity(){
 		return this.quantity;
 	}	
 	
@@ -93,6 +142,6 @@ public class OrderLine implements Comparable<OrderLine> {
 	
 	@Override
 	public String toString(){
-		return "Game: [" + this.game.toString() + "]; Unit Price: " + this.unitPrice + "; Quantity: " + this.quantity + ";";
+		return "Game: [" + this.game.toString() + "]; Unit Price: " + this.unitPrice.toString() + "; Quantity: " + this.quantity.toString() + ";";
 	}	
 }
