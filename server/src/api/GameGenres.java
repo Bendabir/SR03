@@ -45,12 +45,15 @@ public class GameGenres extends Application {
 		return Response.ok(dao.GameGenres.add(gg).toString()).build();
     }
     
+    // Maybe not useful
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{genre}")    
     public Response put(String genreData, @PathParam("genre") String genreName){
-    	return Response.ok("PUT").build();
+    	GameGenre gg = new GameGenre(genreName);
+    	
+    	return Response.ok(dao.GameGenres.update(gg).toString()).build();
     }
     
     @DELETE
@@ -58,6 +61,6 @@ public class GameGenres extends Application {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{genre}")      
     public Response delete(@PathParam("genre") String genreName){
-    	return Response.ok("DELETE").build();
+    	return Response.ok(dao.GameGenres.delete(genreName).toString()).build();
     }
 }
