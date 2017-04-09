@@ -72,20 +72,44 @@ public class Users {
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
-			// Requête
-			String sql = "INSERT INTO users (username, password, firstname, lastname, birth_date, status) VALUES(?, ?, ?, ?, ?, ?);";
+			// First check if user exist and is disabled
+			String sql = "SELECT * FROM users WHERE username = ? AND active = 0;";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, user.getUsername());
-			ps.setString(2, user.getPassword());
-			ps.setString(3, user.getFirstName());
-			ps.setString(4, user.getLastName());
-			ps.setString(5, user.getBirthDate());
-			ps.setString(6, user.getStatus());
+			
+			ResultSet res = ps.executeQuery();
+			
+			if(res.first()){
+				res.close();
+				ps.close();
+				
+				// Reactivating
+				sql = "UPDATE users SET password = ?, active = 1 WHERE username = ?;";
+				
+				ps = cnx.prepareStatement(sql);
+				ps.setString(1, user.getPassword());
+				ps.setString(2, user.getUsername());
+			}
+			else {
+				res.close();
+				ps.close();				
+				
+				// Inserting
+				sql = "INSERT INTO users (username, password, firstname, lastname, birth_date, status) VALUES(?, ?, ?, ?, ?, ?);";
+				
+				ps = cnx.prepareStatement(sql);
+				ps.setString(1, user.getUsername());
+				ps.setString(2, user.getPassword());
+				ps.setString(3, user.getFirstName());
+				ps.setString(4, user.getLastName());
+				ps.setString(5, user.getBirthDate());
+				ps.setString(6, user.getStatus());
+			}
 			
 			//Execution et traitement de la réponse
-			ps.executeUpdate();
-			
+			ps.executeUpdate();			
+
 			DatabaseConnection.getInstance().closeCnx();			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -93,7 +117,7 @@ public class Users {
 			return false;
 		}
 
-		return true;		
+		return true; // What about returning ID instead ?	
 	}
 
 	public static Boolean update(User user){
