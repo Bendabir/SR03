@@ -36,6 +36,15 @@ public class Orders extends Application {
     	return Response.ok(this.gson.toJson(lo)).build();
     }
     
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{user}/{num: [0-9]+}")
+    public Response get(@PathParam("user") String user, @PathParam("num") String orderNum){
+    	Order o = dao.Orders.get(user, Integer.parseInt(orderNum));
+    	
+    	return Response.ok(this.gson.toJson(o)).build();
+    }
+    
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
