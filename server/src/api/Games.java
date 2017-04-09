@@ -52,7 +52,10 @@ public class Games extends Application {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{game: [0-9]+}")    
     public Response put(String gameData, @PathParam("game") String gameID){
-    	return Response.ok("PUT").build();
+    	Game g = this.gson.fromJson(gameData, Game.class);
+    	g.setId(Integer.parseInt(gameID));
+    	
+    	return Response.ok(dao.Games.update(g).toString()).build();
     }
     
     @DELETE
@@ -60,7 +63,7 @@ public class Games extends Application {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{game: [0-9]+}")      
     public Response delete(@PathParam("game") String gameID){
-    	return Response.ok("DELETE").build();
+    	return Response.ok(dao.Games.delete(Integer.parseInt(gameID)).toString()).build();
     }
 }
 
