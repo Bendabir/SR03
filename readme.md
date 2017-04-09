@@ -68,11 +68,15 @@ Le modèle REST est utilisé. On définit les chemins ci-dessous. On utilisera l
 
 | Chemin | Description |
 |:------:|:-----------:|
-| `GET /api/orders` | Retourne toutes les commandes. |
 | `POST /api/orders` | Ajoute une commande. |
 | `GET /api/orders/:user` | Retourne toutes les commandes d'un utilisateur. |
+| `GET /api/orders/:user/:num` | Retourne une commande d'un utilisateur. |
 
 A voir le type de route : `/api/users/:user/orders` ou `/api/orders/:user` ou `/api/orders` qui retourne uniquement les commandes de l'utilisateur logué.
+
+#### Paniers
+
+On se propose d'intégrer une route dans l'API qui retourne le panier actuel de l'utilisateur connecté.
 
 ## Protections
 
@@ -80,4 +84,8 @@ Les méthodes `POST`, `PUT` et `DELETE` de l'API sont protégées par une sessio
 
 L'API peut éventuellement implémenter une sécurisation via token (tel que JWT).
 
-Les mots de passes sont tous hashés en base de données tel que `hashed_password = hash(username + password)`. Ainsi, deux utilisateurs peuvent avoir le même mot de passe sans avoir un hash identique. La fonction de hash reste à définir.  
+Les mots de passes sont tous hashés en base de données tel que `hashed_password = hash(username + password)`. Ainsi, deux utilisateurs peuvent avoir le même mot de passe sans avoir un hash identique. La fonction de hash reste à définir. 
+
+## Connexions
+
+La méthode de connexion mise en place se fait à travers le CAS de l'UTC.  
