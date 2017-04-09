@@ -41,6 +41,7 @@ public class Users extends Application {
     public Response post(String user){
 		// Getting data from client
     	User u = this.gson.fromJson(user, User.class);
+    	u.hash();
 		
 		return Response.ok(dao.Users.add(u).toString()).build();
     }
@@ -50,7 +51,11 @@ public class Users extends Application {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{user}")    
     public Response put(String userData, @PathParam("user") String username){
-    	return Response.ok("PUT").build();
+    	User u = this.gson.fromJson(userData, User.class);
+    	u.setUsername(username);
+    	u.hash();
+    	
+    	return Response.ok(dao.Users.update(u).toString()).build();
     }
     
     @DELETE
@@ -58,6 +63,6 @@ public class Users extends Application {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{user}")      
     public Response delete(@PathParam("user") String username){
-    	return Response.ok("DELETE").build();
+    	return Response.ok(dao.Users.delete(username).toString()).build();
     }
 }

@@ -19,7 +19,7 @@ public class Users {
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
-			String sql = "SELECT * FROM users WHERE username = ?;";
+			String sql = "SELECT * FROM users WHERE username = ? AND active = 1;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, username);
 
@@ -47,7 +47,7 @@ public class Users {
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
-			String sql = "SELECT * FROM users;";
+			String sql = "SELECT * FROM users WHERE active = 1;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 
 			ResultSet res = ps.executeQuery();
@@ -103,7 +103,7 @@ public class Users {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
 			// Requête
-			String sql = "UPDATE users SET username = ?, password = ?, firstname = ?, lastname = ?, birth_date = ?, status = ?;";
+			String sql = "UPDATE users SET username = ?, password = ?, firstname = ?, lastname = ?, birth_date = ?, status = ? WHERE username = ? AND active = 1;";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, user.getUsername());
@@ -112,6 +112,7 @@ public class Users {
 			ps.setString(4, user.getLastName());
 			ps.setString(5, user.getBirthDate());
 			ps.setString(6, user.getStatus());
+			ps.setString(7, user.getUsername());			
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
@@ -133,7 +134,7 @@ public class Users {
 			cnx = DatabaseConnection.getInstance().getCnx();	
 			
 			// Requête
-			String sql = "DELETE FROM users WHERE username = ?;";
+			String sql = "UPDATE users SET active = 0 WHERE username = ?;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, username);
 
@@ -157,7 +158,7 @@ public class Users {
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 		
-			String sql = "SELECT COUNT(*) AS counter FROM users;";
+			String sql = "SELECT COUNT(*) AS counter FROM users WHERE active = 1;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ResultSet res = ps.executeQuery();
 			

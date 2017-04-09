@@ -13,6 +13,6 @@ public class RequestsExceptionHandler implements ExceptionMapper<WebApplicationE
     public Response toResponse(WebApplicationException exception){
     	// Bad request by default if an error occurred
     	// Returning application/json put could be text instead
-        return Response.status(Status.BAD_REQUEST).entity(exception.getMessage()).header("Content-Type", "application/json").build();
+        return Response.status(Status.BAD_REQUEST).entity("{\"error\": \"" + exception.getMessage() + "\"}").header("Content-Type", "application/json").build();
     }
 }

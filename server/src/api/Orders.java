@@ -18,6 +18,7 @@ public class Orders extends Application {
 		this.gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
 	}
 	
+	// Disabling GET method for all orders
 //    @GET
 //    @Produces(MediaType.APPLICATION_JSON)
 //    public Response get(){

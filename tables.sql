@@ -40,7 +40,8 @@ CREATE TABLE IF NOT EXISTS sr03.users (
 	firstname VARCHAR(64) NOT NULL,
 	lastname VARCHAR(64) NOT NULL, 
 	birth_date DATE NOT NULL,
-	status VARCHAR(32) NOT NULL DEFAULT "user"
+	status VARCHAR(32) NOT NULL DEFAULT "user",
+	active BOOLEAN NOT NULL DEFAUT true
 );
 
 CREATE TABLE IF NOT EXISTS sr03.orders (
