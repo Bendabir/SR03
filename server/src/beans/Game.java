@@ -11,6 +11,8 @@ public class Game implements Comparable<Game> {
 	private Integer stock;
 	private ArrayList<String> genres; // Could also use strings instead since a game type is only a name for now
 	
+	// MAYBE WE DON'T NEED ALL THESE CONSTRUCTORS BECAUSE BEANS ARE LOADED DIRECTLY FROM JSON
+	
 	public Game(Integer id, String title, String console, Double price, String releaseDate, Integer stock, ArrayList<String> genres) {
 		super();
 		this.id = id;

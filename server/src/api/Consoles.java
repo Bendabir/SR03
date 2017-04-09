@@ -50,7 +50,10 @@ public class Consoles extends Application {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{console}")    
     public Response put(String consoleData, @PathParam("console") String consoleName){
-    	return Response.ok("PUT").build();
+    	Console c = this.gson.fromJson(consoleData, Console.class);   	
+    	c.setName(consoleName);
+    	
+    	return Response.ok(dao.Consoles.update(c).toString()).build();
     }
     
     @DELETE
@@ -58,6 +61,6 @@ public class Consoles extends Application {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{console}")      
     public Response delete(@PathParam("console") String consoleName){
-    	return Response.ok("DELETE").build();
+    	return Response.ok(dao.Consoles.delete(consoleName).toString()).build();
     }
 }
