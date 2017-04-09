@@ -39,7 +39,7 @@ public class Games {
 			ResultSet res = ps.executeQuery();
 			
 			while(res.next()){
-				g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getFloat("price"), res.getString("release_date"), res.getInt("stock"), genres);
+				g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getDouble("price"), res.getString("release_date"), res.getInt("stock"), genres);
 				break;
 			}
 			
@@ -80,7 +80,7 @@ public class Games {
 					genres.add(resGenres.getString("genre"));
 				}
 				
-				lg.add(new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getFloat("price"), res.getString("release_date"), res.getInt("stock"), genres));
+				lg.add(new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getDouble("price"), res.getString("release_date"), res.getInt("stock"), genres));
 			}
 			
 			res.close();
