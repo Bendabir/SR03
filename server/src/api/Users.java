@@ -32,7 +32,12 @@ public class Users extends Application {
     public Response get(@PathParam("user") String username){
     	User u = dao.Users.get(username);
     	
-    	return Response.ok(this.gson.toJson(u)).build();
+    	if(u != null){
+        	return Response.ok(this.gson.toJson(u)).build();   		
+    	}
+    	else {
+    		return Response.status(404).entity("{\"error\" : \"This user doesn't exist.\"}").build();
+    	}    	
     }
     
     @POST
@@ -41,7 +46,6 @@ public class Users extends Application {
     public Response post(String user){
 		// Getting data from client
     	User u = this.gson.fromJson(user, User.class);
-    	u.hash();
 		
 		return Response.ok(dao.Users.add(u).toString()).build();
     }
@@ -53,7 +57,6 @@ public class Users extends Application {
     public Response put(String userData, @PathParam("user") String username){
     	User u = this.gson.fromJson(userData, User.class);
     	u.setUsername(username);
-    	u.hash();
     	
     	return Response.ok(dao.Users.update(u).toString()).build();
     }

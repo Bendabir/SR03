@@ -32,7 +32,12 @@ public class Consoles extends Application {
     public Response get(@PathParam("console") String consoleName){
     	Console c = dao.Consoles.get(consoleName);
     	
-    	return Response.ok(this.gson.toJson(c)).build();
+    	if(c != null){
+        	return Response.ok(this.gson.toJson(c)).build();   		
+    	}
+    	else {
+    		return Response.status(404).entity("{\"error\" : \"This console doesn't exist.\"}").build();
+    	}
     }
     
     @POST

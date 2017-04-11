@@ -32,7 +32,12 @@ public class Games extends Application {
     public Response get(@PathParam("game") String gameID){
     	Game g = dao.Games.get(Integer.parseInt(gameID));
     	
-    	return Response.ok(this.gson.toJson(g)).build();
+    	if(g != null){
+        	return Response.ok(this.gson.toJson(g)).build();   		
+    	}
+    	else {
+    		return Response.status(404).entity("{\"error\" : \"This game doesn't exist.\"}").build();
+    	}
     }
     
     @POST

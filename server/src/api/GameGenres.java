@@ -32,7 +32,12 @@ public class GameGenres extends Application {
     public Response get(@PathParam("genre") String genreName){
     	GameGenre gg = dao.GameGenres.get(genreName);
     	
-    	return Response.ok(this.gson.toJson(gg)).build();
+    	if(gg != null){
+        	return Response.ok(this.gson.toJson(gg)).build();   		
+    	}
+    	else {
+    		return Response.status(404).entity("{\"error\" : \"This game genre doesn't exist.\"}").build();
+    	}
     }
     
     @POST

@@ -81,7 +81,12 @@ public class Login extends Application {
     			u.setStatus("user");
     			
     			// Checking if user exists
+    			User dummy = dao.Users.get(u.getUsername());
     			
+    			if(dummy == null){
+    				// Creating
+    				dao.Users.add(u);
+    			}
     			
         		return Response.ok(u.toString()).build();    			
     		}

@@ -42,7 +42,12 @@ public class Orders extends Application {
     public Response get(@PathParam("user") String user, @PathParam("num") String orderNum){
     	Order o = dao.Orders.get(user, Integer.parseInt(orderNum));
     	
-    	return Response.ok(this.gson.toJson(o)).build();
+    	if(o != null){
+        	return Response.ok(this.gson.toJson(o)).build();   		
+    	}
+    	else {
+    		return Response.status(404).entity("{\"error\" : \"This order for this user doesn't exist.\"}").build();
+    	}
     }
     
     @POST

@@ -36,10 +36,8 @@ CREATE TABLE IF NOT EXISTS sr03.assoc_game_genres_games (
 
 CREATE TABLE IF NOT EXISTS sr03.users (
 	username VARCHAR(16) PRIMARY KEY,
-	password VARCHAR(255) NOT NULL,
 	firstname VARCHAR(64) NOT NULL,
 	lastname VARCHAR(64) NOT NULL, 
-	birth_date DATE NOT NULL,
 	status VARCHAR(32) NOT NULL DEFAULT "user",
 	active BOOLEAN NOT NULL DEFAUT true
 );

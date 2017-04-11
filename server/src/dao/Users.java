@@ -26,7 +26,11 @@ public class Users {
 			ResultSet res = ps.executeQuery();
 
 			while(res.next()){
-				u = new User(res.getString("username"), res.getString("firstname"), res.getString("lastname"), res.getString("birth_date"), res.getString("status"));
+				u = new User();
+				u.setUsername(res.getString("username"));
+				u.setFirstName(res.getString("firstname"));
+				u.setLastName(res.getString("lastname"));
+				u.setStatus(res.getString("status"));
 				break;
 			}	
 			
@@ -53,7 +57,13 @@ public class Users {
 			ResultSet res = ps.executeQuery();
 
 			while(res.next()){
-				lu.add(new User(res.getString("username"), res.getString("firstname"), res.getString("lastname"), res.getString("birth_date"), res.getString("status")));
+				User u = new User();
+				u.setUsername(res.getString("username"));
+				u.setFirstName(res.getString("firstname"));
+				u.setLastName(res.getString("lastname"));
+				u.setStatus(res.getString("status"));
+				
+				lu.add(u);
 			}		
 
 			res.close();
@@ -85,26 +95,23 @@ public class Users {
 				ps.close();
 				
 				// Reactivating
-				sql = "UPDATE users SET password = ?, active = 1 WHERE username = ?;";
+				sql = "UPDATE users SET active = 1 WHERE username = ?;";
 				
 				ps = cnx.prepareStatement(sql);
-				ps.setString(1, user.getPassword());
-				ps.setString(2, user.getUsername());
+				ps.setString(1, user.getUsername());
 			}
 			else {
 				res.close();
 				ps.close();				
 				
 				// Inserting
-				sql = "INSERT INTO users (username, password, firstname, lastname, birth_date, status) VALUES(?, ?, ?, ?, ?, ?);";
+				sql = "INSERT INTO users (username, firstname, lastname, status) VALUES(?, ?, ?, ?);";
 				
 				ps = cnx.prepareStatement(sql);
 				ps.setString(1, user.getUsername());
-				ps.setString(2, user.getPassword());
-				ps.setString(3, user.getFirstName());
-				ps.setString(4, user.getLastName());
-				ps.setString(5, user.getBirthDate());
-				ps.setString(6, user.getStatus());
+				ps.setString(2, user.getFirstName());
+				ps.setString(3, user.getLastName());
+				ps.setString(4, user.getStatus());
 			}
 			
 			//Execution et traitement de la réponse
@@ -127,16 +134,13 @@ public class Users {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
 			// Requête
-			String sql = "UPDATE users SET username = ?, password = ?, firstname = ?, lastname = ?, birth_date = ?, status = ? WHERE username = ? AND active = 1;";
+			String sql = "UPDATE users SET firstname = ?, lastname = ?, status = ? WHERE username = ? AND active = 1;";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
-			ps.setString(1, user.getUsername());
-			ps.setString(2, user.getPassword());
-			ps.setString(3, user.getFirstName());
-			ps.setString(4, user.getLastName());
-			ps.setString(5, user.getBirthDate());
-			ps.setString(6, user.getStatus());
-			ps.setString(7, user.getUsername());			
+			ps.setString(1, user.getFirstName());
+			ps.setString(2, user.getLastName());
+			ps.setString(3, user.getStatus());
+			ps.setString(4, user.getUsername());			
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
