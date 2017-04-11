@@ -88,7 +88,7 @@ public class Login extends Application {
     				dao.Users.add(u);
     			}
     			
-        		return Response.ok(u.toString()).build();    			
+        		return Response.ok(u.toString()).cookie(new NewCookie("token", "fzeufvhaunfarzfuomazzouriaemo", "/", "localhost", "", 86400, false)).build();    			
     		}
     		catch(Exception e){
     			e.printStackTrace();
