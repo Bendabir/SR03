@@ -10,7 +10,7 @@ import com.google.gson.GsonBuilder;
 
 import beans.User;
 
-@Path("/users")
+@Path("/api/users")
 public class Users extends Application {
 	private Gson gson; // Gson builder
 	
@@ -19,7 +19,7 @@ public class Users extends Application {
 	}
 	
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json; charset=UTF-8")
     public Response get(){
 		ArrayList<User> lu = dao.Users.all();
 
@@ -27,7 +27,7 @@ public class Users extends Application {
     }	
 	
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json; charset=UTF-8")
     @Path("/{user}")
     public Response get(@PathParam("user") String username){
     	User u = dao.Users.get(username);
@@ -37,7 +37,7 @@ public class Users extends Application {
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json; charset=UTF-8")
     public Response post(String user){
 		// Getting data from client
     	User u = this.gson.fromJson(user, User.class);
@@ -48,7 +48,7 @@ public class Users extends Application {
     
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json; charset=UTF-8")
     @Path("/{user}")    
     public Response put(String userData, @PathParam("user") String username){
     	User u = this.gson.fromJson(userData, User.class);
@@ -60,7 +60,7 @@ public class Users extends Application {
     
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json; charset=UTF-8")
     @Path("/{user}")      
     public Response delete(@PathParam("user") String username){
     	return Response.ok(dao.Users.delete(username).toString()).build();

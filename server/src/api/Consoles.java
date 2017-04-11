@@ -10,7 +10,7 @@ import com.google.gson.GsonBuilder;
 
 import beans.Console;
 
-@Path("/consoles")
+@Path("/api/consoles")
 public class Consoles extends Application {
 	private Gson gson; // Gson builder
 	
@@ -19,7 +19,7 @@ public class Consoles extends Application {
 	}
 	
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json; charset=UTF-8")
     public Response get(){
 		ArrayList<Console> lc = dao.Consoles.all();
 
@@ -27,7 +27,7 @@ public class Consoles extends Application {
     }	
 	
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json; charset=UTF-8")
     @Path("/{console}")
     public Response get(@PathParam("console") String consoleName){
     	Console c = dao.Consoles.get(consoleName);
@@ -37,7 +37,7 @@ public class Consoles extends Application {
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json; charset=UTF-8")
     public Response post(String console){
 		// Getting data from client
 		Console c = this.gson.fromJson(console, Console.class);
@@ -47,7 +47,7 @@ public class Consoles extends Application {
     
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json; charset=UTF-8")
     @Path("/{console}")    
     public Response put(String consoleData, @PathParam("console") String consoleName){
     	Console c = this.gson.fromJson(consoleData, Console.class);   	
@@ -58,7 +58,7 @@ public class Consoles extends Application {
     
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json; charset=UTF-8")
     @Path("/{console}")      
     public Response delete(@PathParam("console") String consoleName){
     	return Response.ok(dao.Consoles.delete(consoleName).toString()).build();

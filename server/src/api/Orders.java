@@ -10,7 +10,7 @@ import com.google.gson.GsonBuilder;
 
 import beans.Order;
 
-@Path("/orders")
+@Path("/api/orders")
 public class Orders extends Application {
 	private Gson gson; // Gson builder
 	
@@ -28,7 +28,7 @@ public class Orders extends Application {
 //    }	
 	
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json; charset=UTF-8")
     @Path("/{user}")
     public Response get(@PathParam("user") String user){
     	ArrayList<Order> lo = dao.Orders.get(user);
@@ -37,7 +37,7 @@ public class Orders extends Application {
     }
     
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json; charset=UTF-8")
     @Path("/{user}/{num: [0-9]+}")
     public Response get(@PathParam("user") String user, @PathParam("num") String orderNum){
     	Order o = dao.Orders.get(user, Integer.parseInt(orderNum));
@@ -47,7 +47,7 @@ public class Orders extends Application {
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json; charset=UTF-8")
     public Response post(String order){
 		// Getting data from client
     	Order o = this.gson.fromJson(order, Order.class);

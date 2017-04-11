@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response.Status;
 @Provider
 public class RequestsExceptionHandler implements ExceptionMapper<WebApplicationException> {
     @Override
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("application/json; charset=UTF-8")
     public Response toResponse(WebApplicationException exception){
     	// Bad request by default if an error occurred
     	// Returning application/json put could be text instead

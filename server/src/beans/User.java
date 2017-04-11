@@ -8,6 +8,15 @@ public class User implements Comparable<User> {
 	private String birthDate;
 	private String status;
 	
+	public User(){
+		this.username = null;
+		this.password = null;		
+		this.firstName = null;
+		this.lastName = null;
+		this.birthDate = null;
+		this.status = null;			
+	}
+	
 	public User(String username, String password) {
 		this.username = username;
 		this.password = utils.MD5.hash(username + password);		
