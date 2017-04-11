@@ -34,7 +34,7 @@ public class Login extends Application {
 	}
 	
     @GET
-    @Produces(MediaType.TEXT_HTML)
+    @Produces("text/html; charset= UTF-8")
     public Response get(@QueryParam("ticket") String ticket, @Context UriInfo uriInfo, @Context Request request){
     	// Si on a déjà un cookie, on redirige
     	
@@ -86,6 +86,9 @@ public class Login extends Application {
     			if(dummy == null){
     				// Creating
     				dao.Users.add(u);
+    			}
+    			else {
+    				u = dao.Users.get(u.getUsername());
     			}
     			
         		return Response.ok(u.toString()).cookie(new NewCookie("token", "fzeufvhaunfarzfuomazzouriaemo", "/", "localhost", "", 86400, false)).build();    			
