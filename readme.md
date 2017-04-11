@@ -17,7 +17,7 @@ Votre projet devra au moins suivre les éléments suivant :
 
 On implémente le modèle relationnel suivant :
 
-![UML de la BDD](UML.png)
+![MCD de la BDD](MCD.png)
 
 On se propose d'ajouter un clef artificielle `ID` pour les jeux afin de simplifier leur référencement. Les commandes (`orders`) sont identifiées par un ID unique également.
 
