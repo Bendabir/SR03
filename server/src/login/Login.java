@@ -11,6 +11,10 @@ import javax.ws.rs.core.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.xml.sax.InputSource;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.w3c.dom.Document;
 
 import java.net.URI;
@@ -20,9 +24,11 @@ import beans.User;
 
 @Path("/login")
 public class Login extends Application {
+	private Gson gson; // Gson builder
 	private Properties config;
 	
 	public Login(){
+		this.gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable		
 		this.config = new Properties();
 		
 		try {
@@ -34,7 +40,7 @@ public class Login extends Application {
 	}
 	
     @GET
-    @Produces("text/html; charset= UTF-8")
+    @Produces("application/json; charset= UTF-8")
     public Response get(@QueryParam("ticket") String ticket, @Context UriInfo uriInfo, @Context Request request){
     	// Si on a déjà un cookie, on redirige
     	
@@ -91,7 +97,7 @@ public class Login extends Application {
     				u = dao.Users.get(u.getUsername());
     			}
     			
-        		return Response.ok(u.toString()).cookie(new NewCookie("token", "fzeufvhaunfarzfuomazzouriaemo", "/", "localhost", "", 86400, false)).build();    			
+        		return Response.ok(this.gson.toJson(u)).cookie(new NewCookie("token", "fzeufvhaunfarzfuomazzouriaemo", "/", "localhost", "", 86400, false)).build();    			
     		}
     		catch(Exception e){
     			e.printStackTrace();
