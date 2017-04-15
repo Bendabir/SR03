@@ -19,7 +19,7 @@ public class Games extends Application {
 	}
 	
     @GET
-    @Produces("application/json; charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     public Response get(){
 		ArrayList<Game> lg = dao.Games.all();
 
@@ -27,7 +27,7 @@ public class Games extends Application {
     }	
 	
     @GET
-    @Produces("application/json; charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     @Path("/{game: [0-9]+}")
     public Response get(@PathParam("game") String gameID){
     	Game g = dao.Games.get(Integer.parseInt(gameID));
@@ -42,7 +42,7 @@ public class Games extends Application {
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces("application/json; charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     public Response post(String game){
 		// Getting data from client
 		Game g = this.gson.fromJson(game, Game.class);
@@ -54,7 +54,7 @@ public class Games extends Application {
     
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces("application/json; charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     @Path("/{game: [0-9]+}")    
     public Response put(String gameData, @PathParam("game") String gameID){
     	Game g = this.gson.fromJson(gameData, Game.class);
@@ -65,7 +65,7 @@ public class Games extends Application {
     
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces("application/json; charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     @Path("/{game: [0-9]+}")      
     public Response delete(@PathParam("game") String gameID){
     	return Response.ok(dao.Games.delete(Integer.parseInt(gameID)).toString()).build();

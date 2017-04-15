@@ -19,7 +19,7 @@ public class GameGenres extends Application {
 	}
 	
     @GET
-    @Produces("application/json; charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     public Response get(){
 		ArrayList<GameGenre> lgg = dao.GameGenres.all();
 
@@ -27,7 +27,7 @@ public class GameGenres extends Application {
     }	
 	
     @GET
-    @Produces("application/json; charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     @Path("/{genre}")
     public Response get(@PathParam("genre") String genreName){
     	GameGenre gg = dao.GameGenres.get(genreName);
@@ -42,7 +42,7 @@ public class GameGenres extends Application {
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces("application/json; charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     public Response post(String gameGenre){
 		// Getting data from client
     	GameGenre gg = this.gson.fromJson(gameGenre, GameGenre.class);
@@ -53,7 +53,7 @@ public class GameGenres extends Application {
     // Maybe not useful
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces("application/json; charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     @Path("/{genre}")    
     public Response put(String genreData, @PathParam("genre") String genreName){
     	GameGenre gg = new GameGenre(genreName);
@@ -63,7 +63,7 @@ public class GameGenres extends Application {
     
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces("application/json; charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     @Path("/{genre}")      
     public Response delete(@PathParam("genre") String genreName){
     	return Response.ok(dao.GameGenres.delete(genreName).toString()).build();
