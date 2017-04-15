@@ -10,8 +10,14 @@ public class Order implements Comparable<Order> {
 	private String user; // Perhaps not necessary
 	private ArrayList<OrderLine> lines;
 	
+	public Order(){
+		this.num = null;
+		this.date = null;
+		this.user = null;
+		this.lines = null;
+	}	
+	
 	public Order(Integer num, String date, String user, ArrayList<OrderLine> lines){
-		super();
 		this.num = num;
 		this.date = date;
 		this.user = user;
@@ -19,7 +25,6 @@ public class Order implements Comparable<Order> {
 	}
 	
 	public Order(int num, String date, String user, ArrayList<OrderLine> lines){
-		super();
 		this.num = new Integer(num);
 		this.date = date;
 		this.user = user;
@@ -27,7 +32,6 @@ public class Order implements Comparable<Order> {
 	}	
 	
 	public Order(String user, ArrayList<OrderLine> lines){
-		super();
 		this.num = null;
 		this.date = null;
 		this.user = user;

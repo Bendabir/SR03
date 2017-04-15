@@ -11,10 +11,19 @@ public class Game implements Comparable<Game> {
 	private Integer stock;
 	private ArrayList<String> genres; // Could also use strings instead since a game type is only a name for now
 	
+	public Game(){
+		this.id = null;
+		this.title = null;
+		this.console = null;
+		this.price = null;
+		this.releaseDate = null;
+		this.stock = null;
+		this.genres = null;	
+	}	
+	
 	// MAYBE WE DON'T NEED ALL THESE CONSTRUCTORS BECAUSE BEANS ARE LOADED DIRECTLY FROM JSON
 	
 	public Game(Integer id, String title, String console, Double price, String releaseDate, Integer stock, ArrayList<String> genres) {
-		super();
 		this.id = id;
 		this.title = title;
 		this.console = console;
@@ -25,7 +34,6 @@ public class Game implements Comparable<Game> {
 	}
 	
 	public Game(int id, String title, String console, double price, String releaseDate, int stock, ArrayList<String> genres) {
-		super();
 		this.id = new Integer(id);
 		this.title = title;
 		this.console = console;
@@ -37,7 +45,6 @@ public class Game implements Comparable<Game> {
 	
 	// Building new Game before being inserted in database
 	public Game(String title, String console, Double price, String releaseDate, Integer stock,  ArrayList<String> genres) {
-		super();
 		this.id = null;
 		this.title = title;
 		this.console = console;
@@ -48,7 +55,6 @@ public class Game implements Comparable<Game> {
 	}
 	
 	public Game(String title, String console, double price, String releaseDate, int stock,  ArrayList<String> genres) {
-		super();
 		this.id = null;
 		this.title = title;
 		this.console = console;
@@ -59,7 +65,6 @@ public class Game implements Comparable<Game> {
 	}	
 	
 	public Game(int id){
-		super();
 		this.id = new Integer(id);
 		this.title = null;
 		this.console = null;
@@ -70,7 +75,6 @@ public class Game implements Comparable<Game> {
 	}
 	
 	public Game(Integer id){
-		super();
 		this.id = id;
 		this.title = null;
 		this.console = null;
@@ -82,7 +86,6 @@ public class Game implements Comparable<Game> {
 	
 	// Simplified version of a Game
 	public Game(String title, String console){
-		super();
 		this.id = null;
 		this.title = title;
 		this.console = console;

@@ -3,6 +3,10 @@ package beans;
 public class GameGenre implements Comparable<GameGenre> {
 	private String name;
 	
+	public GameGenre(){
+		this.name = null;
+	}
+	
 	public GameGenre(String name) {
 		this.name = name;
 	}

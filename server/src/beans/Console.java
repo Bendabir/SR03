@@ -6,6 +6,11 @@ package beans;
 public class Console implements Comparable<Console> {
 	private String name;
 	private String launchedDate;
+
+	public Console() {
+		this.name = null;
+		this.launchedDate = null;
+	}	
 	
 	public Console(String name, String launched) {
 		this.name = name;

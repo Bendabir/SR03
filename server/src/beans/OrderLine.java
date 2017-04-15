@@ -8,71 +8,67 @@ public class OrderLine implements Comparable<OrderLine> {
 	private Double unitPrice;
 	private Integer quantity;
 	
+	public OrderLine(){
+		this.game = null;
+		this.unitPrice = null;
+		this.quantity = null;
+	}
+	
 	public OrderLine(Game game, double price, int quantity){
-		super();
 		this.game = game;
 		this.unitPrice = new Double(price);
 		this.quantity = new Integer(quantity);		
 	}
 	
 	public OrderLine(Game game, Double price, Integer quantity){
-		super();		
 		this.game = game;
 		this.unitPrice = price;
 		this.quantity = quantity;		
 	}	
 	
 	public OrderLine(Game game, double price){
-		super();		
 		this.game = game;		
 		this.unitPrice = new Double(price);
 		this.quantity = new Integer(1);
 	}
 	
 	public OrderLine(Game game, Double price){
-		super();		
 		this.game = game;		
 		this.unitPrice = price;
 		this.quantity = new Integer(1);
 	}	
 	
 	public OrderLine(double price, int quantity){
-		super();		
 		this.game = null;
 		this.unitPrice = price;
 		this.quantity = quantity;
 	}
 	
 	public OrderLine(Double price, Integer quantity){
-		super();		
 		this.game = null;
 		this.unitPrice = price;
 		this.quantity = quantity;
 	}	
 	
 	public OrderLine(int quantity){
-		super();		
 		this.game = null;
 		this.unitPrice = null;
 		this.quantity = new Integer(quantity);
 	}
 	
 	public OrderLine(Integer quantity){
-		super();
 		this.game = null;
 		this.unitPrice = null;
 		this.quantity = quantity;
 	}
 	
 	public OrderLine(Game game, int quantity){
-		super();		
 		this.game = game;		
 		this.unitPrice = null;
 		this.quantity = new Integer(quantity);
 	}
 	
 	public OrderLine(Game game, Integer quantity){
-		super();		
 		this.game = game;		
 		this.unitPrice = null;
 		this.quantity = quantity;

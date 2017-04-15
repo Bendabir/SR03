@@ -40,7 +40,7 @@ public class Login extends Application {
 	}
 	
     @GET
-    @Produces("application/json; charset= UTF-8")
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     public Response get(@QueryParam("ticket") String ticket, @Context UriInfo uriInfo, @Context Request request){
     	// Si on a déjà un cookie, on redirige
     	
@@ -69,7 +69,7 @@ public class Login extends Application {
 			                                    .request()
 			                                    .get();
     		
-    		String casInfo = response.readEntity(String.class).replaceAll("cas:", "");
+    		String casInfo = response.readEntity(String.class).replaceAll("cas:", ""); // XML namespace is annoying
     		
     		response.close();
     		
