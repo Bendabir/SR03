@@ -40,32 +40,32 @@ public class Users extends Application {
     	}    	
     }
     
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-    public Response post(String user){
-		// Getting data from client
-    	User u = this.gson.fromJson(user, User.class);
-		
-		return Response.ok(dao.Users.add(u).toString()).build();
-    }
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+//    public Response post(String user){
+//		// Getting data from client
+//    	User u = this.gson.fromJson(user, User.class);
+//		
+//		return Response.ok(dao.Users.add(u).toString()).build();
+//    }
     
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-    @Path("/{user}")    
-    public Response put(String userData, @PathParam("user") String username){
-    	User u = this.gson.fromJson(userData, User.class);
-    	u.setUsername(username);
-    	
-    	return Response.ok(dao.Users.update(u).toString()).build();
-    }
+//    @PUT
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+//    @Path("/{user}")    
+//    public Response put(String userData, @PathParam("user") String username){
+//    	User u = this.gson.fromJson(userData, User.class);
+//    	u.setUsername(username);
+//    	
+//    	return Response.ok(dao.Users.update(u).toString()).build();
+//    }
     
-    @DELETE
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-    @Path("/{user}")      
-    public Response delete(@PathParam("user") String username){
-    	return Response.ok(dao.Users.delete(username).toString()).build();
-    }
+//    @DELETE
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+//    @Path("/{user}")      
+//    public Response delete(@PathParam("user") String username){
+//    	return Response.ok(dao.Users.delete(username).toString()).build();
+//    }
 }
