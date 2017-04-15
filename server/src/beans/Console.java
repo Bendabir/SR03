@@ -1,8 +1,5 @@
 package beans;
 
-// Date constructor for String is deprecated
-// import java.util.Date; 
-
 public class Console implements Comparable<Console> {
 	private String name;
 	private String launchedDate;

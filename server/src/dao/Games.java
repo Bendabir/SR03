@@ -94,8 +94,9 @@ public class Games {
 	}
 
 	// Need to add game types handling
-	public static Boolean add(Game game){
+	public static Game add(Game game){
 		Connection cnx = null;
+		Game g = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
@@ -123,6 +124,8 @@ public class Games {
 			ResultSet res = ps.executeQuery();
 			res.next();
 			
+			Integer gameID = res.getInt("id");
+			
 			// Add genres
 			sql = "INSERT INTO assoc_game_genres_games (genre, game) VALUES (?, ?);";			
 			
@@ -132,24 +135,26 @@ public class Games {
 				ps = cnx.prepareStatement(sql);
 				
 				ps.setString(1, genre);
-				ps.setInt(2, res.getInt("id"));
+				ps.setInt(2, gameID);
 				
 				ps.executeUpdate();			    
 			}
 			
-			DatabaseConnection.getInstance().closeCnx();			
+			DatabaseConnection.getInstance().closeCnx();
+			
+			g = new Game();
+			g.setId(gameID);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			
-			return false;
 		}
 
-		return true;
+		return g;
 	}
 
 	// Need to add game types handling
-	public static Boolean update(Game game){
+	public static Game update(Game game){
 		Connection cnx = null;
+		Game g = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
@@ -189,14 +194,15 @@ public class Games {
 				ps.executeUpdate();			    
 			}			
 			
-			DatabaseConnection.getInstance().closeCnx();			
+			DatabaseConnection.getInstance().closeCnx();	
+			
+			g = new Game();
+			g.setId(game.getId());			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			
-			return false;
 		}
 
-		return true;
+		return g;
 	}	
 	
 	public static Boolean delete(int id){

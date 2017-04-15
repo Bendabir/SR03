@@ -46,8 +46,9 @@ public class GameGenres extends Application {
     public Response post(String gameGenre){
 		// Getting data from client
     	GameGenre gg = this.gson.fromJson(gameGenre, GameGenre.class);
+    	GameGenre gg2 = dao.GameGenres.add(gg);
 		
-		return Response.ok(dao.GameGenres.add(gg).toString()).build();
+		return Response.ok(this.gson.toJson(gg2)).build();
     }
     
     // Maybe not useful
@@ -57,8 +58,9 @@ public class GameGenres extends Application {
     @Path("/{genre}")    
     public Response put(String genreData, @PathParam("genre") String genreName){
     	GameGenre gg = new GameGenre(genreName);
-    	
-    	return Response.ok(dao.GameGenres.update(gg).toString()).build();
+    	GameGenre gg2 = dao.GameGenres.update(gg);
+		
+		return Response.ok(this.gson.toJson(gg2)).build();
     }
     
     @DELETE

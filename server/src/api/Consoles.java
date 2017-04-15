@@ -46,8 +46,9 @@ public class Consoles extends Application {
     public Response post(String console){
 		// Getting data from client
 		Console c = this.gson.fromJson(console, Console.class);
+		Console c2 = dao.Consoles.add(c);
 		
-		return Response.ok(dao.Consoles.add(c).toString()).build();
+		return Response.ok(this.gson.toJson(c2)).build();
     }
     
     @PUT
@@ -56,9 +57,10 @@ public class Consoles extends Application {
     @Path("/{console}")    
     public Response put(String consoleData, @PathParam("console") String consoleName){
     	Console c = this.gson.fromJson(consoleData, Console.class);   	
-    	c.setName(consoleName);
+    	c.setName(consoleName); // USEFUL ?
+    	Console c2 = dao.Consoles.update(c);
     	
-    	return Response.ok(dao.Consoles.update(c).toString()).build();
+    	return Response.ok(this.gson.toJson(c2)).build();
     }
     
     @DELETE

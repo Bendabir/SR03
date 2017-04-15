@@ -46,10 +46,11 @@ public class Games extends Application {
     public Response post(String game){
 		// Getting data from client
 		Game g = this.gson.fromJson(game, Game.class);
+		Game g2 = dao.Games.add(g);
 		
 		// We could also return a 201 (created) HTTP code
 		// return Response.status(Status.CREATED).entity(dao.Games.add(g).toString()).build();
-		return Response.ok(dao.Games.add(g).toString()).build();
+		return Response.ok(this.gson.toJson(g2)).build();
     }
     
     @PUT
@@ -59,8 +60,9 @@ public class Games extends Application {
     public Response put(String gameData, @PathParam("game") String gameID){
     	Game g = this.gson.fromJson(gameData, Game.class);
     	g.setId(Integer.parseInt(gameID));
+    	Game g2 = dao.Games.update(g);
     	
-    	return Response.ok(dao.Games.update(g).toString()).build();
+    	return Response.ok(this.gson.toJson(g2)).build();
     }
     
     @DELETE

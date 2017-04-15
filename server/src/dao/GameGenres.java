@@ -68,8 +68,9 @@ public class GameGenres {
 		return lt;
 	}	
 	
-	public static Boolean add(GameGenre type){
+	public static GameGenre add(GameGenre type){
 		Connection cnx = null;
+		GameGenre gg = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
@@ -83,17 +84,20 @@ public class GameGenres {
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
 			
-			DatabaseConnection.getInstance().closeCnx();			
+			DatabaseConnection.getInstance().closeCnx();
+			
+			gg = new GameGenre(); // Allow us to modify GameGenre in the future without modifying this part
+			gg.setName(type.getName());
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
 
-		return true;
+		return gg;
 	}
 
-	public static Boolean update(GameGenre type){
+	public static GameGenre update(GameGenre type){
 		Connection cnx = null;
+		GameGenre gg = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
@@ -108,13 +112,15 @@ public class GameGenres {
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
 			
-			DatabaseConnection.getInstance().closeCnx();			
+			DatabaseConnection.getInstance().closeCnx();
+			
+			gg = new GameGenre(); // Allow us to modify GameGenre in the future without modifying this part
+			gg.setName(type.getName());			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
 
-		return true;
+		return gg;
 	}	
 	
 	public static Boolean delete(String name){

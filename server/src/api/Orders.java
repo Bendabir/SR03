@@ -56,7 +56,8 @@ public class Orders extends Application {
     public Response post(String order){
 		// Getting data from client
     	Order o = this.gson.fromJson(order, Order.class);
+    	Order o2 = dao.Orders.add(o);
 		
-		return Response.ok(dao.Orders.add(o).toString()).build();
+		return Response.ok(this.gson.toJson(o2)).build();
     }
 }

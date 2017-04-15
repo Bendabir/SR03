@@ -139,8 +139,9 @@ public class Orders{
 		return lo;
 	}	
 
-	public static Boolean add(Order order){
+	public static Order add(Order order){
 		Connection cnx = null;
+		Order o = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
@@ -160,6 +161,8 @@ public class Orders{
 			ps = cnx.prepareStatement(sql);
 			ResultSet res = ps.executeQuery();
 			res.next();
+			
+			Integer orderID = res.getInt("order_num");
 			
 			// Updating lines
 			sql = "INSERT INTO orders_lines (order_num, game, unit_price, quantity) VALUES (?, ?, 0, ?);";
@@ -184,13 +187,15 @@ public class Orders{
 				savePricePs.executeUpdate();
 			}
 			
-			DatabaseConnection.getInstance().closeCnx();			
+			DatabaseConnection.getInstance().closeCnx();
+			
+			o = new Order();
+			o.setNum(orderID);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
 
-		return true;
+		return o;
 	}
 
 	// Orders cannot be updated

@@ -68,8 +68,9 @@ public class Consoles{
 		return lc;
 	}	
 	
-	public static Boolean add(Console console){
+	public static Console add(Console console){
 		Connection cnx = null;
+		Console c = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
@@ -84,17 +85,20 @@ public class Consoles{
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
 			
-			DatabaseConnection.getInstance().closeCnx();			
+			DatabaseConnection.getInstance().closeCnx();
+			
+			c = new Console();
+			c.setName(console.getName());
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
 
-		return true;
+		return c;
 	}
 
-	public static Boolean update(Console console){
+	public static Console update(Console console){
 		Connection cnx = null;
+		Console c = null;
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
@@ -110,13 +114,15 @@ public class Consoles{
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
 			
-			DatabaseConnection.getInstance().closeCnx();			
+			DatabaseConnection.getInstance().closeCnx();
+			
+			c = new Console();
+			c.setName(console.getName());
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
 
-		return true;
+		return c;
 	}	
 	
 	public static Boolean delete(String name){
