@@ -36,7 +36,7 @@ public class SessionChecker{
     		JsonObject jsonError = new JsonObject();
     		jsonError.addProperty("message", "You cannot proccess this operation if you are not admin.");
 			
-			return Response.status(Status.UNAUTHORIZED).entity(gson.toJson(jsonError)).build();
+			return Response.status(Status.FORBIDDEN).entity(gson.toJson(jsonError)).build();
 		}
 		
 		// Else return null saying that we can process 

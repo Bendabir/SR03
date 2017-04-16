@@ -113,8 +113,18 @@ public class Login extends Application {
         			s.setAttribute("lastname", u.getLastName());
         			s.setAttribute("status", u.getStatus());
 
-        			return Response.ok(this.gson.toJson(u)).build(); // Returning user information
-//            		return Response.ok(this.gson.toJson(u)).cookie(new NewCookie("token", "fzeufvhaunfarzfuomazzouriaemo", "/", "localhost", "", 24 * 60 * 60, false)).build();    			
+            		try {
+            			return Response.temporaryRedirect(new URI("./login")).build(); // Redirect to root
+            		}
+            		catch(URISyntaxException e){
+            			e.printStackTrace();
+
+                		JsonObject jsonError = new JsonObject();
+                		jsonError.addProperty("message", "Oops, something went wrong because we don't know how to code. Sorry pal !");
+            			
+            			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(this.gson.toJson(jsonError)).build();
+            		}
+//        			return Response.ok(this.gson.toJson(u)).build(); // Returning user information
         		}
         		catch(Exception e){
         			e.printStackTrace();
@@ -127,18 +137,26 @@ public class Login extends Application {
         	}
     	}
     	else {
-    		// User already logged in, giving information
-    		JsonObject user = new JsonObject();
-    		user.addProperty("username", session.getAttribute("username").toString());
-    		user.addProperty("firstname", session.getAttribute("firstname").toString());
-    		user.addProperty("lastname", session.getAttribute("lastname").toString());
-    		user.addProperty("status", session.getAttribute("status").toString());
+    		User u = new User();
+    		u.setUsername(session.getAttribute("username").toString());
+    		u.setFirstName(session.getAttribute("firstname").toString());
+    		u.setLastName(session.getAttribute("lastname").toString());
+    		u.setStatus(session.getAttribute("status").toString());
     		
-    		JsonObject jsonResponse = new JsonObject();
-    		jsonResponse.addProperty("message", "User already logged in !");
-    		jsonResponse.add("user", user);
+    		return Response.ok(this.gson.toJson(u)).build();
     		
-    		return Response.ok(this.gson.toJson(jsonResponse)).build();
+//    		// User already logged in, giving information
+//    		JsonObject user = new JsonObject();
+//    		user.addProperty("username", session.getAttribute("username").toString());
+//    		user.addProperty("firstname", session.getAttribute("firstname").toString());
+//    		user.addProperty("lastname", session.getAttribute("lastname").toString());
+//    		user.addProperty("status", session.getAttribute("status").toString());
+//    		
+//    		JsonObject jsonResponse = new JsonObject();
+//    		jsonResponse.addProperty("message", "User already logged in !");
+//    		jsonResponse.add("user", user);
+//    		
+//    		return Response.ok(this.gson.toJson(jsonResponse)).build();
     	}
     }	
 }
