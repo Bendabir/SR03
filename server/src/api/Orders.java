@@ -26,7 +26,7 @@ public class Orders extends Application {
 	
 	// GET method for orders from the connected user
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     public Response get(@Context HttpServletRequest baseRequest){
     	HttpSession session = baseRequest.getSession(false);
 
@@ -103,13 +103,33 @@ public class Orders extends Application {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-    public Response post(String order){
-		// Getting data from client
-    	// Need to add a check on session, then modifying username to connected user
-    	
-    	Order o = this.gson.fromJson(order, Order.class);
-    	Order o2 = dao.Orders.add(o);
-		
-		return Response.status(Status.CREATED).entity(this.gson.toJson(o2)).build();
+    public Response post(@Context HttpServletRequest baseRequest, String order){
+    	HttpSession session = baseRequest.getSession(false);
+
+    	// If no session, go to login
+    	if(session == null){
+    		JsonObject jsonError = new JsonObject();
+    		jsonError.addProperty("message", "You cannot proccess this operation if you are not logged in.");
+			
+			return Response.status(Status.UNAUTHORIZED).entity(this.gson.toJson(jsonError)).build();
+    	}
+    	else {
+        	// Getting data from client
+        	Order o = this.gson.fromJson(order, Order.class);
+        	o.setUser(session.getAttribute("username").toString()); // Order for logged user !
+        	
+        	// If no lines, return error
+        	if(o.getLines().isEmpty()){
+        		JsonObject jsonError = new JsonObject();
+        		jsonError.addProperty("message", "You cannot add an order without any purchase.");
+    			
+    			return Response.status(Status.BAD_REQUEST).entity(this.gson.toJson(jsonError)).build();
+        	}
+        	
+        	// If ok, then add
+        	Order o2 = dao.Orders.add(o);
+    		
+    		return Response.status(Status.CREATED).entity(this.gson.toJson(o2)).build();
+    	}
     }
 }
