@@ -1,6 +1,7 @@
 package api;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -40,7 +41,7 @@ public class Orders extends Application {
 		return Response.ok(this.gson.toJson(lo)).build();
     }	
     
-	// GET method for orders from all users
+	// GET method for one order
     @GET
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     @Path("/all/{num: [0-9]+}")
@@ -81,6 +82,12 @@ public class Orders extends Application {
     	HttpSession session = baseRequest.getSession(false);
     	
 		ArrayList<Order> lo = dao.Orders.get(session.getAttribute("username").toString());
+		
+		// Removing username from object
+		for(Iterator<Order> i = lo.iterator(); i.hasNext(); ){
+			Order order = i.next();
+			order.setUser(null);
+		}
 	
 		return Response.ok(this.gson.toJson(lo)).build();
     }	
@@ -109,6 +116,8 @@ public class Orders extends Application {
     		return Response.status(Status.NOT_FOUND).entity(this.gson.toJson(jsonError)).build();    		
     	}	
     	
+    	o.setUser(null); // Removing username
+    	
     	// Else return data
     	return Response.ok(this.gson.toJson(o)).build();   		
     }
@@ -125,6 +134,12 @@ public class Orders extends Application {
     	}
     	
     	ArrayList<Order> lo = dao.Orders.get(user);
+    	
+		// Removing username from object
+		for(Iterator<Order> i = lo.iterator(); i.hasNext(); ){
+			Order order = i.next();
+			order.setUser(null);
+		}
     	
     	return Response.ok(this.gson.toJson(lo)).build();
     }
@@ -149,6 +164,8 @@ public class Orders extends Application {
     		
     		return Response.status(Status.NOT_FOUND).entity(this.gson.toJson(jsonError)).build();
     	}
+    	
+    	o.setUser(null);
     	
 		return Response.ok(this.gson.toJson(o)).build();   		
     }
