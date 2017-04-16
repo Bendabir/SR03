@@ -33,67 +33,67 @@ public class Game implements Comparable<Game> {
 		this.genres = genres;
 	}
 	
-	public Game(int id, String title, String console, double price, String releaseDate, int stock, ArrayList<String> genres) {
-		this.id = new Integer(id);
-		this.title = title;
-		this.console = console;
-		this.price = new Double(price);
-		this.releaseDate = releaseDate;
-		this.stock = new Integer(stock);
-		this.genres = genres;
-	}	
+//	public Game(int id, String title, String console, double price, String releaseDate, int stock, ArrayList<String> genres) {
+//		this.id = new Integer(id);
+//		this.title = title;
+//		this.console = console;
+//		this.price = new Double(price);
+//		this.releaseDate = releaseDate;
+//		this.stock = new Integer(stock);
+//		this.genres = genres;
+//	}	
 	
 	// Building new Game before being inserted in database
-	public Game(String title, String console, Double price, String releaseDate, Integer stock,  ArrayList<String> genres) {
-		this.id = null;
-		this.title = title;
-		this.console = console;
-		this.price = price;
-		this.releaseDate = releaseDate;
-		this.stock = stock;
-		this.genres = genres;
-	}
-	
-	public Game(String title, String console, double price, String releaseDate, int stock,  ArrayList<String> genres) {
-		this.id = null;
-		this.title = title;
-		this.console = console;
-		this.price = new Double(price);
-		this.releaseDate = releaseDate;
-		this.stock = new Integer(stock);
-		this.genres = genres;
-	}	
-	
-	public Game(int id){
-		this.id = new Integer(id);
-		this.title = null;
-		this.console = null;
-		this.price = null;
-		this.releaseDate = null;
-		this.stock = null;
-		this.genres = null;	
-	}
-	
-	public Game(Integer id){
-		this.id = id;
-		this.title = null;
-		this.console = null;
-		this.price = null;
-		this.releaseDate = null;
-		this.stock = null;
-		this.genres = null;	
-	}	
-	
-	// Simplified version of a Game
-	public Game(String title, String console){
-		this.id = null;
-		this.title = title;
-		this.console = console;
-		this.price = null;
-		this.releaseDate = null;
-		this.stock = null;
-		this.genres = null;
-	}
+//	public Game(String title, String console, Double price, String releaseDate, Integer stock,  ArrayList<String> genres) {
+//		this.id = null;
+//		this.title = title;
+//		this.console = console;
+//		this.price = price;
+//		this.releaseDate = releaseDate;
+//		this.stock = stock;
+//		this.genres = genres;
+//	}
+//	
+//	public Game(String title, String console, double price, String releaseDate, int stock,  ArrayList<String> genres) {
+//		this.id = null;
+//		this.title = title;
+//		this.console = console;
+//		this.price = new Double(price);
+//		this.releaseDate = releaseDate;
+//		this.stock = new Integer(stock);
+//		this.genres = genres;
+//	}	
+//	
+//	public Game(int id){
+//		this.id = new Integer(id);
+//		this.title = null;
+//		this.console = null;
+//		this.price = null;
+//		this.releaseDate = null;
+//		this.stock = null;
+//		this.genres = null;	
+//	}
+//	
+//	public Game(Integer id){
+//		this.id = id;
+//		this.title = null;
+//		this.console = null;
+//		this.price = null;
+//		this.releaseDate = null;
+//		this.stock = null;
+//		this.genres = null;	
+//	}	
+//	
+//	// Simplified version of a Game
+//	public Game(String title, String console){
+//		this.id = null;
+//		this.title = title;
+//		this.console = console;
+//		this.price = null;
+//		this.releaseDate = null;
+//		this.stock = null;
+//		this.genres = null;
+//	}
 
 	public Integer getId() {
 		return this.id;

@@ -35,6 +35,10 @@ Le modèle REST est utilisé. On définit les chemins ci-dessous. On utilisera l
 | `PUT /api/users/:user` | Modifie un utilisateur. |
 | `DELETE /api/users/:user` | Supprime un utilisateur. |
 
+Les méthodes `POST`, `PUT` et `DELETE` sont protégées : un utilisateur doit être connecté et il doit posséder les droits administrateurs.
+
+**Les méthodes `POST`, `PUT` et `DELETE` sont désactivées pour le moment.**
+
 #### Jeux
 
 | Chemin | Description |
@@ -44,6 +48,8 @@ Le modèle REST est utilisé. On définit les chemins ci-dessous. On utilisera l
 | `GET /api/games/:game` | Retourne un jeu spécifique. |
 | `PUT /api/games/:game` | Modifie un jeu. |
 | `DELETE /api/games/:game` | Supprime un jeu. |
+
+Les méthodes `POST`, `PUT` et `DELETE` sont protégées : un utilisateur doit être connecté et il doit posséder les droits administrateurs.
 
 #### Consoles
 
@@ -55,6 +61,8 @@ Le modèle REST est utilisé. On définit les chemins ci-dessous. On utilisera l
 | `PUT /api/consoles/:console` | Modifie une console. |
 | `DELETE /api/consoles/:console` | Supprime une console. |
 
+Les méthodes `POST`, `PUT` et `DELETE` sont protégées : un utilisateur doit être connecté et il doit posséder les droits administrateurs.
+
 #### Types de jeu
 
 | Chemin | Description |
@@ -64,28 +72,38 @@ Le modèle REST est utilisé. On définit les chemins ci-dessous. On utilisera l
 | `PUT /api/gameGenres/:gameGenre` | Modifie un type. |
 | `DELETE /api/gameGenres/:gameGenre` | Supprime une type. |
 
+Les méthodes `POST`, `PUT` et `DELETE` sont protégées : un utilisateur doit être connecté et il doit posséder les droits administrateurs.
+
 #### Commandes
 
 | Chemin | Description |
 |:------:|:-----------:|
-| `POST /api/orders` | Ajoute une commande. |
-| `GET /api/orders/:user` | Retourne toutes les commandes d'un utilisateur. |
-| `GET /api/orders/:user/:num` | Retourne une commande d'un utilisateur. |
+| `GET /api/orders` | Retourne toutes les commandes de l'utilisateur connecté. |
+| `GET /api/orders/all` | Retourne toutes les commandes de tous les utilisateurs. **Nécessite les droits administrateurs.** |
+| `GET /api/orders/:num` | Retourne une commande de l'utilisateur connecté. |
+| `GET /api/orders/:user` | Retourne toutes les commandes d'un utilisateur. **Nécessite les droits administrateurs.** |
+| `GET /api/orders/:user/:num` | Retourne une commande d'un utilisateur. **Nécessite les droits administrateurs.** |
+| `POST /api/orders` | Ajoute une commande pour l'utilisateur connecté. |
 
-A voir le type de route : `/api/users/:user/orders` ou `/api/orders/:user` ou `/api/orders` qui retourne uniquement les commandes de l'utilisateur logué.
+Toutes les méthodes sont protégées par une connexion. Certaines méthodes nécessitent des droits supplémentaires. 
 
 #### Paniers
 
 On se propose d'intégrer une route dans l'API qui retourne le panier actuel de l'utilisateur connecté.
 
+| Chemin | Description |
+|:------:|:-----------:|
+| `GET /api/cart` | Retourne le panier de l'utilisateur connecté. |
+| `POST /api/cart` | Ajoute un produit au panier de l'utilisateur connecté. |
+| `PUT /api/cart/:product` | Modifie un produit dans le panier de l'utilisateur connecté. |
+| `DELETE /api/cart/:product` | Supprime un produit du panier de l'utilisateur connecté. |
+
 ## Protections
 
 Les méthodes `POST`, `PUT` et `DELETE` de l'API sont protégées par une session de connexion. La méthode `GET` peut l'être également. 
 
-L'API peut éventuellement implémenter une sécurisation via token (tel que JWT).
-
-Les mots de passes sont tous hashés en base de données tel que `hashed_password = hash(username + password)`. Ainsi, deux utilisateurs peuvent avoir le même mot de passe sans avoir un hash identique. La fonction de hash reste à définir. 
+L'API peut éventuellement implémenter une sécurisation via token (tel que JWT). 
 
 ## Connexions
 
-La méthode de connexion mise en place se fait à travers le CAS de l'UTC.  
+La méthode de connexion mise en place se fait à travers le CAS de l'UTC. Ainsi, aucun mot de passe n'est stocké en base. Toutes les données des utilisateurs sont issues du retour de la connexion CAS. Les utilisateurs ont différents status `user` (par défaut) ou `admin`.

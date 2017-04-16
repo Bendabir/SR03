@@ -23,6 +23,23 @@ public class Orders extends Application {
 		this.gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
 	}
 	
+	// GET method for orders from all users
+    @GET
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+    @Path("/all")
+    public Response getAll(@Context HttpServletRequest baseRequest){
+    	Response error = SessionChecker.checkAdminRight(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+    	
+		ArrayList<Order> lo = dao.Orders.all();
+	
+		return Response.ok(this.gson.toJson(lo)).build();
+    }	
+	
 	// GET method for orders from the connected user
     @GET
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
@@ -70,31 +87,45 @@ public class Orders extends Application {
     	return Response.ok(this.gson.toJson(o)).build();   		
     }
     
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-//    @Path("/{user}")
-//    public Response get(@PathParam("user") String user){
-//    	ArrayList<Order> lo = dao.Orders.get(user);
-//    	
-//    	return Response.ok(this.gson.toJson(lo)).build();
-//    }
-//    
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-//    @Path("/{user}/{num: [0-9]+}")
-//    public Response get(@PathParam("user") String user, @PathParam("num") String orderNum){
-//    	Order o = dao.Orders.get(user, Integer.parseInt(orderNum));
-//    	
-//    	if(o != null){
-//        	return Response.ok(this.gson.toJson(o)).build();   		
-//    	}
-//    	else {
-//    		JsonObject jsonError = new JsonObject();
-//    		jsonError.addProperty("error", "This order for this user doesn't exist.");
-//    		
-//    		return Response.status(Status.NOT_FOUND).entity(this.gson.toJson(jsonError)).build();
-//    	}
-//    }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+    @Path("/{user}")
+    public Response getOne(@Context HttpServletRequest baseRequest, @PathParam("user") String user){
+    	Response error = SessionChecker.checkAdminRight(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+    	
+    	ArrayList<Order> lo = dao.Orders.get(user);
+    	
+    	return Response.ok(this.gson.toJson(lo)).build();
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+    @Path("/{user}/{num: [0-9]+}")
+    public Response getOne(@Context HttpServletRequest baseRequest, @PathParam("user") String user, @PathParam("num") String orderNum){
+    	Response error = SessionChecker.checkAdminRight(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+    	
+    	Order o = dao.Orders.get(user, Integer.parseInt(orderNum));
+    	
+    	// If not found
+    	if(o == null){
+    		JsonObject jsonError = new JsonObject();
+    		jsonError.addProperty("error", "This order for this user doesn't exist.");
+    		
+    		return Response.status(Status.NOT_FOUND).entity(this.gson.toJson(jsonError)).build();
+    	}
+    	
+		return Response.ok(this.gson.toJson(o)).build();   		
+    }
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
