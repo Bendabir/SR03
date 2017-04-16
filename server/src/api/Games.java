@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -36,7 +37,7 @@ public class Games extends Application {
         	return Response.ok(this.gson.toJson(g)).build();   		
     	}
     	else {
-    		return Response.status(404).entity("{\"error\" : \"This game doesn't exist.\"}").build();
+    		return Response.status(Status.NOT_FOUND).entity("{\"error\" : \"This game doesn't exist.\"}").build();
     	}
     }
     
@@ -49,8 +50,7 @@ public class Games extends Application {
 		Game g2 = dao.Games.add(g);
 		
 		// We could also return a 201 (created) HTTP code
-		// return Response.status(Status.CREATED).entity(dao.Games.add(g).toString()).build();
-		return Response.ok(this.gson.toJson(g2)).build();
+		return Response.status(Status.CREATED).entity(this.gson.toJson(g2)).build();
     }
     
     @PUT

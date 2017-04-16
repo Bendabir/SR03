@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -36,7 +37,7 @@ public class GameGenres extends Application {
         	return Response.ok(this.gson.toJson(gg)).build();   		
     	}
     	else {
-    		return Response.status(404).entity("{\"error\" : \"This game genre doesn't exist.\"}").build();
+    		return Response.status(Status.NOT_FOUND).entity("{\"error\" : \"This game genre doesn't exist.\"}").build();
     	}
     }
     
@@ -48,7 +49,7 @@ public class GameGenres extends Application {
     	GameGenre gg = this.gson.fromJson(gameGenre, GameGenre.class);
     	GameGenre gg2 = dao.GameGenres.add(gg);
 		
-		return Response.ok(this.gson.toJson(gg2)).build();
+		return Response.status(Status.CREATED).entity(this.gson.toJson(gg2)).build();
     }
     
     // Maybe not useful

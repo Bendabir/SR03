@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,7 +47,7 @@ public class Orders extends Application {
         	return Response.ok(this.gson.toJson(o)).build();   		
     	}
     	else {
-    		return Response.status(404).entity("{\"error\" : \"This order for this user doesn't exist.\"}").build();
+    		return Response.status(Status.NOT_FOUND).entity("{\"error\" : \"This order for this user doesn't exist.\"}").build();
     	}
     }
     
@@ -58,6 +59,6 @@ public class Orders extends Application {
     	Order o = this.gson.fromJson(order, Order.class);
     	Order o2 = dao.Orders.add(o);
 		
-		return Response.ok(this.gson.toJson(o2)).build();
+		return Response.status(Status.CREATED).entity(this.gson.toJson(o2)).build();
     }
 }

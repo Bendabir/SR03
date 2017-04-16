@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -36,7 +37,7 @@ public class Consoles extends Application {
         	return Response.ok(this.gson.toJson(c)).build();   		
     	}
     	else {
-    		return Response.status(404).entity("{\"error\" : \"This console doesn't exist.\"}").build();
+    		return Response.status(Status.NOT_FOUND).entity("{\"error\" : \"This console doesn't exist.\"}").build();
     	}
     }
     
@@ -48,7 +49,7 @@ public class Consoles extends Application {
 		Console c = this.gson.fromJson(console, Console.class);
 		Console c2 = dao.Consoles.add(c);
 		
-		return Response.ok(this.gson.toJson(c2)).build();
+		return Response.status(Status.CREATED).entity(this.gson.toJson(c2)).build();
     }
     
     @PUT
