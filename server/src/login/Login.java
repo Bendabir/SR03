@@ -102,7 +102,7 @@ public class Login extends Application {
         				dao.Users.add(u);
         			}
         			else {
-        				u = dao.Users.get(u.getUsername());
+        				u = dummy;
         			}
         			
         			// Declaring new session       			
