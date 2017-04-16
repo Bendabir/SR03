@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import beans.User;
 
@@ -37,7 +38,10 @@ public class Users extends Application {
         	return Response.ok(this.gson.toJson(u)).build();   		
     	}
     	else {
-    		return Response.status(Status.NOT_FOUND).entity("{\"error\" : \"This user doesn't exist.\"}").build();
+    		JsonObject jsonError = new JsonObject();
+    		jsonError.addProperty("error", "This user doesn't exist.");
+    		
+    		return Response.status(Status.NOT_FOUND).entity(this.gson.toJson(jsonError)).build();
     	}    	
     }
     

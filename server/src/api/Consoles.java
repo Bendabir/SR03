@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import beans.Console;
 
@@ -37,7 +38,10 @@ public class Consoles extends Application {
         	return Response.ok(this.gson.toJson(c)).build();   		
     	}
     	else {
-    		return Response.status(Status.NOT_FOUND).entity("{\"error\" : \"This console doesn't exist.\"}").build();
+    		JsonObject jsonError = new JsonObject();
+    		jsonError.addProperty("error", "This console doesn't exist.");
+    		
+    		return Response.status(Status.NOT_FOUND).entity(this.gson.toJson(jsonError)).build();
     	}
     }
     
