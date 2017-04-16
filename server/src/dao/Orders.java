@@ -13,6 +13,52 @@ import beans.Order;
 import beans.OrderLine;
 
 public class Orders{
+	public static Order get(int orderNum){
+		Order o = null;
+		Connection cnx = null;
+		
+		try {
+			cnx = DatabaseConnection.getInstance().getCnx();
+			
+			String sql = "SELECT * FROM orders WHERE num = ?;";
+			PreparedStatement ps = cnx.prepareStatement(sql);
+			ps.setInt(1, orderNum);
+			
+			ResultSet res = ps.executeQuery();
+			
+			// What about res.first() ?
+			while(res.next()){
+				// Get lines
+				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
+				PreparedStatement psLines = cnx.prepareStatement(sqlLines);
+				psLines.setInt(1, res.getInt("num"));
+				
+				ArrayList<OrderLine> lines = new ArrayList<OrderLine>();
+				
+				ResultSet resLines = psLines.executeQuery();
+				
+				while(resLines.next()){
+					Game g = new Game();
+					g.setTitle(resLines.getString("game"));
+					g.setConsole(resLines.getString("console"));
+					
+					lines.add(new OrderLine(g, resLines.getDouble("unit_price"), resLines.getInt("quantity")));
+				}
+				
+				o = new Order(res.getInt("num"), res.getString("order_date"), res.getString("user"), lines);
+				break;
+			}
+			
+			res.close();
+			DatabaseConnection.getInstance().closeCnx();			
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		return o;
+	}
+	
 	public static Order get(String user, int orderNum){
 		Order o = null;
 		Connection cnx = null;

@@ -39,6 +39,32 @@ public class Orders extends Application {
 	
 		return Response.ok(this.gson.toJson(lo)).build();
     }	
+    
+	// GET method for orders from all users
+    @GET
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+    @Path("/all/{num: [0-9]+}")
+    public Response getAll(@Context HttpServletRequest baseRequest, @PathParam("num") String orderNum){
+    	Response error = SessionChecker.checkAdminRight(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+    	
+    	Order o = dao.Orders.get(Integer.parseInt(orderNum));
+    	
+    	// If not found, return 404
+    	if(o == null){
+    		JsonObject jsonError = new JsonObject();
+    		jsonError.addProperty("error", "This order doesn't exist.");
+    		
+    		return Response.status(Status.NOT_FOUND).entity(this.gson.toJson(jsonError)).build();    		
+    	}	
+    	
+    	// Else return data
+    	return Response.ok(this.gson.toJson(o)).build();
+    }	    
 	
 	// GET method for orders from the connected user
     @GET

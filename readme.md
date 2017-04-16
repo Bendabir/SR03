@@ -80,6 +80,7 @@ Les méthodes `POST`, `PUT` et `DELETE` sont protégées : un utilisateur doit �
 |:------:|:-----------:|
 | `GET /api/orders` | Retourne toutes les commandes de l'utilisateur connecté. |
 | `GET /api/orders/all` | Retourne toutes les commandes de tous les utilisateurs. **Nécessite les droits administrateurs.** |
+| `GET /api/orders/all/:num` | Retourne une commande. **Nécessite les droits administrateurs.** |
 | `GET /api/orders/:num` | Retourne une commande de l'utilisateur connecté. |
 | `GET /api/orders/:user` | Retourne toutes les commandes d'un utilisateur. **Nécessite les droits administrateurs.** |
 | `GET /api/orders/:user/:num` | Retourne une commande d'un utilisateur. **Nécessite les droits administrateurs.** |
