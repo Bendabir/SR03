@@ -39,7 +39,11 @@ public class Orders{
 				ResultSet resLines = psLines.executeQuery();
 				
 				while(resLines.next()){
-					lines.add(new OrderLine(new Game(resLines.getString("game"), resLines.getString("console")), resLines.getDouble("unit_price"), resLines.getInt("quantity")));
+					Game g = new Game();
+					g.setTitle(resLines.getString("game"));
+					g.setConsole(resLines.getString("console"));
+					
+					lines.add(new OrderLine(g, resLines.getDouble("unit_price"), resLines.getInt("quantity")));
 				}
 				
 				o = new Order(res.getInt("num"), res.getString("order_date"), res.getString("user"), lines);
@@ -82,7 +86,11 @@ public class Orders{
 				ResultSet resLines = psLines.executeQuery();
 				
 				while(resLines.next()){
-					lines.add(new OrderLine(new Game(resLines.getString("game"), resLines.getString("console")), resLines.getDouble("unit_price"), resLines.getInt("quantity")));
+					Game g = new Game();
+					g.setTitle(resLines.getString("game"));
+					g.setConsole(resLines.getString("console"));
+					
+					lines.add(new OrderLine(g, resLines.getDouble("unit_price"), resLines.getInt("quantity")));
 				}
 				
 				lo.add(new Order(res.getInt("num"), res.getString("order_date"), res.getString("user"), lines));
@@ -123,7 +131,11 @@ public class Orders{
 				ResultSet resLines = psLines.executeQuery();
 				
 				while(resLines.next()){
-					lines.add(new OrderLine(new Game(resLines.getString("game"), resLines.getString("console")), resLines.getDouble("unit_price"), resLines.getInt("quantity")));
+					Game g = new Game();
+					g.setTitle(resLines.getString("game"));
+					g.setConsole(resLines.getString("console"));
+					
+					lines.add(new OrderLine(g, resLines.getDouble("unit_price"), resLines.getInt("quantity")));
 				}
 				
 				lo.add(new Order(res.getInt("num"), res.getString("order_date"), res.getString("user"), lines));
