@@ -32,18 +32,10 @@ public class Orders extends Application {
 
     	// If no session, go to login
     	if(session == null){
-    		try {
-    			// What about giving a forbidden response instead of a redirection ?
-        		return Response.temporaryRedirect(new URI("./login")).build();	
-    		}
-    		catch(URISyntaxException e){
-    			e.printStackTrace();
-
-        		JsonObject jsonError = new JsonObject();
-        		jsonError.addProperty("message", "Oops, something went wrong because we don't know how to code. Sorry pal !");
-    			
-    			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(this.gson.toJson(jsonError)).build();
-    		}
+    		JsonObject jsonError = new JsonObject();
+    		jsonError.addProperty("message", "You cannot proccess this operation if you are not logged in.");
+			
+			return Response.status(Status.UNAUTHORIZED).entity(this.gson.toJson(jsonError)).build();
     	}
     	else {
     		// Session found, returning orders from the user
@@ -62,17 +54,10 @@ public class Orders extends Application {
 
     	// If no session, go to login
     	if(session == null){
-    		try {
-        		return Response.temporaryRedirect(new URI("./login")).build();	
-    		}
-    		catch(URISyntaxException e){
-    			e.printStackTrace();
-
-        		JsonObject jsonError = new JsonObject();
-        		jsonError.addProperty("message", "Oops, something went wrong because we don't know how to code. Sorry pal !");
-    			
-    			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(this.gson.toJson(jsonError)).build();
-    		}
+    		JsonObject jsonError = new JsonObject();
+    		jsonError.addProperty("message", "You cannot proccess this operation if you are not logged in.");
+			
+			return Response.status(Status.UNAUTHORIZED).entity(this.gson.toJson(jsonError)).build();
     	}
     	else {
         	Order o = dao.Orders.get(session.getAttribute("username").toString(), Integer.parseInt(orderNum));
