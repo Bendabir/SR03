@@ -2,6 +2,7 @@ package api;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
@@ -11,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import beans.User;
+import utils.SessionChecker;
 
 @Path("/api/users")
 public class Users extends Application {
@@ -22,7 +24,15 @@ public class Users extends Application {
 	
     @GET
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-    public Response get(){
+    public Response get(@Context HttpServletRequest baseRequest){
+    	// Need to be admin to get all users
+    	Response error = SessionChecker.checkAdminRight(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+    	
 		ArrayList<User> lu = dao.Users.all();
 
     	return Response.ok(this.gson.toJson(lu)).build();
@@ -31,24 +41,43 @@ public class Users extends Application {
     @GET
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     @Path("/{user}")
-    public Response get(@PathParam("user") String username){
+    public Response get(@Context HttpServletRequest baseRequest, @PathParam("user") String username){
+    	// Need to be admin to get one users
+    	Response error = SessionChecker.checkAdminRight(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+    	
     	User u = dao.Users.get(username);
     	
-    	if(u != null){
-        	return Response.ok(this.gson.toJson(u)).build();   		
-    	}
-    	else {
+    	// If user not found
+    	if(u == null){
     		JsonObject jsonError = new JsonObject();
     		jsonError.addProperty("error", "This user doesn't exist.");
     		
     		return Response.status(Status.NOT_FOUND).entity(this.gson.toJson(jsonError)).build();
-    	}    	
+    	}
+    	
+    	// Else, return user
+    	return Response.ok(this.gson.toJson(u)).build();   		
     }
+    
+// Following methods are disabled (cannot add a new user from the API, cannot update or delete one as well). 
     
 //    @POST
 //    @Consumes(MediaType.APPLICATION_JSON)
 //    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-//    public Response post(String user){
+//    public Response post(@Context HttpServletRequest baseRequest, String user){
+//    	// Need to be admin to get one users
+//    	Response error = SessionChecker.checkAdminRight(baseRequest);
+//    	
+//    	// If error, then return it
+//    	if(error != null){
+//    		return error;
+//    	}
+//    	
 //		// Getting data from client
 //    	User u = this.gson.fromJson(user, User.class);
 //		
@@ -59,7 +88,15 @@ public class Users extends Application {
 //    @Consumes(MediaType.APPLICATION_JSON)
 //    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 //    @Path("/{user}")    
-//    public Response put(String userData, @PathParam("user") String username){
+//    public Response put(@Context HttpServletRequest baseRequest, String userData, @PathParam("user") String username){
+//    	// Need to be admin to get one users
+//    	Response error = SessionChecker.checkAdminRight(baseRequest);
+//    	
+//    	// If error, then return it
+//    	if(error != null){
+//    		return error;
+//    	}
+//    	
 //    	User u = this.gson.fromJson(userData, User.class);
 //    	u.setUsername(username);
 //    	
@@ -70,7 +107,15 @@ public class Users extends Application {
 //    @Consumes(MediaType.APPLICATION_JSON)
 //    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 //    @Path("/{user}")      
-//    public Response delete(@PathParam("user") String username){
+//    public Response delete(@Context HttpServletRequest baseRequest, @PathParam("user") String username){
+//    	// Need to be admin to get one users
+//    	Response error = SessionChecker.checkAdminRight(baseRequest);
+//    	
+//    	// If error, then return it
+//    	if(error != null){
+//    		return error;
+//    	}
+//    	
 //    	return Response.ok(dao.Users.delete(username).toString()).build();
 //    }
 }

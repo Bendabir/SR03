@@ -2,6 +2,7 @@ package api;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
@@ -11,6 +12,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import beans.GameGenre;
+
+import utils.SessionChecker;
 
 @Path("/api/gameGenres")
 public class GameGenres extends Application {
@@ -48,8 +51,15 @@ public class GameGenres extends Application {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-    public Response post(String gameGenre){
-		// Getting data from client
+    public Response post(@Context HttpServletRequest baseRequest, String gameGenre){
+    	Response error = SessionChecker.checkAdminRight(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+    
+    	// Getting data from client
     	GameGenre gg = this.gson.fromJson(gameGenre, GameGenre.class);
     	GameGenre gg2 = dao.GameGenres.add(gg);
 		
@@ -61,18 +71,35 @@ public class GameGenres extends Application {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     @Path("/{genre}")    
-    public Response put(String genreData, @PathParam("genre") String genreName){
+    public Response put(@Context HttpServletRequest baseRequest, String genreData, @PathParam("genre") String genreName){
+    	Response error = SessionChecker.checkAdminRight(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+    		
+		// Else process
+    	// Getting data from client
     	GameGenre gg = new GameGenre(genreName);
     	GameGenre gg2 = dao.GameGenres.update(gg);
 		
-		return Response.ok(this.gson.toJson(gg2)).build();
+		return Response.ok(this.gson.toJson(gg2)).build();	    	
     }
     
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     @Path("/{genre}")      
-    public Response delete(@PathParam("genre") String genreName){
+    public Response delete(@Context HttpServletRequest baseRequest, @PathParam("genre") String genreName){
+    	Response error = SessionChecker.checkAdminRight(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+    		
+		// Else process
     	return Response.ok(dao.GameGenres.delete(genreName).toString()).build();
     }
 }

@@ -1,7 +1,5 @@
 package api;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import beans.Order;
+import utils.SessionChecker;
 
 @Path("/api/orders")
 public class Orders extends Application {
@@ -28,21 +27,19 @@ public class Orders extends Application {
     @GET
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     public Response get(@Context HttpServletRequest baseRequest){
+    	Response error = SessionChecker.checkSession(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+		
+    	// Session found, returning orders from the user
     	HttpSession session = baseRequest.getSession(false);
-
-    	// If no session, go to login
-    	if(session == null){
-    		JsonObject jsonError = new JsonObject();
-    		jsonError.addProperty("message", "You cannot proccess this operation if you are not logged in.");
-			
-			return Response.status(Status.UNAUTHORIZED).entity(this.gson.toJson(jsonError)).build();
-    	}
-    	else {
-    		// Session found, returning orders from the user
-    		ArrayList<Order> lo = dao.Orders.get(session.getAttribute("username").toString());
-
-        	return Response.ok(this.gson.toJson(lo)).build();
-    	}
+    	
+		ArrayList<Order> lo = dao.Orders.get(session.getAttribute("username").toString());
+	
+		return Response.ok(this.gson.toJson(lo)).build();
     }	
 	
     // Get a specific order of the connected user
@@ -50,28 +47,27 @@ public class Orders extends Application {
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     @Path("/{num: [0-9]+}")
     public Response get(@Context HttpServletRequest baseRequest, @PathParam("num") String orderNum){
+    	Response error = SessionChecker.checkSession(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+    	
     	HttpSession session = baseRequest.getSession(false);
 
-    	// If no session, go to login
-    	if(session == null){
+    	Order o = dao.Orders.get(session.getAttribute("username").toString(), Integer.parseInt(orderNum));
+    	
+    	// If not found, return 404
+    	if(o == null){
     		JsonObject jsonError = new JsonObject();
-    		jsonError.addProperty("message", "You cannot proccess this operation if you are not logged in.");
-			
-			return Response.status(Status.UNAUTHORIZED).entity(this.gson.toJson(jsonError)).build();
-    	}
-    	else {
-        	Order o = dao.Orders.get(session.getAttribute("username").toString(), Integer.parseInt(orderNum));
-        	
-        	if(o != null){
-            	return Response.ok(this.gson.toJson(o)).build();   		
-        	}
-        	else {
-        		JsonObject jsonError = new JsonObject();
-        		jsonError.addProperty("error", "You didn't process this order.");
-        		
-        		return Response.status(Status.NOT_FOUND).entity(this.gson.toJson(jsonError)).build();
-        	}
-    	}
+    		jsonError.addProperty("error", "You didn't process this order.");
+    		
+    		return Response.status(Status.NOT_FOUND).entity(this.gson.toJson(jsonError)).build();    		
+    	}	
+    	
+    	// Else return data
+    	return Response.ok(this.gson.toJson(o)).build();   		
     }
     
 //    @GET
@@ -104,32 +100,30 @@ public class Orders extends Application {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     public Response post(@Context HttpServletRequest baseRequest, String order){
+    	Response error = SessionChecker.checkSession(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+    	
     	HttpSession session = baseRequest.getSession(false);
 
-    	// If no session, go to login
-    	if(session == null){
+    	// Getting data from client
+    	Order o = this.gson.fromJson(order, Order.class);
+    	o.setUser(session.getAttribute("username").toString()); // Order for logged user !
+    	
+    	// If no lines, return error
+    	if(o.getLines().isEmpty()){
     		JsonObject jsonError = new JsonObject();
-    		jsonError.addProperty("message", "You cannot proccess this operation if you are not logged in.");
+    		jsonError.addProperty("message", "You cannot add an order without any purchase.");
 			
-			return Response.status(Status.UNAUTHORIZED).entity(this.gson.toJson(jsonError)).build();
+			return Response.status(Status.BAD_REQUEST).entity(this.gson.toJson(jsonError)).build();
     	}
-    	else {
-        	// Getting data from client
-        	Order o = this.gson.fromJson(order, Order.class);
-        	o.setUser(session.getAttribute("username").toString()); // Order for logged user !
-        	
-        	// If no lines, return error
-        	if(o.getLines().isEmpty()){
-        		JsonObject jsonError = new JsonObject();
-        		jsonError.addProperty("message", "You cannot add an order without any purchase.");
-    			
-    			return Response.status(Status.BAD_REQUEST).entity(this.gson.toJson(jsonError)).build();
-        	}
-        	
-        	// If ok, then add
-        	Order o2 = dao.Orders.add(o);
-    		
-    		return Response.status(Status.CREATED).entity(this.gson.toJson(o2)).build();
-    	}
+    	
+    	// If ok, then add
+    	Order o2 = dao.Orders.add(o);
+		
+		return Response.status(Status.CREATED).entity(this.gson.toJson(o2)).build();
     }
 }

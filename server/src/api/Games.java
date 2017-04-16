@@ -2,6 +2,7 @@ package api;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
@@ -11,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import beans.Game;
+import utils.SessionChecker;
 
 @Path("/api/games")
 public class Games extends Application {
@@ -48,7 +50,14 @@ public class Games extends Application {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-    public Response post(String game){
+    public Response post(@Context HttpServletRequest baseRequest, String game){
+    	Response error = SessionChecker.checkAdminRight(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+    	
 		// Getting data from client
 		Game g = this.gson.fromJson(game, Game.class);
 		Game g2 = dao.Games.add(g);
@@ -61,7 +70,14 @@ public class Games extends Application {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     @Path("/{game: [0-9]+}")    
-    public Response put(String gameData, @PathParam("game") String gameID){
+    public Response put(@Context HttpServletRequest baseRequest, String gameData, @PathParam("game") String gameID){
+    	Response error = SessionChecker.checkAdminRight(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+    	
     	Game g = this.gson.fromJson(gameData, Game.class);
     	g.setId(Integer.parseInt(gameID));
     	Game g2 = dao.Games.update(g);
@@ -73,7 +89,14 @@ public class Games extends Application {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     @Path("/{game: [0-9]+}")      
-    public Response delete(@PathParam("game") String gameID){
+    public Response delete(@Context HttpServletRequest baseRequest, @PathParam("game") String gameID){
+    	Response error = SessionChecker.checkAdminRight(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+    	
     	return Response.ok(dao.Games.delete(Integer.parseInt(gameID)).toString()).build();
     }
 }
