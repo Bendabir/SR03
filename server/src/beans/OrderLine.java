@@ -14,11 +14,11 @@ public class OrderLine implements Comparable<OrderLine> {
 		this.quantity = null;
 	}
 	
-	public OrderLine(Game game, double price, int quantity){
-		this.game = game;
-		this.unitPrice = new Double(price);
-		this.quantity = new Integer(quantity);		
-	}
+//	public OrderLine(Game game, double price, int quantity){
+//		this.game = game;
+//		this.unitPrice = new Double(price);
+//		this.quantity = new Integer(quantity);		
+//	}
 	
 	public OrderLine(Game game, Double price, Integer quantity){
 		this.game = game;
@@ -26,53 +26,53 @@ public class OrderLine implements Comparable<OrderLine> {
 		this.quantity = quantity;		
 	}	
 	
-	public OrderLine(Game game, double price){
-		this.game = game;		
-		this.unitPrice = new Double(price);
-		this.quantity = new Integer(1);
-	}
+//	public OrderLine(Game game, double price){
+//		this.game = game;		
+//		this.unitPrice = new Double(price);
+//		this.quantity = new Integer(1);
+//	}
 	
-	public OrderLine(Game game, Double price){
-		this.game = game;		
-		this.unitPrice = price;
-		this.quantity = new Integer(1);
-	}	
-	
-	public OrderLine(double price, int quantity){
-		this.game = null;
-		this.unitPrice = price;
-		this.quantity = quantity;
-	}
-	
-	public OrderLine(Double price, Integer quantity){
-		this.game = null;
-		this.unitPrice = price;
-		this.quantity = quantity;
-	}	
-	
-	public OrderLine(int quantity){
-		this.game = null;
-		this.unitPrice = null;
-		this.quantity = new Integer(quantity);
-	}
-	
-	public OrderLine(Integer quantity){
-		this.game = null;
-		this.unitPrice = null;
-		this.quantity = quantity;
-	}
-	
-	public OrderLine(Game game, int quantity){
-		this.game = game;		
-		this.unitPrice = null;
-		this.quantity = new Integer(quantity);
-	}
-	
-	public OrderLine(Game game, Integer quantity){
-		this.game = game;		
-		this.unitPrice = null;
-		this.quantity = quantity;
-	}		
+//	public OrderLine(Game game, Double price){
+//		this.game = game;		
+//		this.unitPrice = price;
+//		this.quantity = new Integer(1);
+//	}	
+//	
+//	public OrderLine(double price, int quantity){
+//		this.game = null;
+//		this.unitPrice = price;
+//		this.quantity = quantity;
+//	}
+//	
+//	public OrderLine(Double price, Integer quantity){
+//		this.game = null;
+//		this.unitPrice = price;
+//		this.quantity = quantity;
+//	}	
+//	
+//	public OrderLine(int quantity){
+//		this.game = null;
+//		this.unitPrice = null;
+//		this.quantity = new Integer(quantity);
+//	}
+//	
+//	public OrderLine(Integer quantity){
+//		this.game = null;
+//		this.unitPrice = null;
+//		this.quantity = quantity;
+//	}
+//	
+//	public OrderLine(Game game, int quantity){
+//		this.game = game;		
+//		this.unitPrice = null;
+//		this.quantity = new Integer(quantity);
+//	}
+//	
+//	public OrderLine(Game game, Integer quantity){
+//		this.game = game;		
+//		this.unitPrice = null;
+//		this.quantity = quantity;
+//	}		
 	
 	// SETTERS
 	 public OrderLine setGame(Game game){
