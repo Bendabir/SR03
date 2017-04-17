@@ -10,11 +10,10 @@ import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import beans.Game;
+import beans.Order;
 import beans.OrderLine;
 import utils.SessionChecker;
 
@@ -108,6 +107,7 @@ public class Cart extends Application {
 		
 		// Building game
 		Game g = new Game();
+		g.setId(json.get("game").getAsInt());
 		g.setConsole(tempG.getConsole());
 		g.setTitle(tempG.getTitle());
 		
@@ -213,6 +213,49 @@ public class Cart extends Application {
     	cart.clear(); // Clearing
     	
     	return Response.ok("true").build();
+    }
+    
+    // When called, it validates the current cart in database
+    @GET
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+    @Path("/validate")
+    public Response validate(@Context HttpServletRequest baseRequest){
+    	Response error = SessionChecker.checkSession(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+    	
+    	HttpSession session = baseRequest.getSession(false);
+    	ArrayList<OrderLine> cart = (ArrayList<OrderLine>) session.getAttribute("cart");
+    	
+    	// Creating new order
+    	Order o = new Order();
+    	o.setUser(session.getAttribute("username").toString()); // Order for logged user !
+    	o.setLines(cart); // Setting products inside the order
+    	
+    	// If no lines, return error
+    	if(o.getLines().isEmpty()){
+    		JsonObject jsonError = new JsonObject();
+    		jsonError.addProperty("message", "You cannot add an order without any purchase.");
+			
+			return Response.status(Status.BAD_REQUEST).entity(this.gson.toJson(jsonError)).build();
+    	}
+    	
+    	// If ok, then add
+    	Order o2 = dao.Orders.add(o);
+    	
+    	if(o2 == null){
+    		JsonObject jsonError = new JsonObject();
+    		jsonError.addProperty("message", "Oops, something went wrong because we don't know how to code. Sorry pal !");
+			
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(this.gson.toJson(jsonError)).build();
+    	}
+    	
+    	cart.clear(); // Clearing cart
+		
+		return Response.status(Status.CREATED).entity(this.gson.toJson(o2)).build();
     }
 }
 

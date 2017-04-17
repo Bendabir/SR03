@@ -170,34 +170,34 @@ public class Orders extends Application {
 		return Response.ok(this.gson.toJson(o)).build();   		
     }
     
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-    public Response post(@Context HttpServletRequest baseRequest, String order){
-    	Response error = SessionChecker.checkSession(baseRequest);
-    	
-    	// If error, then return it
-    	if(error != null){
-    		return error;
-    	}
-    	
-    	HttpSession session = baseRequest.getSession(false);
-
-    	// Getting data from client
-    	Order o = this.gson.fromJson(order, Order.class);
-    	o.setUser(session.getAttribute("username").toString()); // Order for logged user !
-    	
-    	// If no lines, return error
-    	if(o.getLines().isEmpty()){
-    		JsonObject jsonError = new JsonObject();
-    		jsonError.addProperty("message", "You cannot add an order without any purchase.");
-			
-			return Response.status(Status.BAD_REQUEST).entity(this.gson.toJson(jsonError)).build();
-    	}
-    	
-    	// If ok, then add
-    	Order o2 = dao.Orders.add(o);
-		
-		return Response.status(Status.CREATED).entity(this.gson.toJson(o2)).build();
-    }
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+//    public Response post(@Context HttpServletRequest baseRequest, String order){
+//    	Response error = SessionChecker.checkSession(baseRequest);
+//    	
+//    	// If error, then return it
+//    	if(error != null){
+//    		return error;
+//    	}
+//    	
+//    	HttpSession session = baseRequest.getSession(false);
+//
+//    	// Getting data from client
+//    	Order o = this.gson.fromJson(order, Order.class);
+//    	o.setUser(session.getAttribute("username").toString()); // Order for logged user !
+//    	
+//    	// If no lines, return error
+//    	if(o.getLines().isEmpty()){
+//    		JsonObject jsonError = new JsonObject();
+//    		jsonError.addProperty("message", "You cannot add an order without any purchase.");
+//			
+//			return Response.status(Status.BAD_REQUEST).entity(this.gson.toJson(jsonError)).build();
+//    	}
+//    	
+//    	// If ok, then add
+//    	Order o2 = dao.Orders.add(o);
+//		
+//		return Response.status(Status.CREATED).entity(this.gson.toJson(o2)).build();
+//    }
 }

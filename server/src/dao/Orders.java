@@ -229,7 +229,7 @@ public class Orders{
 				OrderLine line = i.next();
 				
 				ps = cnx.prepareStatement(sql);
-				ps.setInt(1, res.getInt("order_num"));
+				ps.setInt(1, orderID);
 				ps.setInt(2, line.getGame().getId());
 				ps.setInt(3, line.getQuantity());
 				
@@ -239,7 +239,7 @@ public class Orders{
 				String savePriceSql = "UPDATE orders_lines SET unit_price = (SELECT price FROM games WHERE id = ?) WHERE order_num = ? AND game = ?;";
 				PreparedStatement savePricePs = cnx.prepareStatement(savePriceSql);
 				savePricePs.setInt(1, line.getGame().getId());				
-				savePricePs.setInt(2, res.getInt("order_num"));
+				savePricePs.setInt(2, orderID);
 				savePricePs.setInt(3, line.getGame().getId());
 				
 				savePricePs.executeUpdate();
@@ -247,6 +247,7 @@ public class Orders{
 			
 			DatabaseConnection.getInstance().closeCnx();
 			
+			// For response
 			o = new Order();
 			o.setNum(orderID);
 		} catch (SQLException e) {

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Order implements Comparable<Order> {
 	private Integer num;
 	private String date;
-	private String user; // Perhaps not necessary
+	private String user;
 	private ArrayList<OrderLine> lines;
 	
 	public Order(){

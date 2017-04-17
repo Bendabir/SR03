@@ -84,7 +84,6 @@ Les méthodes `POST`, `PUT` et `DELETE` sont protégées : un utilisateur doit �
 | `GET /api/orders/:num` | Retourne une commande de l'utilisateur connecté. |
 | `GET /api/orders/:user` | Retourne toutes les commandes d'un utilisateur. **Nécessite les droits administrateurs.** |
 | `GET /api/orders/:user/:num` | Retourne une commande d'un utilisateur. **Nécessite les droits administrateurs.** |
-| `POST /api/orders` | Ajoute une commande pour l'utilisateur connecté. |
 
 Toutes les méthodes sont protégées par une connexion. Certaines méthodes nécessitent des droits supplémentaires. 
 
@@ -95,6 +94,7 @@ On se propose d'intégrer une route dans l'API qui retourne le panier actuel de 
 | Chemin | Description |
 |:------:|:-----------:|
 | `GET /api/cart` | Retourne le panier de l'utilisateur connecté. |
+| `GET /api/cart/validate` | Sauvegarde le panier courant de l'utilisateur connecté en base. |
 | `POST /api/cart` | Ajoute un produit au panier de l'utilisateur connecté. |
 | `PUT /api/cart/:product` | Modifie un produit dans le panier de l'utilisateur connecté. |
 | `DELETE /api/cart/:product` | Supprime un produit du panier de l'utilisateur connecté. |
