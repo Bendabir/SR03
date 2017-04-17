@@ -134,7 +134,6 @@ public class Login extends Application {
             			
             			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(this.gson.toJson(jsonError)).build();
             		}
-//        			return Response.ok(this.gson.toJson(u)).build(); // Returning user information
         		}
         		catch(Exception e){
         			e.printStackTrace();
@@ -154,19 +153,6 @@ public class Login extends Application {
     		u.setStatus(session.getAttribute("status").toString());
     		
     		return Response.ok(this.gson.toJson(u)).build();
-    		
-//    		// User already logged in, giving information
-//    		JsonObject user = new JsonObject();
-//    		user.addProperty("username", session.getAttribute("username").toString());
-//    		user.addProperty("firstname", session.getAttribute("firstname").toString());
-//    		user.addProperty("lastname", session.getAttribute("lastname").toString());
-//    		user.addProperty("status", session.getAttribute("status").toString());
-//    		
-//    		JsonObject jsonResponse = new JsonObject();
-//    		jsonResponse.addProperty("message", "User already logged in !");
-//    		jsonResponse.add("user", user);
-//    		
-//    		return Response.ok(this.gson.toJson(jsonResponse)).build();
     	}
     }	
 }

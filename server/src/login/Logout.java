@@ -35,6 +35,7 @@ public class Logout extends Application {
     public Response get(@Context Request request, @Context HttpServletRequest baseRequest){
     	HttpSession session = baseRequest.getSession(false);
     	
+    	// If not logged in
     	if(session == null){
     		JsonObject jsonError = new JsonObject();
     		jsonError.addProperty("message", "You cannot log out if you are not logged in.");

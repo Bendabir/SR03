@@ -24,20 +24,6 @@ public class Order implements Comparable<Order> {
 		this.lines = lines;
 	}
 	
-//	public Order(int num, String date, String user, ArrayList<OrderLine> lines){
-//		this.num = new Integer(num);
-//		this.date = date;
-//		this.user = user;
-//		this.lines = lines;
-//	}	
-//	
-//	public Order(String user, ArrayList<OrderLine> lines){
-//		this.num = null;
-//		this.date = null;
-//		this.user = user;
-//		this.lines = lines;
-//	}
-	
 	// SETTERS
 	public Order setNum(int num){
 		this.num = new Integer(num);
