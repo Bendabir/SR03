@@ -1,6 +1,7 @@
 package api;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -83,7 +84,8 @@ public class Cart extends Application {
     	
     	// Getting data from client
     	JsonObject json = this.gson.fromJson(product, JsonObject.class);
-    	
+    	HttpSession session = baseRequest.getSession(false);		
+    	ArrayList<OrderLine> cart = (ArrayList<OrderLine>) session.getAttribute("cart");
 		OrderLine p = new OrderLine();
 		p.setQuantity(json.get("quantity").getAsInt());
 		
@@ -105,18 +107,29 @@ public class Cart extends Application {
     		return Response.status(Status.BAD_REQUEST).entity(this.gson.toJson(jsonError)).build();
 		}
 		
+		// Check if game is not already in cart
+		for(Iterator<OrderLine> i = cart.iterator(); i.hasNext(); ){
+			OrderLine ol = i.next();
+			
+			if(ol.getGame().getId() == json.get("game").getAsInt()){
+				JsonObject jsonError = new JsonObject();
+	    		jsonError.addProperty("error", "The game you want to add is already in cart. Please modify it instead.");
+	    		
+	    		return Response.status(Status.BAD_REQUEST).entity(this.gson.toJson(jsonError)).build();
+			}
+		}
+		
 		// Building game
 		Game g = new Game();
 		g.setId(json.get("game").getAsInt());
 		g.setConsole(tempG.getConsole());
 		g.setTitle(tempG.getTitle());
 		
-		p.setGame(g);
-		
-    	HttpSession session = baseRequest.getSession(false);		
-    	ArrayList<OrderLine> cart = (ArrayList<OrderLine>) session.getAttribute("cart");
+		p.setGame(g); // Set game in product information
+
     	cart.add(p); // Add product to cart
     	
+    	// Responding with cart game index
 		JsonObject jsonResponse = new JsonObject();
 		jsonResponse.addProperty("product", cart.size() - 1);
     	
