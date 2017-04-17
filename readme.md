@@ -37,7 +37,7 @@ Le modèle REST est utilisé. On définit les chemins ci-dessous. On utilisera l
 
 Les méthodes `POST`, `PUT` et `DELETE` sont protégées : un utilisateur doit être connecté et il doit posséder les droits administrateurs.
 
-**Les méthodes `POST`, `PUT` et `DELETE` sont désactivées pour le moment.**
+**Les méthodes `POST`, `PUT` et `DELETE` sont désactivées pour le moment.** Les utilisateurs sont créés automatiquement via le retour du CAS. Leur modification n'a pas vraiment de sens. On peut éventuellement implémenter la suppression d'un utilisateur (uniquement sur l'utilisateur connecté ou si l'on possède les droits administrateur).
 
 #### Jeux
 
@@ -94,7 +94,7 @@ On se propose d'intégrer une route dans l'API qui retourne le panier actuel de 
 | Chemin | Description |
 |:------:|:-----------:|
 | `GET /api/cart` | Retourne le panier de l'utilisateur connecté. |
-| `GET /api/cart/validate` | Sauvegarde le panier courant de l'utilisateur connecté en base. |
+| `GET /api/cart/validate` | Sauvegarde le panier courant de l'utilisateur connecté en base (achat). |
 | `POST /api/cart` | Ajoute un produit au panier de l'utilisateur connecté. |
 | `PUT /api/cart/:product` | Modifie un produit dans le panier de l'utilisateur connecté. |
 | `DELETE /api/cart/:product` | Supprime un produit du panier de l'utilisateur connecté. |
@@ -108,4 +108,4 @@ L'API peut éventuellement implémenter une sécurisation via token (tel que JWT
 
 ## Connexions
 
-La méthode de connexion mise en place se fait à travers le CAS de l'UTC. Ainsi, aucun mot de passe n'est stocké en base. Toutes les données des utilisateurs sont issues du retour de la connexion CAS. Les utilisateurs ont différents status `user` (par défaut) ou `admin`.
+La méthode de connexion mise en place se fait à travers le CAS de l'UTC. Ainsi, aucun mot de passe n'est stocké en base. Toutes les données des utilisateurs sont issues du retour de la connexion CAS. Les utilisateurs ont différents statuts `user` (par défaut) ou `admin`.
