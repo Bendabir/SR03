@@ -2,6 +2,7 @@ package login;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import beans.User;
+import beans.OrderLine;
 
 @Path("/login")
 public class Login extends Application {
@@ -84,7 +86,14 @@ public class Login extends Application {
         			InputSource is = new InputSource(new StringReader(casInfo));
         			Document info = builder.parse(is);
         			
-        			// Need to add a check on authenticationSuccess or authenticatonFailure ?
+        			// Check authenticationSuccess
+        			if(info.getElementsByTagName("authenticationFailure").item(0) != null){
+                		JsonObject jsonError = new JsonObject();
+                		jsonError.addProperty("message", "The CAS authentication failed.");
+                		jsonError.addProperty("error", info.getElementsByTagName("_").toString());
+            			
+            			return Response.status(Status.SERVICE_UNAVAILABLE).entity(this.gson.toJson(jsonError)).build();
+        			}
         			
         			// Building user
         			User u = new User();
@@ -112,6 +121,7 @@ public class Login extends Application {
         			s.setAttribute("firstname", u.getFirstName());
         			s.setAttribute("lastname", u.getLastName());
         			s.setAttribute("status", u.getStatus());
+        			s.setAttribute("cart", new ArrayList<OrderLine>()); // Preparing orders
 
             		try {
             			return Response.temporaryRedirect(new URI("./login")).build(); // Redirect to root
