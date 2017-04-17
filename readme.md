@@ -98,6 +98,7 @@ On se propose d'intégrer une route dans l'API qui retourne le panier actuel de 
 | `POST /api/cart` | Ajoute un produit au panier de l'utilisateur connecté. |
 | `PUT /api/cart/:product` | Modifie un produit dans le panier de l'utilisateur connecté. |
 | `DELETE /api/cart/:product` | Supprime un produit du panier de l'utilisateur connecté. |
+| `DELETE /api/cart` | Supprime tous les produits du panier de l'utilisateur connecté. |
 
 ## Protections
 

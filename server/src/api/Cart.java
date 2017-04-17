@@ -193,6 +193,26 @@ public class Cart extends Application {
     	cart.remove(index); // Removing item
     	
     	return Response.ok("true").build(); 
-    }    
+    }
+    
+    // Empty all cart
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+    public Response clear(@Context HttpServletRequest baseRequest){
+    	Response error = SessionChecker.checkSession(baseRequest);
+    	
+    	// If error, then return it
+    	if(error != null){
+    		return error;
+    	}
+    	
+    	HttpSession session = baseRequest.getSession(false);		
+    	ArrayList<OrderLine> cart = (ArrayList<OrderLine>) session.getAttribute("cart");
+    	
+    	cart.clear(); // Clearing
+    	
+    	return Response.ok("true").build();
+    }
 }
 
