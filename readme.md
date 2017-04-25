@@ -100,6 +100,8 @@ On se propose d'intégrer une route dans l'API qui retourne le panier actuel de 
 | `DELETE /api/cart/:product` | Supprime un produit du panier de l'utilisateur connecté. |
 | `DELETE /api/cart` | Supprime tous les produits du panier de l'utilisateur connecté. |
 
+`:product` identifie l'index du produit dans le panier (le premier article a l'index 0, le deuxième 1, etc.).
+
 ## Protections
 
 Les méthodes `POST`, `PUT` et `DELETE` de l'API sont protégées par une session de connexion. La méthode `GET` peut l'être également. 
