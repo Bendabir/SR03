@@ -135,7 +135,7 @@ La méthode de connexion mise en place se fait à travers le CAS de l'UTC. Ainsi
 
 On utilise le framework Material Design Light (MDL) de Google. Il ne fournit qu'un framework CSS simple et efficace (sans framework JavaScript).
 
-Disponible ![ici](https://getmdl.io).
+Disponible [ici](https://getmdl.io).
 
 #### JavaScript
 
