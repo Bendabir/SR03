@@ -13,6 +13,19 @@ Votre projet devra au moins suivre les éléments suivant :
 * Prévoir un système de panier pour la partie vente.
 * L'utilisation de frameworks javascript est interdit, sauf si vous développez le votre.
 
+### Server-side
+
+* Paramétrage et utilisation d'un serveur d'application JAVA (WildFly 10.1).
+* Mise en place d'une BDD.
+* En JAVA mise en place de plusieurs webservices REST qui retourneront des résultats de la BDD.
+* Mettre en pratique la sécurisation de cette partie.
+
+### Client-side
+
+* Développement d'un site web en JAVA ou PHP qui va intéragir avec vos webservices de la 1er partie.
+* Développement d'une application mobile ( Android ou IOS ) qui va intéragir avec vos webservices de la 1er partie.
+* Mettre en pratique la sécurisation de cette partie.
+
 ## Structure de la BDD
 
 On implémente le modèle relationnel suivant :
