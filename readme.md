@@ -26,7 +26,9 @@ Votre projet devra au moins suivre les éléments suivant :
 * Développement d'une application mobile ( Android ou IOS ) qui va intéragir avec vos webservices de la 1er partie.
 * Mettre en pratique la sécurisation de cette partie.
 
-## Structure de la BDD
+## Réalisation côté serveur
+
+### Structure de la BDD
 
 On implémente le modèle relationnel suivant :
 
@@ -34,7 +36,7 @@ On implémente le modèle relationnel suivant :
 
 On se propose d'ajouter un clef artificielle `ID` pour les jeux afin de simplifier leur référencement. Les commandes (`orders`) sont identifiées par un ID unique également.
 
-## API
+### API
 
 Le modèle REST est utilisé. On définit les chemins ci-dessous. On utilisera le format JSON comme format de données dans les retours de l'API.
 
@@ -115,12 +117,28 @@ On se propose d'intégrer une route dans l'API qui retourne le panier actuel de 
 
 `:product` identifie l'index du produit dans le panier (le premier article a l'index 0, le deuxième 1, etc.).   
 
-## Protections
+### Protections
 
 Les méthodes `POST`, `PUT` et `DELETE` de l'API sont protégées par une session de connexion. La méthode `GET` peut l'être également. 
 
 L'API peut éventuellement implémenter une sécurisation via token (tel que JWT). 
 
-## Connexions
+### Connexions
 
 La méthode de connexion mise en place se fait à travers le CAS de l'UTC. Ainsi, aucun mot de passe n'est stocké en base. Toutes les données des utilisateurs sont issues du retour de la connexion CAS. Les utilisateurs ont différents statuts `user` (par défaut) ou `admin`.
+
+## Réalisation côté client
+
+### Version web
+
+#### CSS
+
+On utilise le framework Material Design Light (MDL) de Google. Il ne fournit qu'un framework CSS simple et efficace (sans framework JavaScript).
+
+Disponible ![ici](https://getmdl.io).
+
+#### JavaScript
+
+Afin de simplifier nos requêtes et plus généralement notre code, nous avons développé notre propre framework JavaScript sur un concept similaire à celui d'Angular.
+
+### Application Android
