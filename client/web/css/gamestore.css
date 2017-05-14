@@ -21,5 +21,10 @@ footer p {
 
 #just-cause-3-pc > .mdl-card__title {
   color: #fff;
-  background: url('../img/just_cause_3_pc.jpg') center / cover;
+  background: url('../img/just_cause_3_pc.jpg') bottom right no-repeat rgb(33, 150, 243);
+}
+
+#minecraft-pc > .mdl-card__title {
+  color: #fff;
+  background: url('../img/minecraft_pc.jpg') bottom right no-repeat rgb(33, 150, 243);
 }
