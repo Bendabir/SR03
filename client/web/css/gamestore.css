@@ -15,16 +15,12 @@ footer p {
 	width: 100%;
 }
 
+.game-card > .mdl-card__title {
+  color: #fff;
+  background: #2E2E2E;
+  height: 150px;
+}
+
 .demo-card-wide {
 	width: 100%;
-}
-
-#just-cause-3-pc > .mdl-card__title {
-  color: #fff;
-  background: url('../img/just_cause_3_pc.jpg') bottom right no-repeat rgb(33, 150, 243);
-}
-
-#minecraft-pc > .mdl-card__title {
-  color: #fff;
-  background: url('../img/minecraft_pc.jpg') bottom right no-repeat rgb(33, 150, 243);
 }
