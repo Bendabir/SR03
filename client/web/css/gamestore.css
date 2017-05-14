@@ -1,16 +1,25 @@
-.demo div {
+/*.demo div {
 	background-color: #BDBDBD;
 	color: white;
     height: 200px;
     padding-left: 8px;
     padding-top: 4px;
-}
+}*/
 
 footer p {
 	text-align: center;
 	width: 100%;
 }
 
+.game-card {
+	width: 100%;
+}
+
 .demo-card-wide {
 	width: 100%;
+}
+
+#just-cause-3-pc > .mdl-card__title {
+  color: #fff;
+  background: url('../img/just_cause_3_pc.jpg') center / cover;
 }
