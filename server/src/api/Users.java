@@ -3,6 +3,7 @@ package api;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
@@ -20,6 +21,25 @@ public class Users extends Application {
 	
 	public Users(){
 		this.gson = new GsonBuilder().setPrettyPrinting().create(); // Human readable
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+	@Path("/me")
+	public Response getMe(@Context HttpServletRequest baseRequest){
+		// Check if user is connected
+		Response error = SessionChecker.checkSession(baseRequest);
+		
+		// If not, returning error
+		if(error != null){
+			return error;
+		}
+		
+		HttpSession session = baseRequest.getSession(false);
+		User u = dao.Users.get(session.getAttribute("username").toString());
+		
+		// Building JSON object with user informations
+		return Response.ok(this.gson.toJson(u)).build();
 	}
 	
     @GET

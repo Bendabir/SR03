@@ -75,9 +75,15 @@ public class Login extends Application {
         		// If we have the "ticket" parameter
         		// Validate the service through CAS
         		// Read XML response with user information
+        		
+        		// We need to check on the callback url as well
+        		if(callback == null){
+        			callback = "";
+        		}
+        		
         		Response response = ClientBuilder.newClient()
     			    								.target(this.config.getProperty("casServiceValidateEndPoint"))
-    			    								.queryParam("service", this.config.getProperty("endPoint") + "/server/login")
+    			    								.queryParam("service", this.config.getProperty("endPoint") + "/server/login" + (!callback.equals("") ? ("?callback=" + callback) : ""))
     			                                    .queryParam("ticket", ticket)
     			                                    .request()
     			                                    .get();
@@ -180,7 +186,7 @@ public class Login extends Application {
     		else {
     			// Sending information to the client
     			try {
-    				return Response.temporaryRedirect(new URI(callback)).entity(this.gson.toJson(user)).build();
+    				return Response.temporaryRedirect(new URI(callback + "?token=" + session.getId())).entity(this.gson.toJson(user)).build();
     			}
         		catch(URISyntaxException e){
         			e.printStackTrace();
