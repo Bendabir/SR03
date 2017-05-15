@@ -15,15 +15,20 @@
 
 		// Retrieving user information
 		$headers = array(
-			"Cookie" => "JSESSIONID=".$_SESSION["JSESSIONID"]
+			"Cookie" => "JSESSIONID=".$_SESSION["JSESSIONID"] // Setting cookie 
 		);
 		$userRequest = Requests::get($apiEndPoint."/users/me", $headers);
 		$user = $userRequest->body;
+		$user = json_decode($user, true);
 
-		echo $user;
+		// Parsing and storing in session
+		$_SESSION["username"] = $user["username"];
+		$_SESSION["firstname"] = $user["firstName"];
+		$_SESSION["lastname"] = $user["lastName"];
+		$_SESSION["status"] = $user["status"];
 
 		// Going to root
-		// header("Location: ./");
+		header("Location: ./");
 	}
 	else {
 		// Else check if connected
