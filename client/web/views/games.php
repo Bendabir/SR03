@@ -1,7 +1,11 @@
 <?php 
-	require_once("./config.php");
+	require_once("./utils/config.php");
+	require_once("./libraries/Requests.php");
 
-	$games = file_get_contents($apiEndPoint."/games");
+	Requests::register_autoloader();
+
+	$gamesRequest = Requests::get($apiEndPoint."/games");
+	$games = $gamesRequest->body;
 
 	// Building interface from games
 	$games = json_decode($games, true);
@@ -41,7 +45,7 @@
 					echo			"<p>".$g["description"]."</p>";
 					echo			"<p>";
 					echo 				"<b>Editeur:</b> ".$g["publisher"]."<br />";
-					echo				"<b>Date de sortie:</b> ".$g["releaseDate"]."<br />";
+					echo				"<b>Date de sortie:</b> ".date_format(date_create($g["releaseDate"]), "d/m/Y")."<br />";
 					echo				"<b>Genre:</b> ".$genres."<br />";
 					echo				"<b>Prix:</b> ".number_format($g["price"], 2, ",", " ")."€";
 					echo 			"</p>";
