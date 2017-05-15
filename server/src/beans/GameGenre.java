@@ -2,13 +2,16 @@ package beans;
 
 public class GameGenre implements Comparable<GameGenre> {
 	private String name;
+	private String description;
 	
 	public GameGenre(){
 		this.name = null;
+		this.description = null;
 	}
 	
 	public GameGenre(String name) {
 		this.name = name;
+		this.description = null;
 	}
 	
 	// SETTERS
@@ -16,10 +19,19 @@ public class GameGenre implements Comparable<GameGenre> {
 		this.name = uname;
 		return this;
 	}
+	
+	public GameGenre setDescription(String d){
+		this.description = d;
+		return this;
+	}
 
 	// GETTERS
 	public String getName(){
 		return this.name;
+	}
+	
+	public String getDescription(){
+		return this.description;
 	}
 	
 	@Override

@@ -27,6 +27,7 @@ public class GameGenres {
 			
 			while(res.next()){
 				t = new GameGenre(res.getString("name"));
+				t.setDescription(res.getString("description"));
 				break;
 			}
 			
@@ -55,7 +56,10 @@ public class GameGenres {
 			ResultSet res = ps.executeQuery();
 			
 			while(res.next()){
-				lt.add(new GameGenre(res.getString("name")));
+				GameGenre t = new GameGenre(res.getString("name"));
+				t.setDescription(res.getString("description"));
+				
+				lt.add(t);
 			}
 			
 			res.close();
@@ -76,10 +80,11 @@ public class GameGenres {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
 			// Requête
-			String sql = "INSERT INTO game_genres (name) VALUES (?);";
+			String sql = "INSERT INTO game_genres (name, description) VALUES (?, ?);";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, type.getName());
+			ps.setString(2, type.getDescription());
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
@@ -103,11 +108,12 @@ public class GameGenres {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
 			// Requête
-			String sql = "UPDATE game_genres SET name = ? WHERE name = ?";
+			String sql = "UPDATE game_genres SET name = ?, description = ? WHERE name = ?";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, type.getName());
-			ps.setString(2, type.getName());			
+			ps.setString(2, type.getDescription());
+			ps.setString(3, type.getName());			
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
