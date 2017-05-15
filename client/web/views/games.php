@@ -22,15 +22,25 @@
 						$genres .= $ge;
 					}
 
+					// Checking on fields
+					if(!isset($g["publisher"])){
+						$g["publisher"] = "Inconnu";
+					}
+
+					if(!isset($g["description"])){
+						$g["description"] = "Pas de description.";
+					}
+
+					// Building card
 					echo "<div class=\"mdl-cell mdl-cell--3-col mdl-cell--12-col-phone\">";
 					echo	"<div class=\"game-card mdl-card mdl-shadow--2dp\">";
 					echo		"<div class=\"mdl-card__title mdl-card--expand\">";
 					echo			"<h2 class=\"mdl-card__title-text\">".$g["title"]."<br />(".$g["console"].")</h2>";
 					echo		"</div>";
 					echo		"<div class=\"mdl-card__supporting-text\">";
-					echo			"<p>Pas de description.</p>";
+					echo			"<p>".$g["description"]."</p>";
 					echo			"<p>";
-					echo 				"<b>Editeur:</b> Inconnu<br />";
+					echo 				"<b>Editeur:</b> ".$g["publisher"]."<br />";
 					echo				"<b>Date de sortie:</b> ".$g["releaseDate"]."<br />";
 					echo				"<b>Genre:</b> ".$genres."<br />";
 					echo				"<b>Prix:</b> ".number_format($g["price"], 2, ",", " ")."€";

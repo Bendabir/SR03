@@ -40,6 +40,7 @@ public class Games {
 			
 			while(res.next()){
 				g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getDouble("price"), res.getString("release_date"), res.getInt("stock"), genres);
+				g.setPublisher(res.getString("publisher")).setDescription(res.getString("description"));
 				break;
 			}
 			
@@ -80,7 +81,10 @@ public class Games {
 					genres.add(resGenres.getString("genre"));
 				}
 				
-				lg.add(new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getDouble("price"), res.getString("release_date"), res.getInt("stock"), genres));
+				Game g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getDouble("price"), res.getString("release_date"), res.getInt("stock"), genres);
+				g.setPublisher(res.getString("publisher")).setDescription(res.getString("description"));
+				
+				lg.add(g);
 			}
 			
 			res.close();
@@ -101,15 +105,36 @@ public class Games {
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
+			// First inserting the publisher if not already in database
+			// Could use a regex to improve the test
+			String publisherSql = "SELECT * FROM publisher WHERE LOWER(name) = LOWER(?);";
+			PreparedStatement publisherPs = cnx.prepareStatement(publisherSql);
+			publisherPs.setString(1, game.getPublisher());
+			ResultSet publisherRes = publisherPs.executeQuery();
+			
+			// If we have a result, we update the publisher with the good name (could be a bit different)
+			if(publisherRes.next()){
+				game.setPublisher(publisherRes.getString("name"));
+			}
+			// Otherwise, let's add it in the db
+			else {
+				String addPublisherSql = "INSERT INTO publisher (name) VALUES (?);";
+				PreparedStatement addPublisherPs = cnx.prepareStatement(addPublisherSql);
+				addPublisherPs.setString(1, game.getPublisher());
+				addPublisherPs.executeQuery();
+			}
+			
 			// Requête
-			String sql = "INSERT INTO games (title, console, price, release_date, stock) VALUES (?, ?, ?, ?, ?);";
+			String sql = "INSERT INTO games (title, console, price, publisher, release_date, description, stock) VALUES (?, ?, ?, ?, ?, ?, ?);";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, game.getTitle());
 			ps.setString(2, game.getConsole());
 			ps.setDouble(3, game.getPrice().doubleValue());
-			ps.setString(4, game.getReleaseDate());
-			ps.setInt(5, game.getStock().intValue());
+			ps.setString(4, game.getPublisher());
+			ps.setString(5, game.getReleaseDate());
+			ps.setString(6, game.getDescription());
+			ps.setInt(7, game.getStock().intValue());
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
@@ -159,8 +184,27 @@ public class Games {
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
+			// First inserting the publisher if not already in database
+			// Could use a regex to improve the test
+			String publisherSql = "SELECT * FROM publisher WHERE LOWER(name) = LOWER(?);";
+			PreparedStatement publisherPs = cnx.prepareStatement(publisherSql);
+			publisherPs.setString(1, game.getPublisher());
+			ResultSet publisherRes = publisherPs.executeQuery();
+			
+			// If we have a result, we update the publisher with the good name (could be a bit different)
+			if(publisherRes.next()){
+				game.setPublisher(publisherRes.getString("name"));
+			}
+			// Otherwise, let's add it in the db
+			else {
+				String addPublisherSql = "INSERT INTO publisher (name) VALUES (?);";
+				PreparedStatement addPublisherPs = cnx.prepareStatement(addPublisherSql);
+				addPublisherPs.setString(1, game.getPublisher());
+				addPublisherPs.executeQuery();
+			}			
+			
 			// Requête
-			String sql = "UPDATE games SET title = ?, console = ?, price = ?, release_date = ?, stock = ? WHERE id = ?";
+			String sql = "UPDATE games SET title = ?, console = ?, price = ?, release_date = ?, stock = ?, publisher = ?, description = ? WHERE id = ?";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, game.getTitle());
@@ -168,7 +212,9 @@ public class Games {
 			ps.setDouble(3, game.getPrice().doubleValue());
 			ps.setString(4, game.getReleaseDate());
 			ps.setInt(5, game.getStock().intValue());
-			ps.setInt(6, game.getId().intValue());
+			ps.setString(6, game.getPublisher());
+			ps.setString(7, game.getDescription());
+			ps.setInt(8, game.getId().intValue());
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();

@@ -11,6 +11,9 @@ public class Game implements Comparable<Game> {
 	private Integer stock;
 	private ArrayList<String> genres; // Could also use strings instead since a game type is only a name for now
 	
+	private String publisher;
+	private String description;
+	
 	public Game(){
 		this.id = null;
 		this.title = null;
@@ -18,7 +21,10 @@ public class Game implements Comparable<Game> {
 		this.price = null;
 		this.releaseDate = null;
 		this.stock = null;
-		this.genres = null;	
+		this.genres = null;
+		
+		this.publisher = null;
+		this.description = null;
 	}	
 	
 	// MAYBE WE DON'T NEED ALL THESE CONSTRUCTORS BECAUSE BEANS ARE LOADED DIRECTLY FROM JSON
@@ -31,6 +37,9 @@ public class Game implements Comparable<Game> {
 		this.releaseDate = releaseDate;
 		this.stock = stock;
 		this.genres = genres;
+		
+		this.publisher = null;
+		this.description = null;
 	}
 
 	// GETTERS/SETTERS
@@ -101,6 +110,22 @@ public class Game implements Comparable<Game> {
 		this.genres = genres;
 		return this;
 	}
+	
+	public String getPublisher(){
+		return this.publisher;
+	}
+	public Game setPublisher(String p){
+		this.publisher = p;
+		return this;
+	}
+	
+	public String getDescription(){
+		return this.description;
+	}
+	public Game setDescription(String d){
+		this.description = d;
+		return this;
+	}
 
 	@Override
 	public int compareTo(Game g) {
@@ -109,6 +134,6 @@ public class Game implements Comparable<Game> {
 
 	@Override
 	public String toString(){
-		return "ID: " + this.id.toString() + "; Title: " + this.title + "; Console: " + this.console + "; Price: " + this.price.toString() + "; Release Date: " + this.releaseDate + "; Stock: " + this.stock.toString() + "; Genres: " + this.genres.toString() + ";";
+		return "ID: " + this.id.toString() + "; Title: " + this.title + "; Console: " + this.console + "; Publisher: " + this.publisher + "; Price: " + this.price.toString() + "; Release Date: " + this.releaseDate + "; Stock: " + this.stock.toString() + "; Genres: " + this.genres.toString() + ";";
 	}	
 }
