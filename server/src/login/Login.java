@@ -146,13 +146,20 @@ public class Login extends Application {
         	}
     	}
     	else {
-    		User u = new User();
-    		u.setUsername(session.getAttribute("username").toString());
-    		u.setFirstName(session.getAttribute("firstname").toString());
-    		u.setLastName(session.getAttribute("lastname").toString());
-    		u.setStatus(session.getAttribute("status").toString());
+    		JsonObject user = new JsonObject();
+    		user.addProperty("username", session.getAttribute("username").toString());
+    		user.addProperty("firstname", session.getAttribute("firstname").toString());
+    		user.addProperty("lastname", session.getAttribute("lastname").toString());
+    		user.addProperty("status", session.getAttribute("status").toString());
+    		user.addProperty("session", session.getId());
     		
-    		return Response.ok(this.gson.toJson(u)).build();
+//    		User u = new User();
+//    		u.setUsername(session.getAttribute("username").toString());
+//    		u.setFirstName(session.getAttribute("firstname").toString());
+//    		u.setLastName(session.getAttribute("lastname").toString());
+//    		u.setStatus(session.getAttribute("status").toString());
+    		
+    		return Response.ok(this.gson.toJson(user)).build();
     	}
     }	
 }
