@@ -1,3 +1,7 @@
+<?php 
+	require_once('./controllers/login.php');
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>

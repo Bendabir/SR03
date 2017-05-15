@@ -46,21 +46,27 @@ public class Login extends Application {
 	
     @GET
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-    public Response get(@QueryParam("ticket") String ticket, @Context Request request, @Context HttpServletRequest baseRequest){
+    public Response get(@QueryParam("ticket") String ticket, @QueryParam("callback") String callback, @Context Request request, @Context HttpServletRequest baseRequest){
     	HttpSession session = baseRequest.getSession(false);
     	
     	// If no session, log in
     	if(session == null){
-        	// If no get parameters, redirect to CAS login (301
+        	// If no get parameters, redirect to CAS login (301)
         	if(ticket == null || ticket.equals("")){
+        		// If no callback, leave it empty
+        		if(callback == null){
+        			callback = "";
+        		}
+        		
         		try {
-        			return Response.temporaryRedirect(new URI(this.config.getProperty("casLoginEndPoint") + "?service=" + this.config.getProperty("endPoint") + "/server/login")).build();
+        			return Response.temporaryRedirect(new URI(this.config.getProperty("casLoginEndPoint") + "?service=" + this.config.getProperty("endPoint") + "/server/login" + (!callback.equals("") ? ("?callback=" + callback) : ""))).build();
         		}
         		catch(URISyntaxException e){
         			e.printStackTrace();
 
             		JsonObject jsonError = new JsonObject();
             		jsonError.addProperty("message", "Oops, something went wrong because we don't know how to code. Sorry pal !");
+            		jsonError.addProperty("status", Status.INTERNAL_SERVER_ERROR.toString());
         			
         			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(this.gson.toJson(jsonError)).build();
         		}
@@ -91,6 +97,7 @@ public class Login extends Application {
                 		JsonObject jsonError = new JsonObject();
                 		jsonError.addProperty("message", "The CAS authentication failed.");
                 		jsonError.addProperty("error", info.getElementsByTagName("_").toString());
+                		jsonError.addProperty("status", Status.SERVICE_UNAVAILABLE.toString());
             			
             			return Response.status(Status.SERVICE_UNAVAILABLE).entity(this.gson.toJson(jsonError)).build();
         			}
@@ -122,15 +129,21 @@ public class Login extends Application {
         			s.setAttribute("lastname", u.getLastName());
         			s.setAttribute("status", u.getStatus());
         			s.setAttribute("cart", new ArrayList<OrderLine>()); // Preparing orders
+        			
+        			// If we have a callback
+        			if(callback == null){
+        				callback = "";
+        			}
 
             		try {
-            			return Response.temporaryRedirect(new URI("./login")).build(); // Redirect to root
+            			return Response.temporaryRedirect(new URI("./login" + (!callback.equals("") ? ("?callback=" + callback) : ""))).build(); // Redirect to root
             		}
             		catch(URISyntaxException e){
             			e.printStackTrace();
 
                 		JsonObject jsonError = new JsonObject();
                 		jsonError.addProperty("message", "Oops, something went wrong because we don't know how to code. Sorry pal !");
+                		jsonError.addProperty("status", Status.INTERNAL_SERVER_ERROR.toString());
             			
             			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(this.gson.toJson(jsonError)).build();
             		}
@@ -140,6 +153,7 @@ public class Login extends Application {
         			
             		JsonObject jsonError = new JsonObject();
             		jsonError.addProperty("message", "Oops, something went wrong because we don't know how to code. Sorry pal !");
+            		jsonError.addProperty("status", Status.INTERNAL_SERVER_ERROR.toString());
         			
         			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(this.gson.toJson(jsonError)).build();
         		}
@@ -159,7 +173,25 @@ public class Login extends Application {
 //    		u.setLastName(session.getAttribute("lastname").toString());
 //    		u.setStatus(session.getAttribute("status").toString());
     		
-    		return Response.ok(this.gson.toJson(user)).build();
+    		// If we have a callback
+    		if(callback == null || callback.equals("")){
+        		return Response.ok(this.gson.toJson(user)).build();    			
+    		}
+    		else {
+    			// Sending information to the client
+    			try {
+    				return Response.temporaryRedirect(new URI(callback)).entity(this.gson.toJson(user)).build();
+    			}
+        		catch(URISyntaxException e){
+        			e.printStackTrace();
+
+            		JsonObject jsonError = new JsonObject();
+            		jsonError.addProperty("message", "Oops, something went wrong because we don't know how to code. Sorry pal !");
+            		jsonError.addProperty("status", Status.INTERNAL_SERVER_ERROR.toString());
+        			
+        			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(this.gson.toJson(jsonError)).build();
+        		}    			
+    		}
     	}
     }	
 }
