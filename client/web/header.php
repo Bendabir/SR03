@@ -8,7 +8,7 @@
 			<label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
 				<i class="material-icons">search</i>
 			</label>
-			
+
 			<div class="mdl-textfield__expandable-holder">
 				<input class="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp">
 			</div>	
@@ -31,11 +31,12 @@
 <!-- Admin menu -->
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="admin-menu">
 	<li class="mdl-menu__item mdl-menu__item--full-bleed-divider">Mon compte</li>
-	<li class="mdl-menu__item">Gérer les jeux</li>
+	<li class="mdl-menu__item">Gérer le site</li>
+<!-- 	<li class="mdl-menu__item">Gérer les jeux</li>
 	<li class="mdl-menu__item">Gérer les consoles</li>
 	<li class="mdl-menu__item">Gérer les genres</li>
 	<li disabled class="mdl-menu__item">Voir les commandes</li>
-	<li class="mdl-menu__item">Gérer les utilisateurs</li>
+	<li class="mdl-menu__item">Gérer les utilisateurs</li> -->
 </ul>
 
 <!-- 			<div class="mdl-layout__drawer">

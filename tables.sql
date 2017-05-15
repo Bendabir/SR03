@@ -11,8 +11,13 @@ CREATE TABLE IF NOT EXISTS sr03.consoles (
 	launched_date DATE NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS sr03.game_genres (
+CREATE TABLE IF NOT EXISTS sr03.publishers (
 	name VARCHAR(64) PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS sr03.game_genres (
+	name VARCHAR(64) PRIMARY KEY,
+	description TEXT DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS sr03.games (
@@ -20,10 +25,13 @@ CREATE TABLE IF NOT EXISTS sr03.games (
 	title VARCHAR(255) NOT NULL,
 	console VARCHAR(32) NOT NULL,
 	price DOUBLE UNSIGNED NOT NULL DEFAULT 0,
+	publisher VARCHAR(64) DEFAULT NULL,
 	release_date DATE NOT NULL,
 	stock INT UNSIGNED NOT NULL DEFAULT 0,
+	description TEXT DEFAULT NULL,
 	UNIQUE (title, console, release_date),
-	FOREIGN KEY (console) REFERENCES sr03.consoles(name)
+	FOREIGN KEY (console) REFERENCES sr03.consoles(name),
+	FOREIGN KEY (publisher) REFERENCES sr03.publishers(name)
 );
 
 CREATE TABLE IF NOT EXISTS sr03.assoc_game_genres_games (
