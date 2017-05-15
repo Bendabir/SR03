@@ -4,162 +4,129 @@
 
 	Requests::register_autoloader();
 
-	// $gamesRequest = Requests::get($apiEndPoint."/games");
-	// $games = $gamesRequest->body;
+	$headers = array(
+		"Cookie" => "JSESSIONID=".$_SESSION["JSESSIONID"] // Setting cookie 
+	);
+	$ordersRequest = Requests::get($apiEndPoint."/orders", $headers);
+	$orders = $ordersRequest->body;
 
-	// Building interface from games
-	// $games = json_decode($games, true);
+	// Building interface from orders
+	$orders = json_decode($orders, true);
 ?>
 
 <div class="mdl-grid">
+	<?php
+		// If detecting connection error, then logging out ?
+		if(isset($orders["message"])){
+			echo "<div class=\"mdl-cell mdl-cell--8-col mdl-cell--12-col-phone mdl-cell--2-offset-desktop\">";
+	?>
+
+				<div class="wide-card error-card mdl-card mdl-shadow--2dp">
+					<div class="mdl-card__title">
+						<h2 class="mdl-card__title-text">Ooops</h2>
+					</div>
+					<div class="mdl-card__supporting-text">
+						Une erreur s'est produite : <b><?php echo $orders["message"]; ?></b><br />
+						Tentez de vous déconnecter et de vous reconnecter pour résoudre le problème.
+						<br />
+						<br />
+					</div>
+					<div class="mdl-card__actions mdl-card--border">
+						<a class="mdl-button mdl-js-button mdl-js-ripple-effect">
+							Se déconnecter
+						</a>
+					</div>
+					<div class="mdl-card__menu">
+						<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+							<i class="material-icons">loop</i>
+						</button>
+					</div>
+				</div>
+	<?php
+			echo "</div>";
+			return;
+		}
+
+		// If no orders yet
+		if(count($orders) == 0){
+			echo "Aucune commande passée pour le moment.";
+			return;
+		}
+
+		// Processing each order
+		foreach($orders as $k1 => $o){
+			// Processing lines
+			$totalAmount = 0;
+			$linesInterface = "";
+
+			// Building lines list
+			foreach($o["lines"] as $k2 => $l){
+				$totalAmount += $l["unitPrice"] * $l["quantity"];
+
+				// Checking some parameters
+				if(!isset($l["game"]["description"])){
+					$l["game"]["description"] = "Pas de description.";
+				}
+
+				if(!isset($l["game"]["publisher"])){
+					$l["game"]["publisher"] = "Inconnu";
+				}
+
+				$linesInterface .= "<li class=\"mdl-list__item mdl-list__item--three-line\">";
+				$linesInterface .= 	"<span class=\"mdl-list__item-primary-content\">";
+				$linesInterface .= 		"<img src=\"./img/just_cause_3_pc.jpg\" class=\"mdl-list__item-avatar\" />";
+				$linesInterface .= 		"<span>".$l["game"]["title"]." (".$l["game"]["console"].")</span>";
+				$linesInterface .= 		"<span class=\"mdl-list__item-text-body\">";
+				// $linesInterface .= 			"<b>Editeur:</b> ".$l["game"]["publisher"]."<br />";
+				// $linesInterface .= 			"<b>Date de sortie:</b> ".$l["game"]["releaseDate"]."<br />";
+				$linesInterface .= 			$l["game"]["description"];
+				$linesInterface .= 		"</span>";
+				$linesInterface .= 	"</span>";
+				$linesInterface .= 	"<span class=\"mdl-list__item-secondary-content\">";
+				$linesInterface .= 		"<p>";
+				$linesInterface .= 			"<b>".number_format($l["unitPrice"], 2, ",", " ")."€</b>";
+				$linesInterface .= 			"<br />";
+				$linesInterface .= 			"x<b>".$l["quantity"]."</b>";
+				$linesInterface .= 		"</p>";
+				$linesInterface .= 	"</span>";
+				$linesInterface .= "</li>";
+
+			}
+
+			$totalAmount = number_format($totalAmount, 2, ",", " ");
+
+?>
 	<div class="mdl-cell mdl-cell--8-col mdl-cell--12-col-phone mdl-cell--2-offset-desktop">
-		<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+		<div class="wide-card order-card mdl-card mdl-shadow--2dp">
 			<div class="mdl-card__title">
-				<h2 class="mdl-card__title-text">Commande n°125 <br />Effectuée le 01/01/2017</h2>
+				<h2 class="mdl-card__title-text">Commande n°<?php echo $o["num"]; ?> <br />Effectuée le <?php echo date_format(date_create($o["date"]), "d/m/Y"); ?></h2>
 			</div>
 			<div class="mdl-card__menu">
-				<p>Montant total: 10,00€</p>
+				<p>Montant total: <?php echo $totalAmount; ?>€</p>
 			</div>
 			<div class="mdl-card__supporting-text">
 				<ul class="demo-list-three mdl-list">
-					<li class="mdl-list__item mdl-list__item--three-line">
-						<span class="mdl-list__item-primary-content">
-							<img src="./img/just_cause_3_pc.jpg" class="mdl-list__item-avatar" />
-							<!-- <i class="material-icons mdl-list__item-avatar">person</i> -->
-							<span>Just Cause 3 (PC)</span>
-							<span class="mdl-list__item-text-body">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla suscipit ornare turpis, sit amet tempor nunc convallis pharetra. Vestibulum a mollis odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus vitae nisi tortor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-							</span>
-						</span>
-						<span class="mdl-list__item-secondary-content">
-							<p>
-								<b>3,50€</b>
-								<br />
-								x<b>2</b>
-							</p>
-						</span>
-					</li>
-					<li class="mdl-list__item mdl-list__item--three-line">
-						<span class="mdl-list__item-primary-content">
-							<img src="./img/minecraft_pc.jpg" class="mdl-list__item-avatar" />
-							<span>Minecraft (PC)</span>
-							<span class="mdl-list__item-text-body">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla suscipit ornare turpis, sit amet tempor nunc convallis pharetra. Vestibulum a mollis odio. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-							</span>
-						</span>
-						<span class="mdl-list__item-secondary-content">
-							<p>
-								<b>3,00€</b>
-								<br />
-								x<b>1</b>
-							</p>
-						</span>
-					</li>
+					<?php echo $linesInterface; ?>
 					<hr />
 					<li class="mdl-list__item mdl-list__item--three-line">
 						<span class="mdl-list__item-primary-content"></span>
 						<span class="mdl-list__item-secondary-content">
 							<p>
-								<b>10,00€</b>
-							</p>
-						</span>
-					</li>
-				</ul>
-			</div>
-			<div class="mdl-card__actions mdl-card--border">
-				<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-					Facture
-				</a>										
-			</div>
-		</div>
-	</div>
-	<div class="mdl-cell mdl-cell--8-col mdl-cell--12-col-phone mdl-cell--2-offset-desktop">
-		<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-			<div class="mdl-card__title">
-				<h2 class="mdl-card__title-text">Commande n°12 <br />Effectuée le 05/12/2016</h2>
-			</div>
-			<div class="mdl-card__menu">
-				<p>Montant total: 20,00€</p>
-			</div>
-			<div class="mdl-card__supporting-text">
-				<ul class="demo-list-three mdl-list">
-					<li class="mdl-list__item mdl-list__item--three-line">
-						<span class="mdl-list__item-primary-content">
-							<img src="./img/minecraft_pc.jpg" class="mdl-list__item-avatar" />
-							<span>Minecraft (PC)</span>
-							<span class="mdl-list__item-text-body">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla suscipit ornare turpis, sit amet tempor nunc convallis pharetra. Vestibulum a mollis odio. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-							</span>
-						</span>
-						<span class="mdl-list__item-secondary-content">
-							<p>
-								<b>20,00€</b>
-								<br />
-								x<b>1</b>
-							</p>
-						</span>
-					</li>
-					<hr />
-					<li class="mdl-list__item mdl-list__item--three-line">
-						<span class="mdl-list__item-primary-content"></span>
-						<span class="mdl-list__item-secondary-content">
-							<p>
-								<b>20,00€</b>
+								<b><?php echo $totalAmount; ?>€</b>
 							</p>
 						</span>
 					</li>											
 				</ul>
 			</div>
-			<div class="mdl-card__actions mdl-card--border">
+<!-- 			<div class="mdl-card__actions mdl-card--border">
 				<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
 					Facture
 				</a>										
-			</div>
+			</div> -->
 		</div>
 	</div>
-	<div class="mdl-cell mdl-cell--8-col mdl-cell--12-col-phone mdl-cell--2-offset-desktop">
-		<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-			<div class="mdl-card__title">
-				<h2 class="mdl-card__title-text">Commande n°10 <br />Effectuée le 24/10/2016</h2>
-			</div>
-			<div class="mdl-card__menu">
-				<p>Montant total: 35,00€</p>
-			</div>
-			<div class="mdl-card__supporting-text">
-				<ul class="demo-list-three mdl-list">
-					<li class="mdl-list__item mdl-list__item--three-line">
-						<span class="mdl-list__item-primary-content">
-							<img src="./img/just_cause_3_pc.jpg" class="mdl-list__item-avatar" />
-							<!-- <i class="material-icons mdl-list__item-avatar">person</i> -->
-							<span>Just Cause 3 (PC)</span>
-							<span class="mdl-list__item-text-body">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla suscipit ornare turpis, sit amet tempor nunc convallis pharetra. Vestibulum a mollis odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus vitae nisi tortor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-							</span>
-						</span>
-						<span class="mdl-list__item-secondary-content">
-							<p>
-								<b>35,00€</b>
-								<br />
-								x<b>1</b>
-							</p>
-						</span>
-					</li>
-					<hr />
-					<li class="mdl-list__item mdl-list__item--three-line">
-						<span class="mdl-list__item-primary-content"></span>
-						<span class="mdl-list__item-secondary-content">
-							<p>
-								<b>35,00€</b>
-							</p>
-						</span>
-					</li>											
-				</ul>
-			</div>
-			<div class="mdl-card__actions mdl-card--border">
-				<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-					Facture
-				</a>										
-			</div>
-		</div>
-	</div>
+	
+	<?php
+		}
+	?>
 </div>

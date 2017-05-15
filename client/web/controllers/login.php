@@ -13,7 +13,7 @@
 
 		$_SESSION["JSESSIONID"] = $_GET["token"];
 
-		// Retrieving user information
+		// Retrieving user information after connection
 		$headers = array(
 			"Cookie" => "JSESSIONID=".$_SESSION["JSESSIONID"] // Setting cookie 
 		);
@@ -36,8 +36,6 @@
 		if(!isset($_SESSION["JSESSIONID"]) || empty($_SESSION["JSESSIONID"])){
 			// If not, asking for connection to the server (with a callback to get back here right after)
 			header("Location: ".$loginEndPoint."?callback="."http://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
-
-			// Getting the result of the connection (user information)
 		}
 	}
 

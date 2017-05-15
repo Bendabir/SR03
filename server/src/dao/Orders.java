@@ -20,7 +20,7 @@ public class Orders{
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
-			String sql = "SELECT * FROM orders WHERE num = ?;";
+			String sql = "SELECT * FROM orders WHERE num = ? ORDER BY num DESC;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setInt(1, orderNum);
 			
@@ -29,7 +29,7 @@ public class Orders{
 			// What about res.first() ?
 			while(res.next()){
 				// Get lines
-				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
+				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.release_date, g.publisher FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
 				PreparedStatement psLines = cnx.prepareStatement(sqlLines);
 				psLines.setInt(1, res.getInt("num"));
 				
@@ -39,8 +39,11 @@ public class Orders{
 				
 				while(resLines.next()){
 					Game g = new Game();
-					g.setTitle(resLines.getString("game"));
-					g.setConsole(resLines.getString("console"));
+					g.setTitle(resLines.getString("game"))
+					 .setConsole(resLines.getString("console"))
+					 .setDescription(resLines.getString("description"))
+					 .setReleaseDate(resLines.getString("release_date"))
+					 .setPublisher(resLines.getString("publisher"));
 					
 					lines.add(new OrderLine(g, resLines.getDouble("unit_price"), resLines.getInt("quantity")));
 				}
@@ -66,7 +69,7 @@ public class Orders{
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
-			String sql = "SELECT * FROM orders WHERE user = ? AND num = ?;";
+			String sql = "SELECT * FROM orders WHERE user = ? AND num = ? ORDER BY num DESC;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, user);
 			ps.setInt(2, orderNum);
@@ -76,7 +79,7 @@ public class Orders{
 			// What about res.first() ?
 			while(res.next()){
 				// Get lines
-				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
+				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.publisher, g.release_date FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
 				PreparedStatement psLines = cnx.prepareStatement(sqlLines);
 				psLines.setInt(1, res.getInt("num"));
 				
@@ -86,8 +89,11 @@ public class Orders{
 				
 				while(resLines.next()){
 					Game g = new Game();
-					g.setTitle(resLines.getString("game"));
-					g.setConsole(resLines.getString("console"));
+					g.setTitle(resLines.getString("game"))
+					 .setConsole(resLines.getString("console"))
+					 .setDescription(resLines.getString("description"))
+					 .setReleaseDate(resLines.getString("release_date"))
+					 .setPublisher(resLines.getString("publisher"));
 					
 					lines.add(new OrderLine(g, resLines.getDouble("unit_price"), resLines.getInt("quantity")));
 				}
@@ -114,7 +120,7 @@ public class Orders{
 			cnx = DatabaseConnection.getInstance().getCnx();
 
 			// Requête
-			String sql = "SELECT * FROM orders WHERE user = ?;";
+			String sql = "SELECT * FROM orders WHERE user = ? ORDER BY num DESC;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, user);
 			
@@ -123,7 +129,7 @@ public class Orders{
 			
 			while(res.next()){
 				// Get lines
-				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
+				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.publisher, g.release_date FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
 				PreparedStatement psLines = cnx.prepareStatement(sqlLines);
 				psLines.setInt(1, res.getInt("num"));
 				
@@ -133,8 +139,11 @@ public class Orders{
 				
 				while(resLines.next()){
 					Game g = new Game();
-					g.setTitle(resLines.getString("game"));
-					g.setConsole(resLines.getString("console"));
+					g.setTitle(resLines.getString("game"))
+					 .setConsole(resLines.getString("console"))
+					 .setDescription(resLines.getString("description"))
+					 .setReleaseDate(resLines.getString("release_date"))
+					 .setPublisher(resLines.getString("publisher"));
 					
 					lines.add(new OrderLine(g, resLines.getDouble("unit_price"), resLines.getInt("quantity")));
 				}
@@ -160,7 +169,7 @@ public class Orders{
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
 			// Requête
-			String sql = "SELECT * FROM orders;";
+			String sql = "SELECT * FROM orders ORDER BY num DESC;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			
 			//Execution et traitement de la réponse
@@ -168,7 +177,7 @@ public class Orders{
 			
 			while(res.next()){
 				// Get lines
-				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
+				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.publisher, g.release_date FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
 				PreparedStatement psLines = cnx.prepareStatement(sqlLines);
 				psLines.setInt(1, res.getInt("num"));
 				
@@ -178,8 +187,11 @@ public class Orders{
 				
 				while(resLines.next()){
 					Game g = new Game();
-					g.setTitle(resLines.getString("game"));
-					g.setConsole(resLines.getString("console"));
+					g.setTitle(resLines.getString("game"))
+					 .setConsole(resLines.getString("console"))
+					 .setDescription(resLines.getString("description"))
+					 .setReleaseDate(resLines.getString("release_date"))
+					 .setPublisher(resLines.getString("publisher"));
 					
 					lines.add(new OrderLine(g, resLines.getDouble("unit_price"), resLines.getInt("quantity")));
 				}
