@@ -1,6 +1,6 @@
 <?php 
-	require_once("./utils/config.php");
-	require_once("./libraries/Requests.php");
+	require_once(dirname(__FILE__)."/../utils/config.php");
+	require_once(dirname(__FILE__)."/../libraries/Requests.php");
 
 	Requests::register_autoloader();
 

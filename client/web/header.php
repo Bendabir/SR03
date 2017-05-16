@@ -1,4 +1,7 @@
 <header class="mdl-layout__header">
+	<div class="mdl-layout__drawer-button">
+		<i class="material-icons">videogame_asset</i>
+	</div>
 	<div class="mdl-layout__header-row">
 		<!-- Title -->
 		<span class="mdl-layout-title">Video Games Store</span>
@@ -15,6 +18,9 @@
 		</div>
 
 		<!-- Right aligned menu below button -->
+		<button id="filter-menu" class="mdl-button mdl-js-button mdl-button--icon">
+			<i class="material-icons">filter_list</i>
+		</button>
 		<button id="admin-menu" class="mdl-button mdl-js-button mdl-button--icon">
 			<i class="material-icons">more_vert</i>
 		</button>
@@ -37,6 +43,15 @@
 	<li class="mdl-menu__item">Gérer les genres</li>
 	<li disabled class="mdl-menu__item">Voir les commandes</li>
 	<li class="mdl-menu__item">Gérer les utilisateurs</li> -->
+</ul>
+
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="filter-menu">
+	<li class="mdl-menu__item">
+		<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
+			<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" checked>
+			<span class="mdl-checkbox__label">Consoles</span>
+		</label>
+	</li>
 </ul>
 
 <!-- 			<div class="mdl-layout__drawer">

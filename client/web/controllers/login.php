@@ -1,11 +1,10 @@
 <?php 
 	session_start();
 
-	require_once('./utils/config.php');
-	require_once("./libraries/Requests.php");
+	require_once(dirname(__FILE__)."/../utils/config.php");
+	require_once(dirname(__FILE__)."/../libraries/Requests.php");
 
 	Requests::register_autoloader();
-
 
 	// If we got a token, then we are back from a connection request
 	if(isset($_GET["token"]) && !empty($_GET["token"])){
@@ -26,6 +25,9 @@
 		$_SESSION["firstname"] = $user["firstName"];
 		$_SESSION["lastname"] = $user["lastName"];
 		$_SESSION["status"] = $user["status"];
+
+		// Setting the cookie
+		// setcookie("JSESSIONID", $_SESSION["JSESSIONID"]);
 
 		// Going to root
 		header("Location: ./");

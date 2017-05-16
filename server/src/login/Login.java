@@ -135,11 +135,6 @@ public class Login extends Application {
         			s.setAttribute("lastname", u.getLastName());
         			s.setAttribute("status", u.getStatus());
         			s.setAttribute("cart", new ArrayList<OrderLine>()); // Preparing orders
-        			
-        			// If we have a callback
-        			if(callback == null){
-        				callback = "";
-        			}
 
             		try {
             			return Response.temporaryRedirect(new URI("./login" + (!callback.equals("") ? ("?callback=" + callback) : ""))).build(); // Redirect to root
@@ -172,12 +167,6 @@ public class Login extends Application {
     		user.addProperty("lastname", session.getAttribute("lastname").toString());
     		user.addProperty("status", session.getAttribute("status").toString());
     		user.addProperty("session", session.getId());
-    		
-//    		User u = new User();
-//    		u.setUsername(session.getAttribute("username").toString());
-//    		u.setFirstName(session.getAttribute("firstname").toString());
-//    		u.setLastName(session.getAttribute("lastname").toString());
-//    		u.setStatus(session.getAttribute("status").toString());
     		
     		// If we have a callback
     		if(callback == null || callback.equals("")){
