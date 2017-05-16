@@ -36,7 +36,7 @@
 					}
 
 					// Building card
-					echo "<div class=\"mdl-cell mdl-cell--3-col mdl-cell--12-col-phone\">";
+					echo "<div class=\"mdl-cell mdl-cell-4--col mdl-cell--12-col-phone\">";
 					echo	"<div class=\"game-card mdl-card mdl-shadow--2dp\">";
 					echo		"<div class=\"mdl-card__title mdl-card--expand\">";
 					echo			"<h2 class=\"mdl-card__title-text\">".$g["title"]."<br />(".$g["console"].")</h2>";
