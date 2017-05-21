@@ -22,6 +22,8 @@
 		<!-- Always shows a header, even in smaller screens. -->
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-tabs">
 
+			<?php require_once('../header.php'); ?>
+
 			<main class="mdl-layout__content">
 				<section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
 					<div class="page-content">
@@ -35,17 +37,19 @@
 					<div class="page-content">
 					</div>
 				</section>
+				<section class="mdl-layout__tab-panel" id="fixed-tab-4">
+					<div class="page-content">
+					</div>
+				</section>
+				<section class="mdl-layout__tab-panel" id="fixed-tab-5">
+					<div class="page-content">
+					</div>
+				</section>								
 			</main>
-
-		<!-- 		
-			<footer class="mdl-mini-footer mdl-layout--large-screen-only">
-				<p>Made with ♥ by Ben & Jo</p>
-			</footer>
-		 -->
 		</div>
 
-		<script src="./js/material.min.js"></script>
-		<script src="./js/workshop.js"></script>
-		<script src="./js/gamestore.js"></script>
+		<script src="../js/material.min.js"></script>
+		<script src="../js/workshop.js"></script>
+		<script src="../js/gamestore.js"></script>
 	</body>
 </html>

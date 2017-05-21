@@ -22,11 +22,28 @@
 	</div>
 
 	<!-- Tabs -->
-	<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-		<a href="#fixed-tab-1" class="mdl-layout__tab is-active">Jeux</a>
-		<a href="#fixed-tab-2" class="mdl-layout__tab">Mon panier (3)</a>
-		<a href="#fixed-tab-3" class="mdl-layout__tab">Mes commandes</a>
-	</div>	
+	<?php 
+		if(!strpos($_SERVER["REQUEST_URI"], "admin")){
+	?>
+		<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+			<a href="#fixed-tab-1" class="mdl-layout__tab is-active">Jeux</a>
+			<a href="#fixed-tab-2" class="mdl-layout__tab">Mon panier (3)</a>
+			<a href="#fixed-tab-3" class="mdl-layout__tab">Mes commandes</a>
+		</div>
+	<?php 
+		}
+		else {
+	?>
+		<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+			<a href="#fixed-tab-1" class="mdl-layout__tab is-active">Jeux</a>
+			<a href="#fixed-tab-2" class="mdl-layout__tab">Consoles</a>
+			<a href="#fixed-tab-3" class="mdl-layout__tab">Genres</a>
+			<a href="#fixed-tab-4" class="mdl-layout__tab">Commandes</a>
+			<a href="#fixed-tab-5" class="mdl-layout__tab">Utilisateurs</a>
+		</div>
+	<?php
+		}
+	?>
 </header>
 
 <div class="mdl-layout__drawer">
@@ -35,7 +52,12 @@
 		<a class="mdl-navigation__link" href="">Mon compte</a>
 		<?php 
 			if($_SESSION["status"] == "admin"){
-				echo "<a class=\"mdl-navigation__link\" href=\"./admin/\">Gérer le site</a>";
+				if(strpos($_SERVER["REQUEST_URI"], "admin")){
+					echo "<a class=\"mdl-navigation__link\" href=\"../\">Retour au site</a>";
+				}
+				else {
+					echo "<a class=\"mdl-navigation__link\" href=\"./admin/\">Gérer le site</a>";
+				}
 			}
 		?>
 	</nav>

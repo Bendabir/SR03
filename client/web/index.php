@@ -36,12 +36,6 @@
 					</div>
 				</section>
 			</main>
-
-		<!-- 		
-			<footer class="mdl-mini-footer mdl-layout--large-screen-only">
-				<p>Made with ♥ by Ben & Jo</p>
-			</footer>
-		 -->
 		</div>
 
 		<script src="./js/material.min.js"></script>

@@ -1,5 +1,12 @@
 # Projet de SR03
 
+## TODO
+
+* Check sur les stocks lors de l'ajout d'une commande
+* Ajout de tooltip pour expliciter les genres ?
+* Fonctionnalité de tri et de recherche
+* Retravailler la connexion CAS (validateur de connexion uniquement et non interface ~ proxy)
+
 ## Consignes 
 
 Le but de ce projet est de faire une vente en ligne de jeux vidéos.
