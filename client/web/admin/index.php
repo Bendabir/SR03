@@ -13,8 +13,8 @@
 		<title>Video Games Store - Administration</title>
 		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue-pink.min.css" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-		<link rel="stylesheet" href="./css/gamestore.css">
-		<link rel="icon" type="image/png" href="./img/favicon.png" />
+		<link rel="stylesheet" href="../css/gamestore.css">
+		<link rel="icon" type="image/png" href="../img/favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset="utf-8">
 	</head>
@@ -27,6 +27,7 @@
 			<main class="mdl-layout__content">
 				<section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
 					<div class="page-content">
+						<?php require_once('../views/admin.games.php'); ?>
 					</div>
 				</section>
 				<section class="mdl-layout__tab-panel" id="fixed-tab-2">
