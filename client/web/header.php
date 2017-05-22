@@ -49,7 +49,7 @@
 <div class="mdl-layout__drawer">
 	<span class="mdl-layout-title">Game Store</span>
 	<nav class="mdl-navigation">
-		<a class="mdl-navigation__link" href="">Mon compte</a>
+		<a class="mdl-navigation__link" href="#">Mon compte</a>
 		<?php 
 			if($_SESSION["status"] == "admin"){
 				if(strpos($_SERVER["REQUEST_URI"], "admin")){

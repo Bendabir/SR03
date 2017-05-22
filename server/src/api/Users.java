@@ -36,10 +36,15 @@ public class Users extends Application {
 		}
 		
 		HttpSession session = baseRequest.getSession(false);
-		User u = dao.Users.get(session.getAttribute("username").toString());
+		
+		JsonObject user = new JsonObject();
+		user.addProperty("username", session.getAttribute("username").toString());
+		user.addProperty("firstname", session.getAttribute("firstname").toString());
+		user.addProperty("lastname", session.getAttribute("lastname").toString());
+		user.addProperty("status", session.getAttribute("status").toString());		
 		
 		// Building JSON object with user informations
-		return Response.ok(this.gson.toJson(u)).build();
+		return Response.ok(this.gson.toJson(user)).build();
 	}
 	
     @GET
