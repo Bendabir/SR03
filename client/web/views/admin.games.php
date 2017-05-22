@@ -48,7 +48,7 @@
 							$g["description"] = "Pas de description.";
 						}
 
-						$descriptionMaxLength = 40;
+						$descriptionMaxLength = 35;
 
 						// Building line
 						echo "<tr game-id=\"".$g["id"]."\">";

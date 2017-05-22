@@ -21,6 +21,10 @@ footer p {
   height: 150px;
 }
 
+.game-card .game-card-description {
+	text-align: justify;
+}
+
 .wide-card {
 	width: 100%;
 }

@@ -32,10 +32,12 @@
 				</section>
 				<section class="mdl-layout__tab-panel" id="fixed-tab-2">
 					<div class="page-content">
+						<?php require_once('../views/admin.consoles.php'); ?>
 					</div>
 				</section>
 				<section class="mdl-layout__tab-panel" id="fixed-tab-3">
 					<div class="page-content">
+						<?php require_once('../views/admin.gameGenres.php'); ?>
 					</div>
 				</section>
 				<section class="mdl-layout__tab-panel" id="fixed-tab-4">
@@ -44,6 +46,7 @@
 				</section>
 				<section class="mdl-layout__tab-panel" id="fixed-tab-5">
 					<div class="page-content">
+						<?php require_once('../views/admin.users.php'); ?>
 					</div>
 				</section>								
 			</main>

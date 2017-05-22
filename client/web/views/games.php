@@ -42,7 +42,7 @@
 					echo			"<h2 class=\"mdl-card__title-text\">".$g["title"]."<br />(".$g["console"].")</h2>";
 					echo		"</div>";
 					echo		"<div class=\"mdl-card__supporting-text\">";
-					echo			"<p>".$g["description"]."</p>";
+					echo			"<p class=\"game-card-description\">".$g["description"]."</p>";
 					echo			"<p>";
 					echo 				"<b>Editeur:</b> ".$g["publisher"]."<br />";
 					echo				"<b>Date de sortie:</b> ".date_format(date_create($g["releaseDate"]), "d/m/Y")."<br />";
