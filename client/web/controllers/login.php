@@ -6,7 +6,7 @@
 
 	Requests::register_autoloader();
 
-	$service = "http://localhost/sr03/";
+	$service = "http://".$_SERVER["SERVER_NAME"]."/sr03/";
 
 	// If we have a ticket, then we are back from the CAS connection
 	if(isset($_GET["ticket"]) && !empty($_GET["ticket"])){
