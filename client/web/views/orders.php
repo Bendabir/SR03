@@ -176,9 +176,9 @@
 				</p>
 			</div>
 			<div class="mdl-card__actions mdl-card--border">
-				<ul class="demo-list-three mdl-list">
+				<ul class="demo-list-three mdl-list order-card-order-lines">
 					<!-- LINES -->
-					<hr />
+					<hr class="order-lines-list-seperator" />
 					<li class="mdl-list__item mdl-list__item--three-line">
 						<span class="mdl-list__item-primary-content"></span>
 						<span class="mdl-list__item-secondary-content">
@@ -194,6 +194,24 @@
 </template>
 
 <template id="order-line-template">
-	
-
+	 <li class="mdl-list__item mdl-list__item--three-line">
+	 	<span class="mdl-list__item-primary-content">
+	 		<img src="./img/just_cause_3_pc.jpg" class="mdl-list__item-avatar" />
+	 		<span>
+	 			<span class="order-line-game-title">TITLE</span> (<span class="order-line-game-console">CONSOLE</span>)
+	 		</span>
+	 		<span class="mdl-list__item-text-body">
+	  			<b>Editeur:</b> <span class="order-line-game-publisher">PUBLISHER</span><br />
+	  			<b>Date de sortie:</b> <span class="order-line-game-release-date">RELEASE_DATE</span><br />
+	 			<span class="order-line-game-description">DESCRIPTION</span>
+	 		</span>
+	 	</span>
+	 	<span class="mdl-list__item-secondary-content">
+	 		<p>
+	 			<b><span class="order-line-game-price">PRICE</span>€</b>
+	 			<br />
+	 			x<b><span class="order-line-game-quantity">QUANTITY</span></b>
+	 		</p>
+	 	</span>
+	 </li>
 </template>
