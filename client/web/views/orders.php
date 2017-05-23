@@ -54,7 +54,7 @@
 					echo "<div class=\"mdl-cell mdl-cell--12-col\">";
 			?>
 
-					<div class="wide-card order-card mdl-card mdl-shadow--2dp">
+					<div class="wide-card dark-card mdl-card mdl-shadow--2dp">
 						<div class="mdl-card__title">
 							<h2 class="mdl-card__title-text">Aucune commande</h2>
 						</div>
@@ -124,7 +124,7 @@
 
 		?>
 			<div class="mdl-cell mdl-cell--12-col">
-				<div class="wide-card order-card mdl-card mdl-shadow--2dp">
+				<div class="wide-card dark-card mdl-card mdl-shadow--2dp">
 					<div class="mdl-card__title">
 						<h2 class="mdl-card__title-text">Commande n°<?php echo $o["num"]; ?> <br />Effectuée le <?php echo date_format(date_create($o["date"]), "d/m/Y"); ?></h2>
 					</div>
