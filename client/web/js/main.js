@@ -2,21 +2,46 @@
 
 (function(publics){
 	'use strict';
-	
+
 	// Private members
 	var privates = {};
 
-	privates.hostName = document.location.origin + ':8080';
-	privates.pathName = '/server';
+	privates.__hostName = document.location.origin + ':8080';
+	privates.__pathName = '/server';
 
-	privates.apiPath = function(resource = ''){return this.hostName + this.pathName + '/api/' + resource};
-	privates.loginPath = function(){return this.hostName + this.pathName + '/login'};
-	privates.logoutPath = function(){return this.hostName + this.pathName + '/logout'};
-
-	privates.jsessionid = '';
+	privates.__modules = {}; // Different loaded modules
 
 
 	// Public members
+	// Add a module to the admin object
+	publics.addModule = function(module, moduleName){
+		if(module === this)
+			throw new Error('Cannot register the admin object in the admin object.');
+
+		if(typeof moduleName != 'string' || typeof module != 'object' || !module)
+			throw new Error('The module name must be a string. The module must be an object.');
+
+		// If module not added yet
+		if(!(moduleName in privates.__modules)){
+			module.parent = publics; // Save a reference on the parent
+			privates.__modules[moduleName] = module;
+			publics[moduleName] = module; // Shortcut for module access
+		}
+		
+		return privates.__modules[moduleName];
+	}
+
+	// Remove a module from the handler.
+	publics.removeModule = function(name){
+		if(name in privates.__modules){
+			delete privates.__modules[name];
+			delete publics[name];
+			return true;
+		}
+
+		return false;
+	}	
+
 	publics.ajax = function(params, onSuccess, onError){
 		if(typeof params == 'undefined'){
 			throw new Error('Parameters are required.');
@@ -47,7 +72,7 @@
 					if(typeof onSuccess != 'undefined')
 						onSuccess({
 							error: null,
-							response: xhr.responseText,
+							response: JSON.parse(xhr.responseText),
 							status: xhr.status,
 							xhr: xhr
 						});
@@ -60,7 +85,7 @@
 								state: xhr.readyState,
 								status: xhr.status
 							},
-							response: xhr.responseText,
+							response: JSON.parse(xhr.responseText),
 							status: xhr.status,
 							xhr: xhr
 						});
@@ -110,12 +135,23 @@
 			method: 'GET',
 			url: './jsessionid.php'
 		}, function(obj){
-			publics.sessionid = JSON.parse(obj.response).id;
+			publics.sessionid = obj.response.id;
 		}, function(obj){
 			publics.sessionid = null;
 		});
+
+		// Init all modules (if init function exists)
+		for(var m in privates.__modules){
+			var module = privates.__modules[m];
+
+			if(module.init)
+				module.init();
+		}
+
+		console.log('Main mandler initialized.');
 	}
 
+	publics.apiPath = function(resource = ''){return privates.__hostName + privates.__pathName + '/api/' + resource;}
+	publics.loginPath = privates.__hostName + privates.__pathName + '/login';
+	publics.logoutPath = privates.__hostName + privates.__pathName + '/logout';	
 })(main);
-
-main.init();
