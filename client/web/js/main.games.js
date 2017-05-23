@@ -35,29 +35,33 @@
 		template.content.querySelector('.mdl-card__title-text').innerHTML = game.title + '<br />(' + game.console + ')';
 		template.content.querySelector('.game-card-description').textContent = game.description;
 		template.content.querySelector('.game-card-publisher').textContent = ' ' + game.publisher;
-		template.content.querySelector('.game-card-release-date').textContent = ' ' + game.releaseDate;
+		template.content.querySelector('.game-card-release-date').textContent = ' ' + (new Date(game.releaseDate)).toLocaleDateString();
 		template.content.querySelector('.game-card-genre').textContent = ' ' + privates.__stringifyGenres(game.genres);
-		template.content.querySelector('.game-card-price').textContent = ' ' + game.price;
+		template.content.querySelector('.game-card-price').textContent = ' ' + game.price.formatNumber(2, ',', ' ');
 		template.content.querySelector('.game-card-add-to-cart-button').textContent = (game.stock > 0 ? 'Ajouter au panier' : 'En rupture de stock');
 		template.content.querySelector('.game-card-add-to-cart-button').setAttribute('game-id', game.id);
-
-		if(game.stock == 0)
-			template.content.querySelector('.game-card-add-to-cart-button').setAttribute('disabled', true);
+		template.content.querySelector('.game-card-add-to-cart-button').removeAttribute('disabled'); // Cleaning template
+		template.content.querySelector('.game-card-add-to-cart-button').removeAttribute('enabled');
+		template.content.querySelector('.game-card-add-to-cart-button').setAttribute(game.stock == 0 ? 'disabled' : 'enabled', true);
 
 		return document.importNode(template.content, true);
 	}
 
 	// Public members
 	publics.init = function(){
+		publics.setDefaultContainer('#games .page-content .mdl-grid .mdl-cell .mdl-grid');
+
+		publics.reload();
+
 		console.log('Games module initialized.');
 	}
 
 	// Set the default container when modifying content
 	publics.setDefaultContainer = function(container){
 		if(typeof container != 'string' || !container)
-			throw new Error('The container attribute must be a string (id of the container).');
+			throw new Error('The container attribute must be a string (CSS selector of the container).');
 
-		privates.__defaultContainer = document.querySelector('#' + container + ' .page-content .mdl-grid .mdl-cell .mdl-grid');
+		privates.__defaultContainer = document.querySelector(container);
 	}
 
 
@@ -88,6 +92,30 @@
 			url: main.apiPath('games/' + id)
 		}, function(obj){
 			console.log(obj.response);
+		}, function(err){
+			console.error(err.error);
+		});
+	}
+
+	// Clean the interface
+	publics.clean = function(){
+		privates.__defaultContainer.innerHTML = '';
+	}
+
+	// Reload the interface with all games
+	publics.reload = function(){
+		publics.clean();
+
+		main.ajax({
+			method: 'GET',
+			url: main.apiPath('games')			
+		}, function(obj){
+			var games = obj.response;
+
+			// Building the interface
+			games.forEach(function(g){
+				privates.__defaultContainer.append(privates.__card(g));
+			});
 		}, function(err){
 			console.error(err.error);
 		});

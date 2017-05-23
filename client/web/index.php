@@ -40,6 +40,10 @@
 
 		<script src="./js/material.min.js"></script>
 		<script src="./js/workshop.js"></script>
-		<script src="./js/gamesstore.js"></script>
+		<script src="./js/main.js"></script>
+		<script src="./js/main.games.js"></script>
+		<script type="text/javascript">
+			main.init();
+		</script>
 	</body>
 </html>
