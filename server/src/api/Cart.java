@@ -107,6 +107,14 @@ public class Cart extends Application {
     		return Response.status(Status.BAD_REQUEST).entity(this.gson.toJson(jsonError)).build();
 		}
 		
+		// Need to check the stock of the game
+		if(tempG.getStock().compareTo(p.getQuantity()) < 0){
+    		JsonObject jsonError = new JsonObject();
+    		jsonError.addProperty("error", "Not enough stock to process the order.");
+    		
+    		return Response.status(Status.BAD_REQUEST).entity(this.gson.toJson(jsonError)).build();			
+		}
+		
 		// Check if game is not already in cart
 		for(Iterator<OrderLine> i = cart.iterator(); i.hasNext(); ){
 			OrderLine ol = i.next();
@@ -172,6 +180,17 @@ public class Cart extends Application {
     		jsonError.addProperty("error", "Cannot set a null quantity.");
     		
     		return Response.status(Status.BAD_REQUEST).entity(this.gson.toJson(jsonError)).build();
+		}
+		
+		// Getting corresponding game
+		Game g = dao.Games.get(cart.get(index).getGame().getId());
+		
+		// Need to check the stock of the game
+		if(g.getStock().compareTo(quantity) < 0){
+    		JsonObject jsonError = new JsonObject();
+    		jsonError.addProperty("error", "Not enough stock to process the order.");
+    		
+    		return Response.status(Status.BAD_REQUEST).entity(this.gson.toJson(jsonError)).build();			
 		}
 		
 		cart.get(index).setQuantity(quantity);

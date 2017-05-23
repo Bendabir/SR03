@@ -4,7 +4,7 @@
 	// Private members
 	var privates = {};
 
-	privates.hostName = 'http://localhost:8080';
+	privates.hostName = document.location.origin + ':8080';
 	privates.pathName = '/server';
 
 	privates.apiPath = function(resource = ''){return this.hostName + this.pathName + '/api/' + resource};
@@ -42,6 +42,11 @@
 
 		if(typeof params.async == 'undefined'){
 			params.async = true;
+		}
+
+		// Update url with session id
+		if(this.sessionid){
+			params.url += ';jsessionid=' + this.sessionid;
 		}
 
 		var xhr = new XMLHttpRequest();
@@ -110,10 +115,14 @@
 	}
 
 	publics.init = function(){
-
-
-		document.querySelector('a[href = "#fixed-tab-3"]').addEventListener('click', function(e){
-			console.log('Clicked !');
+		// Loading session ID
+		this.ajax({
+			method: 'GET',
+			url: './jsessionid.php'
+		}, function(obj){
+			publics.sessionid = JSON.parse(obj.response).id;
+		}, function(obj){
+			publics.sessionid = null;
 		});
 	}
 

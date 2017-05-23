@@ -20,17 +20,17 @@
 			<?php require_once('header.php'); ?>
 
 			<main class="mdl-layout__content">
-				<section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+				<section class="mdl-layout__tab-panel is-active" id="games">
 					<div class="page-content">
 						<?php require_once('./views/games.php'); ?>
 					</div>
 				</section>
-				<section class="mdl-layout__tab-panel" id="fixed-tab-2">
+				<section class="mdl-layout__tab-panel" id="cart">
 					<div class="page-content">
 						<?php require_once('./views/cart.php'); ?>
 					</div>
 				</section>
-				<section class="mdl-layout__tab-panel" id="fixed-tab-3">
+				<section class="mdl-layout__tab-panel" id="orders">
 					<div class="page-content">
 						<?php require_once('./views/orders.php'); ?>
 					</div>
@@ -40,6 +40,6 @@
 
 		<script src="./js/material.min.js"></script>
 		<script src="./js/workshop.js"></script>
-		<script src="./js/gamestore.js"></script>
+		<script src="./js/gamesstore.js"></script>
 	</body>
 </html>
