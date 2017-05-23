@@ -54,3 +54,7 @@ footer p {
 	-webkit-hyphens: auto;
 	hyphens: auto;
 }
+
+.mdl-progress {
+	width: 100%;
+}

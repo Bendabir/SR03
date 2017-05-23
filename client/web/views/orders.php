@@ -159,3 +159,41 @@
 		</div>
 	</div>
 </div>
+
+<!-- Card template for orders -->
+<template id="order-card-template">
+	<div class="mdl-cell mdl-cell--12-col">
+		<div class="wide-card dark-card mdl-card mdl-shadow--2dp">
+			<div class="mdl-card__title">
+				<h2 class="mdl-card__title-text">
+					Commande n°<span class="order-card-order-num">NUM_COMMANDE</span><br />
+					Effectuée le <span class="order-card-order-date">DATE</span>
+				</h2>
+			</div>
+			<div class="mdl-card__menu">
+				<p class="order-card-amount">
+					Montant total: <span class="order-card-order-amount">MONTANT</span>€
+				</p>
+			</div>
+			<div class="mdl-card__actions mdl-card--border">
+				<ul class="demo-list-three mdl-list">
+					<!-- LINES -->
+					<hr />
+					<li class="mdl-list__item mdl-list__item--three-line">
+						<span class="mdl-list__item-primary-content"></span>
+						<span class="mdl-list__item-secondary-content">
+							<p>
+								<b><span class="order-card-order-amount">MONTANT</span>€</b>
+							</p>
+						</span>
+					</li>											
+				</ul>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template id="order-line-template">
+	
+
+</template>

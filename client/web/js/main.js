@@ -28,6 +28,14 @@
 
 
 	// Public members
+	// Generate a loader
+	publics.__loader = function(){
+		var loader = document.createElement('div');
+		loader.className = 'mdl-progress mdl-js-progress mdl-progress__indeterminate';
+
+		return loader;
+	}
+
 	// Add a module to the admin object
 	publics.addModule = function(module, moduleName){
 		if(module === this)
@@ -166,7 +174,9 @@
 		console.log('Main handler initialized.');
 	}
 
-	publics.apiPath = function(resource = ''){return privates.__hostName + privates.__pathName + '/api/' + resource;}
-	publics.loginPath = privates.__hostName + privates.__pathName + '/login';
-	publics.logoutPath = privates.__hostName + privates.__pathName + '/logout';	
+	publics.__apiPath = function(resource = ''){
+		return privates.__hostName + privates.__pathName + '/api/' + resource;
+	}
+	publics.__loginPath = privates.__hostName + privates.__pathName + '/login';
+	publics.__logoutPath = privates.__hostName + privates.__pathName + '/logout';	
 })(main);

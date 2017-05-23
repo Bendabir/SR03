@@ -42,8 +42,17 @@
 		<script src="./js/workshop.js"></script>
 		<script src="./js/main.js"></script>
 		<script src="./js/main.games.js"></script>
+		<script src="./js/main.orders.js"></script>
 		<script type="text/javascript">
 			main.init();
 		</script>
+
+		<!-- HTML template for error cards -->
+		<template id="error-card">
+		</template>
+
+		<!-- HTML template for info cards -->
+		<template id="info-card">
+		</template>
 	</body>
 </html>

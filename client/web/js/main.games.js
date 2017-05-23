@@ -70,7 +70,7 @@
 	publics.get = function(id = '', onSuccess, onError){
 		main.ajax({
 			method: 'GET',
-			url: main.apiPath('games' + (id == '' ? '' : '/') + id)
+			url: main.__apiPath('games' + (id == '' ? '' : '/') + id)
 		}, function(obj){
 			console.log(obj.response);
 		}, function(err){
@@ -89,7 +89,7 @@
 	publics.delete = function(id, onSuccess, onError){
 		main.ajax({
 			method: 'DELETE',
-			url: main.apiPath('games/' + id)
+			url: main.__apiPath('games/' + id)
 		}, function(obj){
 			console.log(obj.response);
 		}, function(err){
@@ -105,12 +105,16 @@
 	// Reload the interface with all games
 	publics.reload = function(){
 		publics.clean();
+		
+		privates.__defaultContainer.append(main.__loader());
 
 		main.ajax({
 			method: 'GET',
-			url: main.apiPath('games')			
+			url: main.__apiPath('games')			
 		}, function(obj){
 			var games = obj.response;
+			
+			publics.clean();
 
 			// Building the interface
 			games.forEach(function(g){
