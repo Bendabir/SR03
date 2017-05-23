@@ -165,9 +165,9 @@
 	<div class="mdl-cell mdl-cell--12-col">
 		<div class="wide-card dark-card mdl-card mdl-shadow--2dp">
 			<div class="mdl-card__title">
-				<h2 class="mdl-card__title-text">
-					Commande n°<span class="order-card-order-num">NUM_COMMANDE</span><br />
-					Effectuée le <span class="order-card-order-date">DATE</span>
+				<h2 class="mdl-card__title-text order-card-title">
+					Commande n°NUM_COMMANDE
+					Effectuée le DATE
 				</h2>
 			</div>
 			<div class="mdl-card__menu">
@@ -197,13 +197,11 @@
 	 <li class="mdl-list__item mdl-list__item--three-line">
 	 	<span class="mdl-list__item-primary-content">
 	 		<img src="./img/just_cause_3_pc.jpg" class="mdl-list__item-avatar" />
-	 		<span>
-	 			<span class="order-line-game-title">TITLE</span> (<span class="order-line-game-console">CONSOLE</span>)
+	 		<span class="order-line-title">
+	 			TITLE (CONSOLE)
 	 		</span>
-	 		<span class="mdl-list__item-text-body">
-	  			<b>Editeur:</b> <span class="order-line-game-publisher">PUBLISHER</span><br />
-	  			<b>Date de sortie:</b> <span class="order-line-game-release-date">RELEASE_DATE</span><br />
-	 			<span class="order-line-game-description">DESCRIPTION</span>
+	 		<span class="mdl-list__item-text-body order-line-game-description">
+	 			DESCRIPTION
 	 		</span>
 	 	</span>
 	 	<span class="mdl-list__item-secondary-content">

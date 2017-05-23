@@ -119,6 +119,8 @@ public class Orders{
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 
+			// Jointure à la place, pour éviter les sous-requêtes dégueux ?
+			
 			// Requête
 			String sql = "SELECT * FROM orders WHERE user = ? ORDER BY num DESC;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
@@ -131,7 +133,7 @@ public class Orders{
 				// Get lines
 				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.publisher, g.release_date FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
 				PreparedStatement psLines = cnx.prepareStatement(sqlLines);
-				psLines.setInt(1, res.getInt("num"));
+				psLines.setInt(1, res.getInt("num")); // Sometimes a 500 error is thrown here...
 				
 				ArrayList<OrderLine> lines = new ArrayList<OrderLine>();
 				

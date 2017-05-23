@@ -26,10 +26,9 @@
 		// Building the card using a HTML5 template
 		var template = document.querySelector('#order-line-template');
 		
-		template.content.querySelector('.order-line-game-title').textContent = line.game.title;
-		template.content.querySelector('.order-line-game-console').textContent = line.game.console;
-		template.content.querySelector('.order-line-game-publisher').textContent = line.game.publisher;
-		template.content.querySelector('.order-line-game-release-date').textContent = (new Date(line.game.releaseDate)).toLocaleDateString();
+		// template.content.querySelector('.order-line-game-title').textContent = line.game.title;
+		// template.content.querySelector('.order-line-game-console').textContent = line.game.console;
+		template.content.querySelector('.order-line-title').textContent = line.game.title + ' (' + line.game.console + ')';
 		template.content.querySelector('.order-line-game-description').textContent = line.game.description;
 		template.content.querySelector('.order-line-game-price').textContent = line.unitPrice.formatNumber(2, ',', ' ');
 		template.content.querySelector('.order-line-game-quantity').textContent = line.quantity;
@@ -56,8 +55,9 @@
 		// Building the card using a HTML5 template
 		var template = document.querySelector('#order-card-template');
 
-		template.content.querySelector('.order-card-order-num').textContent = order.num;
-		template.content.querySelector('.order-card-order-date').textContent = (new Date(order.date)).toLocaleDateString();
+		// template.content.querySelector('.order-card-order-num').textContent = order.num;
+		// template.content.querySelector('.order-card-order-date').textContent = (new Date(order.date)).toLocaleDateString();
+		template.content.querySelector('.order-card-title').innerHTML = 'Commande n°' + order.num + '<br />Effectuée le ' + (new Date(order.date)).toLocaleDateString();
 		template.content.querySelectorAll('.order-card-order-amount').forEach(function(e){
 			e.textContent = orderAmount.formatNumber(2, ',', ' ');
 		});
@@ -79,6 +79,11 @@
 	// Public members
 	publics.init = function(){
 		publics.setDefaultContainer('#orders .page-content .mdl-grid .mdl-cell .mdl-grid');
+
+		// Linking the tab to the reload function
+		document.querySelector('a[href="#orders"]').addEventListener('click', function(e){
+			publics.reload();
+		});
 
 		publics.reload();
 
@@ -114,5 +119,52 @@
 
 	// Reload the interface with all games
 	publics.reload = function(){
+		publics.clean();
+		
+		privates.__defaultContainer.append(main.__loader());
+
+		main.ajax({
+			method: 'GET',
+			url: main.__apiPath('orders'),
+			async: main.__async		
+		}, function(obj){
+			var orders = obj.response;
+			
+			publics.clean();
+
+			// Building the interface
+			orders.forEach(function(o){
+				privates.__defaultContainer.append(privates.__card(o));
+			});
+		}, function(err){
+			// Building a card depending on the error
+			var e = {
+				message: err.error.message,
+				code: err.error.status,
+				moreInformation: null,
+				action: 'Recharger',
+				icon: 'loop'
+			};
+
+			// Depeding on the error code
+			switch (e.code) {
+				case 401: {
+					e.moreInformation = 'Tentez de vous déconnecter et de vous reconnecter pour résoudre le problème.';
+					e.action = 'Se reconnecter';
+				} break;
+				case 500: {
+					e.moreInformation = 'Une erreur critique s\'est produite. Veuillez contacter l\'administrateur.';
+				} break;
+				default: {
+					e.moreInformation = 'Une erreur inconnue s\'est produite. Tentez de recharger la page.';
+				} break;
+			}
+
+			publics.clean();
+
+			privates.__defaultContainer.append(main.__errorCard(e));
+
+			console.error(err.error);
+		});		
 	}
 })(main.orders);

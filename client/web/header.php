@@ -64,10 +64,8 @@
 </div>
 
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="filter-menu">
-	<li class="mdl-menu__item">
-		<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
-			<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" checked>
-			<span class="mdl-checkbox__label">Consoles</span>
-		</label>
-	</li>
+	<li class="mdl-menu__item">Par nom</li>
+	<li class="mdl-menu__item">Par date de sortie</li>
+	<li class="mdl-menu__item">Par prix</li>
+	<li class="mdl-menu__item">Par genre</li>
 </ul>

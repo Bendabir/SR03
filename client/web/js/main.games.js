@@ -51,6 +51,11 @@
 	publics.init = function(){
 		publics.setDefaultContainer('#games .page-content .mdl-grid .mdl-cell .mdl-grid');
 
+		// Linking the tab to the reload function
+		document.querySelector('a[href="#games"]').addEventListener('click', function(e){
+			publics.reload();
+		});
+
 		publics.reload();
 
 		console.log('Games module initialized.');
@@ -110,7 +115,8 @@
 
 		main.ajax({
 			method: 'GET',
-			url: main.__apiPath('games')			
+			url: main.__apiPath('games'),
+			async: main.__async
 		}, function(obj){
 			var games = obj.response;
 			

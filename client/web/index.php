@@ -44,15 +44,38 @@
 		<script src="./js/main.games.js"></script>
 		<script src="./js/main.orders.js"></script>
 		<script type="text/javascript">
-			main.init();
+			document.addEventListener('DOMContentLoaded', function(e){
+				main.init();
+			}, false);
 		</script>
 
 		<!-- HTML template for error cards -->
-		<template id="error-card">
+		<template id="error-card-template">
+			<div class="wide-card error-card mdl-card mdl-shadow--2dp">
+				<div class="mdl-card__title">
+					<h2 class="mdl-card__title-text">Ooops</h2>
+				</div>
+				<div class="mdl-card__supporting-text">
+					Une erreur s'est produite : <b class="error-message">ERROR</b><br />
+					<p class="error-more-information">MORE_INFORMATION</p>
+					<br />
+					<br />
+				</div>
+				<div class="mdl-card__actions mdl-card--border">
+					<a class="mdl-button mdl-js-button mdl-js-ripple-effect error-action">
+						ACTION
+					</a>
+				</div>
+				<div class="mdl-card__menu">
+					<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+						<i class="material-icons">loop</i>
+					</button>
+				</div>
+			</div>		
 		</template>
 
 		<!-- HTML template for info cards -->
-		<template id="info-card">
+		<template id="info-card-template">
 		</template>
 	</body>
 </html>

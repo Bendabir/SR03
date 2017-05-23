@@ -152,16 +152,21 @@
 		}
 	}
 
-	publics.init = function(){
+	publics.updateSessionId = function(){
 		// Loading session ID
 		this.ajax({
 			method: 'GET',
-			url: './jsessionid.php'
+			url: './jsessionid.php',
+			async: false // Dirty but otherwise, some other functions run without having the token...
 		}, function(obj){
 			publics.sessionid = obj.response.id;
 		}, function(obj){
 			publics.sessionid = null;
 		});
+	}
+
+	publics.init = function(){
+		publics.updateSessionId();
 
 		// Init all modules (if init function exists)
 		for(var m in privates.__modules){
@@ -174,9 +179,33 @@
 		console.log('Main handler initialized.');
 	}
 
+	// Create an error card
+	publics.__errorCard = function(error){
+		// Checking the error
+		if(typeof error != 'object' || !error)
+			throw new Error('The error attribute must be an object.');
+
+		// Building the card using a HTML5 template
+		var template = document.querySelector('#error-card-template');
+
+		// Filling the template
+		template.content.querySelector('.error-message').textContent = error.message + ' (' + error.code +')';
+		template.content.querySelector('.error-more-information').textContent = error.moreInformation;
+		template.content.querySelector('.error-action').textContent = error.action;
+		template.content.querySelector('.mdl-card__menu .material-icons').textContent = error.icon;
+
+		return document.importNode(template.content, true);
+	}
+
+	publics.__infoCard = function(info){
+		
+	}
+
 	publics.__apiPath = function(resource = ''){
 		return privates.__hostName + privates.__pathName + '/api/' + resource;
 	}
+
 	publics.__loginPath = privates.__hostName + privates.__pathName + '/login';
-	publics.__logoutPath = privates.__hostName + privates.__pathName + '/logout';	
+	publics.__logoutPath = privates.__hostName + privates.__pathName + '/logout';
+	publics.__async = false; // For testing since the server is crap
 })(main);
