@@ -16,6 +16,7 @@
 		return (genres.length == 0 ? 'Inconnu' : genres.join(' | '));
 	}
 
+	// Build a card and return the DOM object
 	privates.__card = function(game){
 		// Checking the game
 		if(typeof game != 'object' || !game)
@@ -27,12 +28,23 @@
 		if(typeof game.description == 'undefined')
 			game.description = 'Pas de description.';
 
-		// Building the card
-		var cardRoot = document.createElement('div');
+		// Building the card using a HTML5 template
+		var template = document.querySelector('#game-card-template');
 
+		// Filling the template
+		template.content.querySelector('.mdl-card__title-text').innerHTML = game.title + '<br />(' + game.console + ')';
+		template.content.querySelector('.game-card-description').textContent = game.description;
+		template.content.querySelector('.game-card-publisher').textContent = ' ' + game.publisher;
+		template.content.querySelector('.game-card-release-date').textContent = ' ' + game.releaseDate;
+		template.content.querySelector('.game-card-genre').textContent = ' ' + privates.__stringifyGenres(game.genres);
+		template.content.querySelector('.game-card-price').textContent = ' ' + game.price;
+		template.content.querySelector('.game-card-add-to-cart-button').textContent = (game.stock > 0 ? 'Ajouter au panier' : 'En rupture de stock');
+		template.content.querySelector('.game-card-add-to-cart-button').setAttribute('game-id', game.id);
 
+		if(game.stock == 0)
+			template.content.querySelector('.game-card-add-to-cart-button').setAttribute('disabled', true);
 
-		return cardRoot; // Give the card
+		return document.importNode(template.content, true);
 	}
 
 	// Public members
@@ -45,7 +57,7 @@
 		if(typeof container != 'string' || !container)
 			throw new Error('The container attribute must be a string (id of the container).');
 
-		privates.__defaultContainer = document.querySelector('#' + container + ' .page-content');
+		privates.__defaultContainer = document.querySelector('#' + container + ' .page-content .mdl-grid .mdl-cell .mdl-grid');
 	}
 
 
