@@ -255,6 +255,14 @@ public class Orders{
 				savePricePs.setInt(3, line.getGame().getId());
 				
 				savePricePs.executeUpdate();
+				
+				// Update stock
+				String stockUpdateSql = "UPDATE games SET stock = stock - ? WHERE id = ?;";
+				PreparedStatement stockUpdatePs = cnx.prepareStatement(stockUpdateSql);
+				stockUpdatePs.setInt(1, line.getQuantity());
+				stockUpdatePs.setInt(2, line.getGame().getId());
+				
+				stockUpdatePs.executeUpdate();
 			}
 			
 			DatabaseConnection.getInstance().closeCnx();
