@@ -1,17 +1,17 @@
 <?php 
-	require_once(dirname(__FILE__)."/../utils/config.php");
-	require_once(dirname(__FILE__)."/../libraries/Requests.php");
+	// require_once(dirname(__FILE__)."/../utils/config.php");
+	// require_once(dirname(__FILE__)."/../libraries/Requests.php");
 
-	Requests::register_autoloader();
+	// Requests::register_autoloader();
 
-	$headers = array(
-		"Cookie" => "JSESSIONID=".$_SESSION["JSESSIONID"] // Setting cookie 
-	);
-	$ordersRequest = Requests::get($apiEndPoint."/orders", $headers);
-	$orders = $ordersRequest->body;
+	// $headers = array(
+	// 	"Cookie" => "JSESSIONID=".$_SESSION["JSESSIONID"] // Setting cookie 
+	// );
+	// $ordersRequest = Requests::get($apiEndPoint."/orders", $headers);
+	// $orders = $ordersRequest->body;
 
-	// Building interface from orders
-	$orders = json_decode($orders, true);
+	// // Building interface from orders
+	// $orders = json_decode($orders, true);
 ?>
 
 <div class="mdl-grid">

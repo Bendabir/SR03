@@ -197,8 +197,22 @@
 		return document.importNode(template.content, true);
 	}
 
+	// Create an info card
 	publics.__infoCard = function(info){
-		
+		// Checking the error
+		if(typeof info != 'object' || !info)
+			throw new Error('The info attribute must be an object.');
+
+		// Building the card using a HTML5 template
+		var template = document.querySelector('#info-card-template');
+
+		template.content.querySelector('.info-title').textContent = info.title;
+		template.content.querySelector('.info-text').innerHTML = info.text + '<br /><br />';
+		template.content.querySelector('.info-action').textContent = info.action;
+		template.content.querySelector('.info-action').setAttribute('href', info.actionLink);
+		template.content.querySelector('.info-icon .material-icons').textContent = info.icon;
+
+		return document.importNode(template.content, true);
 	}
 
 	publics.__apiPath = function(resource = ''){

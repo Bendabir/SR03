@@ -26,9 +26,9 @@
 		if(!strpos($_SERVER["REQUEST_URI"], "admin")){
 	?>
 		<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-			<a href="#games" class="mdl-layout__tab is-active">Jeux</a>
-			<a href="#cart" class="mdl-layout__tab">Mon panier (3)</a>
-			<a href="#orders" class="mdl-layout__tab">Mes commandes</a>
+			<a href="#games" class="mdl-layout__tab is-active">Jeux (<span id="games-number">-</span>)</a>
+			<a href="#cart" class="mdl-layout__tab">Mon panier (<span id="products-in-cart-number">3</span>)</a>
+			<a href="#orders" class="mdl-layout__tab">Mes commandes (<span id="orders-number">-</span>)</a>
 		</div>
 	<?php 
 		}

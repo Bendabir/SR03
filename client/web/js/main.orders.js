@@ -132,10 +132,28 @@
 			
 			publics.clean();
 
-			// Building the interface
-			orders.forEach(function(o){
-				privates.__defaultContainer.append(privates.__card(o));
-			});
+			// If we have orders, then buiding the interface
+			if(orders.length){
+				// Building the interface
+				orders.forEach(function(o){
+					privates.__defaultContainer.append(privates.__card(o));
+				});
+			}
+			else {
+				// Otherwise, just displaying a card saying there is no order yet
+				var info = {
+					title: 'Aucune commande',
+					text: 'Vous n\'avez passé aucune commande pour le moment. <br />Une fois des commandes effectuées, elle apparaîtrons dans cet onglet.',
+					action: 'Accéder à mon panier',
+					actionLink: '#cart',
+					icon: ''
+				};
+
+				privates.__defaultContainer.append(main.__infoCard(info));
+			}
+
+			// Updating the game number in the tabs
+			document.querySelector('#orders-number').textContent = orders.length;			
 		}, function(err){
 			// Building a card depending on the error
 			var e = {

@@ -122,10 +122,28 @@
 			
 			publics.clean();
 
-			// Building the interface
-			games.forEach(function(g){
-				privates.__defaultContainer.append(privates.__card(g));
-			});
+			// If we have orders, then buiding the interface
+			if(games.length){
+				// Building the interface
+				games.forEach(function(g){
+					privates.__defaultContainer.append(privates.__card(g));
+				});
+			}
+			else {
+				// Otherwise, just displaying a card saying there is no order yet
+				var info = {
+					title: 'Aucun jeu disponible',
+					text: 'Aucun jeu n\'est disponible à la vente pour le moment. Revenez plus tard.',
+					action: 'Accéder à mes commandes',
+					actionLink: '#orders',
+					icon: ''
+				};
+
+				privates.__defaultContainer.append(main.__infoCard(info));
+			}			
+
+			// Updating the game number in the tabs
+			document.querySelector('#games-number').textContent = games.length;
 		}, function(err){
 			console.error(err.error);
 		});
