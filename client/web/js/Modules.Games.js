@@ -109,6 +109,9 @@
 		if(typeof this.parent.interface == 'undefined')
 			throw new Error('This module needs the Interface module in order to run properly.');
 
+		if(typeof this.parent.cart == 'undefined')
+			throw new Error('This module needs the Cart module in order to run properly');
+
 		this.__defaultContainer.append(this.parent.interface.__loader());
 
 		var currentModule = this;
@@ -127,6 +130,13 @@
 				// Building the interface
 				games.forEach(function(g){
 					currentModule.__defaultContainer.append(__card(g));
+				});
+
+				// When clicking on a card, the product is added to cart
+				document.querySelectorAll('.game-card-add-to-cart-button').forEach(function(el){
+					el.addEventListener('click', function(e){
+						currentModule.parent.cart.post(this.getAttribute('game-id'), 1);
+					});
 				});
 			}
 			else {

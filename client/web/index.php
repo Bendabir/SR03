@@ -43,10 +43,12 @@
 		<script src="./js/Modules.Interface.js"></script>
 		<script src="./js/Modules.Games.js"></script>
 		<script src="./js/Modules.Orders.js"></script>
+		<script src="./js/Modules.Cart.js"></script>
 		<script type="text/javascript">
 			var main = new Handler.app(false);
 
 			main.addModule(new Modules.Games(), 'games');
+			main.addModule(new Modules.Cart(), 'cart');
 			main.addModule(new Modules.Orders(), 'orders');
 			main.addModule(new Modules.Interface(), 'interface');
 
