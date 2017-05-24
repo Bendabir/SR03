@@ -1,0 +1,403 @@
+// ; var main = {};
+
+; var Handler = (function(){
+	// Helpers 
+	Number.prototype.formatNumber = function(c, d, t){
+		var n = this, 
+			c = isNaN(c = Math.abs(c)) ? 2 : c, 
+			d = d == undefined ? "." : d, 
+			t = t == undefined ? "," : t, 
+			s = n < 0 ? "-" : "", 
+			i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))), 
+			j = (j = i.length) > 3 ? j % 3 : 0;
+
+		return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+	};
+
+	XMLHttpRequest.prototype.setRequestHeaders = function _setRequestHeaders(rh, defaultCT){
+		if(!defaultCT) 
+			defaultCT = 'application/json';
+
+		for(var header in rh){
+			this.setRequestHeader(header, rh[header]);
+		}
+	}
+
+	// Application
+	var Handler = {};
+
+	// Constructor
+	Handler.app = function(async = true){
+		this.__port = 8080;
+		this.__hostName = document.location.origin + ':' + this.__port;
+		this.__pathName = '/server';
+		this.__loginPath = this.__hostName + this.__pathName + '/login';
+		this.__logoutPath = this.__hostName + this.__pathName + '/logout';
+		this.__async = async; // For testing since the server is crap
+		this.__modules = {};
+		this.__sessionid = null;
+	}
+
+	// Add a module to the admin object
+	Handler.app.prototype.addModule = function(module, moduleName){
+		if(module === this)
+			throw new Error('Cannot register the handler object in the handler object.');
+
+		if(typeof moduleName != 'string' || typeof module != 'object' || !module)
+			throw new Error('The module name must be a string. The module must be an object.');
+
+		// If module not added yet
+		if(!(moduleName in this.__modules)){
+			module.parent = this; // Save a reference on the parent
+			this.__modules[moduleName] = module;
+			this[moduleName] = module; // Shortcut for module access
+		}
+		
+		// return this.__modules[moduleName];
+		return this;
+	}
+
+	// Remove a module from the handler.
+	Handler.app.prototype.removeModule = function(name){
+		if(!(name in privates.__modules))
+			throw new Error('This module is not registered and cannot be deleted.');
+
+		delete privates.__modules[name];
+		delete publics[name];
+		return this;
+	}	
+
+	Handler.app.prototype.ajax = function(params, onSuccess, onError){
+		if(typeof params == 'undefined'){
+			throw new Error('Parameters are required.');
+		}
+
+		if(typeof params.url == 'undefined'){
+			throw new Error('URL is required.');
+		}
+
+		if(typeof params.method == 'undefined'){
+			throw new Error('Method is required.');
+		}
+
+		if(typeof params.async == 'undefined'){
+			params.async = true;
+		}
+
+		// Update url with session id
+		if(this.__sessionid){
+			params.url += ';jsessionid=' + this.__sessionid;
+		}
+
+		var xhr = new XMLHttpRequest();
+
+		xhr.addEventListener('readystatechange', function(e){
+			if(xhr.readyState == 4){
+				if(xhr.status >= 200 && xhr.status < 300){
+					if(typeof onSuccess != 'undefined')
+						onSuccess({
+							error: null,
+							response: JSON.parse(xhr.responseText),
+							status: xhr.status,
+							xhr: xhr
+						});
+				}
+				else {
+					if(typeof onError != 'undefined')
+						onError({
+							error: {
+								message: xhr.statusText,
+								state: xhr.readyState,
+								status: xhr.status
+							},
+							response: JSON.parse(xhr.responseText),
+							status: xhr.status,
+							xhr: xhr
+						});
+				}
+			}
+		});
+
+		if(['GET', 'DELETE'].indexOf(params.method) != -1){
+			if(typeof params.data != 'undefined'){
+				var url = (params.url.substring(params.url.length - 1, params.url.length) == '/')? '?' : '/?';
+
+				for(var key in params.data){
+					url += key + '=' + params.data[key] + '&';
+				}
+
+				url = url.substring(0, url.length - 1);
+				params.url += url;
+			}
+
+			xhr.open(params.method, params.url, params.async);
+			xhr.setRequestHeaders(params.headers || {});
+			xhr.send();
+		}
+		else if(['POST', 'PUT'].indexOf(params.method) != -1){
+			xhr.open(params.method, params.url, params.async);
+			xhr.setRequestHeaders(params.headers || {});
+
+			if(typeof params.data != 'undefined'){
+				if(params.headers && params.headers['Content-Type'] && params.headers['Content-Type'] == 'application/json'){
+					xhr.send(JSON.stringify(params.data));
+				} else {
+					xhr.send(params.data);
+				}
+			}
+			else {
+				xhr.send();
+			}
+		}
+		else {
+			throw new Error('This method is not supported.');
+		}
+	}
+
+	Handler.app.prototype.updateSessionId = function(){
+		var handler = this;
+
+		// Loading session ID
+		this.ajax({
+			method: 'GET',
+			url: './jsessionid.php',
+			async: false // Dirty but otherwise, some other functions run without having the token...
+		}, function(obj){
+			handler.__sessionid = obj.response.id;
+		}, function(obj){
+			handler.__sessionid = null;
+		});
+
+		return this;
+	}
+
+	Handler.app.prototype.init = function(){
+		this.updateSessionId();
+
+		// Init all modules (if init function exists)
+		for(var m in this.__modules){
+			var module = this.__modules[m];
+
+			if(module.init)
+				module.init();
+		}
+
+		console.log('Handler initialized.');
+	}
+
+
+	Handler.app.prototype.apiPath = function(resource = ''){
+		return this.__hostName + this.__pathName + '/api/' + resource;
+	}
+
+	return Handler;
+})();
+
+// (function(publics){
+// 	'use strict';
+
+// 	// Private members
+// 	var privates = {};
+
+// 	privates.__hostName = document.location.origin + ':8080';
+// 	privates.__pathName = '/server';
+
+// 	privates.__modules = {}; // Different loaded modules
+
+
+// 	// Public members
+// 	// Generate a loader
+// 	publics.__loader = function(){
+// 		var loader = document.createElement('div');
+// 		loader.className = 'mdl-progress mdl-js-progress mdl-progress__indeterminate';
+
+// 		return loader;
+// 	}
+
+// 	// Add a module to the admin object
+// 	publics.addModule = function(module, moduleName){
+// 		if(module === this)
+// 			throw new Error('Cannot register the admin object in the admin object.');
+
+// 		if(typeof moduleName != 'string' || typeof module != 'object' || !module)
+// 			throw new Error('The module name must be a string. The module must be an object.');
+
+// 		// If module not added yet
+// 		if(!(moduleName in privates.__modules)){
+// 			module.parent = publics; // Save a reference on the parent
+// 			privates.__modules[moduleName] = module;
+// 			publics[moduleName] = module; // Shortcut for module access
+// 		}
+		
+// 		return privates.__modules[moduleName];
+// 	}
+
+// 	// Remove a module from the handler.
+// 	publics.removeModule = function(name){
+// 		if(name in privates.__modules){
+// 			delete privates.__modules[name];
+// 			delete publics[name];
+// 			return true;
+// 		}
+
+// 		return false;
+// 	}	
+
+// 	publics.ajax = function(params, onSuccess, onError){
+// 		if(typeof params == 'undefined'){
+// 			throw new Error('Parameters are required.');
+// 		}
+
+// 		if(typeof params.url == 'undefined'){
+// 			throw new Error('URL is required.');
+// 		}
+
+// 		if(typeof params.method == 'undefined'){
+// 			throw new Error('Method is required.');
+// 		}
+
+// 		if(typeof params.async == 'undefined'){
+// 			params.async = true;
+// 		}
+
+// 		// Update url with session id
+// 		if(this.sessionid){
+// 			params.url += ';jsessionid=' + this.sessionid;
+// 		}
+
+// 		var xhr = new XMLHttpRequest();
+
+// 		xhr.addEventListener('readystatechange', function(e){
+// 			if(xhr.readyState == 4){
+// 				if(xhr.status >= 200 && xhr.status < 300){
+// 					if(typeof onSuccess != 'undefined')
+// 						onSuccess({
+// 							error: null,
+// 							response: JSON.parse(xhr.responseText),
+// 							status: xhr.status,
+// 							xhr: xhr
+// 						});
+// 				}
+// 				else {
+// 					if(typeof onError != 'undefined')
+// 						onError({
+// 							error: {
+// 								message: xhr.statusText,
+// 								state: xhr.readyState,
+// 								status: xhr.status
+// 							},
+// 							response: JSON.parse(xhr.responseText),
+// 							status: xhr.status,
+// 							xhr: xhr
+// 						});
+// 				}
+// 			}
+// 		});
+
+// 		if(['GET', 'DELETE'].indexOf(params.method) != -1){
+// 			if(typeof params.data != 'undefined'){
+// 				var url = (params.url.substring(params.url.length - 1, params.url.length) == '/')? '?' : '/?';
+
+// 				for(var key in params.data){
+// 					url += key + '=' + params.data[key] + '&';
+// 				}
+
+// 				url = url.substring(0, url.length - 1);
+// 				params.url += url;
+// 			}
+
+// 			xhr.open(params.method, params.url, params.async);
+// 			xhr.setRequestHeaders(params.headers || {});
+// 			xhr.send();
+// 		}
+// 		else if(['POST', 'PUT'].indexOf(params.method) != -1){
+// 			xhr.open(params.method, params.url, params.async);
+// 			xhr.setRequestHeaders(params.headers || {});
+
+// 			if(typeof params.data != 'undefined'){
+// 				if(params.headers && params.headers['Content-Type'] && params.headers['Content-Type'] == 'application/json'){
+// 					xhr.send(JSON.stringify(params.data));
+// 				} else {
+// 					xhr.send(params.data);
+// 				}
+// 			}
+// 			else {
+// 				xhr.send();
+// 			}
+// 		}
+// 		else {
+// 			throw new Error('This method is not supported.');
+// 		}
+// 	}
+
+// 	publics.updateSessionId = function(){
+// 		// Loading session ID
+// 		this.ajax({
+// 			method: 'GET',
+// 			url: './jsessionid.php',
+// 			async: false // Dirty but otherwise, some other functions run without having the token...
+// 		}, function(obj){
+// 			publics.sessionid = obj.response.id;
+// 		}, function(obj){
+// 			publics.sessionid = null;
+// 		});
+// 	}
+
+// 	publics.init = function(){
+// 		publics.updateSessionId();
+
+// 		// Init all modules (if init function exists)
+// 		for(var m in privates.__modules){
+// 			var module = privates.__modules[m];
+
+// 			if(module.init)
+// 				module.init();
+// 		}
+
+// 		console.log('Main handler initialized.');
+// 	}
+
+// 	// Create an error card
+// 	publics.__errorCard = function(error){
+// 		// Checking the error
+// 		if(typeof error != 'object' || !error)
+// 			throw new Error('The error attribute must be an object.');
+
+// 		// Building the card using a HTML5 template
+// 		var template = document.querySelector('#error-card-template');
+
+// 		// Filling the template
+// 		template.content.querySelector('.error-message').textContent = error.message + ' (' + error.code +')';
+// 		template.content.querySelector('.error-more-information').textContent = error.moreInformation;
+// 		template.content.querySelector('.error-action').textContent = error.action;
+// 		template.content.querySelector('.mdl-card__menu .material-icons').textContent = error.icon;
+
+// 		return document.importNode(template.content, true);
+// 	}
+
+// 	// Create an info card
+// 	publics.__infoCard = function(info){
+// 		// Checking the error
+// 		if(typeof info != 'object' || !info)
+// 			throw new Error('The info attribute must be an object.');
+
+// 		// Building the card using a HTML5 template
+// 		var template = document.querySelector('#info-card-template');
+
+// 		template.content.querySelector('.info-title').textContent = info.title;
+// 		template.content.querySelector('.info-text').innerHTML = info.text + '<br /><br />';
+// 		template.content.querySelector('.info-action').textContent = info.action;
+// 		template.content.querySelector('.info-action').setAttribute('href', info.actionLink);
+// 		template.content.querySelector('.info-icon .material-icons').textContent = info.icon;
+
+// 		return document.importNode(template.content, true);
+// 	}
+
+// 	publics.__apiPath = function(resource = ''){
+// 		return privates.__hostName + privates.__pathName + '/api/' + resource;
+// 	}
+
+// 	publics.__loginPath = privates.__hostName + privates.__pathName + '/login';
+// 	publics.__logoutPath = privates.__hostName + privates.__pathName + '/logout';
+// 	publics.__async = false; // For testing since the server is crap
+// })(main);

@@ -39,14 +39,18 @@
 		</div>
 
 		<script src="./js/material.min.js"></script>
-		<script src="./js/workshop.js"></script>
-		<script src="./js/main.js"></script>
-		<script src="./js/main.games.js"></script>
-		<script src="./js/main.orders.js"></script>
+		<script src="./js/Handler.js"></script>
+		<script src="./js/Modules.Interface.js"></script>
+		<script src="./js/Modules.Games.js"></script>
+		<script src="./js/Modules.Orders.js"></script>
 		<script type="text/javascript">
-			document.addEventListener('DOMContentLoaded', function(e){
-				main.init();
-			}, false);
+			var main = new Handler.app(false);
+
+			main.addModule(new Modules.Games(), 'games');
+			main.addModule(new Modules.Orders(), 'orders');
+			main.addModule(new Modules.Interface(), 'interface');
+
+			main.init();
 		</script>
 
 		<!-- HTML template for error cards -->
