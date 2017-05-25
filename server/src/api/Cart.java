@@ -132,6 +132,7 @@ public class Cart extends Application {
 		g.setId(json.get("game").getAsInt());
 		g.setConsole(tempG.getConsole());
 		g.setTitle(tempG.getTitle());
+		g.setPrice(tempG.getPrice());
 		
 		p.setGame(g); // Set game in product information
 

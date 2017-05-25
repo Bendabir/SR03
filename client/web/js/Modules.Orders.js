@@ -4,7 +4,7 @@
 	'use stict';
 
 	// Build a <li> element based on the order line
-	__line = function(line){
+	function __line(line){
 		// Checking the line
 		if(typeof line != 'object' || !line)
 			throw new Error('The line attribute must be an object.');
@@ -32,7 +32,7 @@
 	}
 
 	// Build a card based on the order 
-	__card = function(order){
+	function __card(order){
 		// Checking the line
 		if(typeof order != 'object' || !order)
 			throw new Error('The order attribute must be an object.');
@@ -144,7 +144,7 @@
 				// Otherwise, just displaying a card saying there is no order yet
 				var info = {
 					title: 'Aucune commande',
-					text: 'Vous n\'avez passé aucune commande pour le moment. <br />Une fois des commandes effectuées, elle apparaîtrons dans cet onglet.',
+					text: 'Vous n\'avez passé aucune commande pour le moment. <br />Une fois des commandes effectuées, elle apparaîtront dans cet onglet.',
 					action: 'Accéder à mon panier',
 					actionLink: '#cart',
 					icon: ''

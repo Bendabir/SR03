@@ -38,23 +38,6 @@
 			</main>
 		</div>
 
-		<script src="./js/material.min.js"></script>
-		<script src="./js/Handler.js"></script>
-		<script src="./js/Modules.Interface.js"></script>
-		<script src="./js/Modules.Games.js"></script>
-		<script src="./js/Modules.Orders.js"></script>
-		<script src="./js/Modules.Cart.js"></script>
-		<script type="text/javascript">
-			var main = new Handler.app(false);
-
-			main.addModule(new Modules.Games(), 'games');
-			main.addModule(new Modules.Cart(), 'cart');
-			main.addModule(new Modules.Orders(), 'orders');
-			main.addModule(new Modules.Interface(), 'interface');
-
-			main.init();
-		</script>
-
 		<!-- HTML template for error cards -->
 		<template id="error-card-template">
 			<div class="wide-card error-card mdl-card mdl-shadow--2dp">
@@ -103,5 +86,22 @@
 				</div>
 			</div>		
 		</template>
+
+		<script src="./js/material.min.js"></script>
+		<script src="./js/Handler.js"></script>
+		<script src="./js/Modules.Interface.js"></script>
+		<script src="./js/Modules.Games.js"></script>
+		<script src="./js/Modules.Orders.js"></script>
+		<script src="./js/Modules.Cart.js"></script>
+		<script type="text/javascript">
+			var main = new Handler.app(false);
+
+			main.addModule(new Modules.Games(), 'games');
+			main.addModule(new Modules.Cart(), 'cart');
+			main.addModule(new Modules.Orders(), 'orders');
+			main.addModule(new Modules.Interface(), 'interface');
+
+			main.init();
+		</script>		
 	</body>
 </html>
