@@ -59,7 +59,7 @@
 				}
 			}
 		?>
-		<a class="mdl-navigation__link" href="#">Se déconnecter</a>
+		<a class="mdl-navigation__link" href="<?php	echo 'http://'.$_SERVER['SERVER_NAME'].'/sr03/controllers/logout.php'; ?>">Se déconnecter</a>
 	</nav>
 </div>
 
