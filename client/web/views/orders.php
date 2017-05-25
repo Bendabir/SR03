@@ -42,7 +42,7 @@
 <template id="order-line-template">
 	 <li class="mdl-list__item mdl-list__item--three-line">
 	 	<span class="mdl-list__item-primary-content">
-	 		<img src="./img/just_cause_3_pc.jpg" class="mdl-list__item-avatar" />
+	 		<img src="./img/no_cover.png" class="mdl-list__item-avatar order-line-game-cover" />
 	 		<span class="order-line-title">
 	 			TITLE (CONSOLE)
 	 		</span>

@@ -25,6 +25,7 @@
 		template.content.querySelector('.cart-line-game-description').textContent = line.game.description;
 		template.content.querySelector('.cart-line-game-price').textContent = line.game.price.formatNumber(2, ',', ' ');
 		template.content.querySelector('.cart-line-game-quantity').textContent = line.quantity;
+		template.content.querySelector('.cart-line-game-cover').setAttribute('src', typeof line.game.cover == 'undefined' ? './img/no_cover.png' : line.game.cover);
 
 		return document.importNode(template.content, true);
 	}

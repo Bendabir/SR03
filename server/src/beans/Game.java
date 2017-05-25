@@ -13,6 +13,7 @@ public class Game implements Comparable<Game> {
 	
 	private String publisher;
 	private String description;
+	private String cover;
 	
 	public Game(){
 		this.id = null;
@@ -25,6 +26,7 @@ public class Game implements Comparable<Game> {
 		
 		this.publisher = null;
 		this.description = null;
+		this.cover = null;
 	}	
 	
 	// MAYBE WE DON'T NEED ALL THESE CONSTRUCTORS BECAUSE BEANS ARE LOADED DIRECTLY FROM JSON
@@ -40,6 +42,7 @@ public class Game implements Comparable<Game> {
 		
 		this.publisher = null;
 		this.description = null;
+		this.cover = null;
 	}
 
 	// GETTERS/SETTERS
@@ -124,6 +127,14 @@ public class Game implements Comparable<Game> {
 	}
 	public Game setDescription(String d){
 		this.description = d;
+		return this;
+	}
+	
+	public String getCover(){
+		return this.cover;
+	}
+	public Game setCover(String c){
+		this.cover = c;
 		return this;
 	}
 

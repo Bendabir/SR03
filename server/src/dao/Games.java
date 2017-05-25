@@ -40,7 +40,7 @@ public class Games {
 			
 			while(res.next()){
 				g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getDouble("price"), res.getString("release_date"), res.getInt("stock"), genres);
-				g.setPublisher(res.getString("publisher")).setDescription(res.getString("description"));
+				g.setPublisher(res.getString("publisher")).setDescription(res.getString("description")).setCover(res.getString("cover"));
 				break;
 			}
 			
@@ -82,7 +82,7 @@ public class Games {
 				}
 				
 				Game g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getDouble("price"), res.getString("release_date"), res.getInt("stock"), genres);
-				g.setPublisher(res.getString("publisher")).setDescription(res.getString("description"));
+				g.setPublisher(res.getString("publisher")).setDescription(res.getString("description")).setCover(res.getString("cover"));
 				
 				lg.add(g);
 			}
@@ -125,7 +125,7 @@ public class Games {
 			}
 			
 			// Requête
-			String sql = "INSERT INTO games (title, console, price, publisher, release_date, description, stock) VALUES (?, ?, ?, ?, ?, ?, ?);";
+			String sql = "INSERT INTO games (title, console, price, publisher, release_date, description, stock, cover) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, game.getTitle());
@@ -135,6 +135,7 @@ public class Games {
 			ps.setString(5, game.getReleaseDate());
 			ps.setString(6, game.getDescription());
 			ps.setInt(7, game.getStock().intValue());
+			ps.setString(8, game.getCover());
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
@@ -204,7 +205,7 @@ public class Games {
 			}			
 			
 			// Requête
-			String sql = "UPDATE games SET title = ?, console = ?, price = ?, release_date = ?, stock = ?, publisher = ?, description = ? WHERE id = ?";
+			String sql = "UPDATE games SET title = ?, console = ?, price = ?, release_date = ?, stock = ?, publisher = ?, description = ?, cover = ? WHERE id = ?";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, game.getTitle());
@@ -214,7 +215,8 @@ public class Games {
 			ps.setInt(5, game.getStock().intValue());
 			ps.setString(6, game.getPublisher());
 			ps.setString(7, game.getDescription());
-			ps.setInt(8, game.getId().intValue());
+			ps.setString(8, game.getCover());
+			ps.setInt(9, game.getId().intValue());
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();

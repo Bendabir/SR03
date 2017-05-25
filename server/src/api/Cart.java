@@ -128,13 +128,15 @@ public class Cart extends Application {
 		}
 		
 		// Building game
-		Game g = new Game();
-		g.setId(json.get("game").getAsInt());
-		g.setConsole(tempG.getConsole());
-		g.setTitle(tempG.getTitle());
-		g.setPrice(tempG.getPrice());
+//		Game g = new Game();
+//		g.setId(json.get("game").getAsInt());
+//		g.setConsole(tempG.getConsole());
+//		g.setTitle(tempG.getTitle());
+//		g.setPrice(tempG.getPrice());
+//		
+//		g.setCover(tempG.getCover());
 		
-		p.setGame(g); // Set game in product information
+		p.setGame(tempG); // Set game in product information
 
     	cart.add(p); // Add product to cart
     	

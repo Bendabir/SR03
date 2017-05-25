@@ -29,7 +29,7 @@ public class Orders{
 			// What about res.first() ?
 			while(res.next()){
 				// Get lines
-				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.release_date, g.publisher FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
+				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.release_date, g.publisher, g.cover FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
 				PreparedStatement psLines = cnx.prepareStatement(sqlLines);
 				psLines.setInt(1, res.getInt("num"));
 				
@@ -43,6 +43,7 @@ public class Orders{
 					 .setConsole(resLines.getString("console"))
 					 .setDescription(resLines.getString("description"))
 					 .setReleaseDate(resLines.getString("release_date"))
+					 .setCover(resLines.getString("cover"))
 					 .setPublisher(resLines.getString("publisher"));
 					
 					lines.add(new OrderLine(g, resLines.getDouble("unit_price"), resLines.getInt("quantity")));
@@ -79,7 +80,7 @@ public class Orders{
 			// What about res.first() ?
 			while(res.next()){
 				// Get lines
-				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.publisher, g.release_date FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
+				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.publisher, g.release_date, g.cover FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
 				PreparedStatement psLines = cnx.prepareStatement(sqlLines);
 				psLines.setInt(1, res.getInt("num"));
 				
@@ -93,6 +94,7 @@ public class Orders{
 					 .setConsole(resLines.getString("console"))
 					 .setDescription(resLines.getString("description"))
 					 .setReleaseDate(resLines.getString("release_date"))
+					 .setCover(resLines.getString("cover"))
 					 .setPublisher(resLines.getString("publisher"));
 					
 					lines.add(new OrderLine(g, resLines.getDouble("unit_price"), resLines.getInt("quantity")));
@@ -131,7 +133,7 @@ public class Orders{
 			
 			while(res.next()){
 				// Get lines
-				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.publisher, g.release_date FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
+				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.publisher, g.cover, g.release_date FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
 				PreparedStatement psLines = cnx.prepareStatement(sqlLines);
 				psLines.setInt(1, res.getInt("num")); // Sometimes a 500 error is thrown here...
 				
@@ -145,6 +147,7 @@ public class Orders{
 					 .setConsole(resLines.getString("console"))
 					 .setDescription(resLines.getString("description"))
 					 .setReleaseDate(resLines.getString("release_date"))
+					 .setCover(resLines.getString("cover"))
 					 .setPublisher(resLines.getString("publisher"));
 					
 					lines.add(new OrderLine(g, resLines.getDouble("unit_price"), resLines.getInt("quantity")));
@@ -179,7 +182,7 @@ public class Orders{
 			
 			while(res.next()){
 				// Get lines
-				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.publisher, g.release_date FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
+				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.publisher, g.cover, g.release_date FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
 				PreparedStatement psLines = cnx.prepareStatement(sqlLines);
 				psLines.setInt(1, res.getInt("num"));
 				
@@ -193,6 +196,7 @@ public class Orders{
 					 .setConsole(resLines.getString("console"))
 					 .setDescription(resLines.getString("description"))
 					 .setReleaseDate(resLines.getString("release_date"))
+					 .setCover(resLines.getString("cover"))
 					 .setPublisher(resLines.getString("publisher"));
 					
 					lines.add(new OrderLine(g, resLines.getDouble("unit_price"), resLines.getInt("quantity")));

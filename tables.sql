@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS sr03.games (
 	release_date DATE NOT NULL,
 	stock INT UNSIGNED NOT NULL DEFAULT 0,
 	description TEXT DEFAULT NULL,
+	cover TEXT DEFAULT NULL,
 	UNIQUE (title, console, release_date),
 	FOREIGN KEY (console) REFERENCES sr03.consoles(name),
 	FOREIGN KEY (publisher) REFERENCES sr03.publishers(name)
