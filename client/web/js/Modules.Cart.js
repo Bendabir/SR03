@@ -65,6 +65,7 @@
 	Modules.Cart = function(){
 		this.__moduleName = 'cart';
 		this.__defaultContainer = null;
+		this.__dependencies = [Modules.Interface];	
 	}
 
 	// Public members
@@ -96,6 +97,33 @@
 			console.log(obj.response);
 		}, function(err){
 			console.error(err.error);
+		});
+	}
+
+	// Validate an order
+	Modules.Cart.prototype.validate = function(){
+		this.parent.ajax({
+			method: 'GET',
+			url: this.parent.apiPath('cart/validate')
+		}, (obj) => {
+			console.log(obj.response);
+			
+			this.clean();
+
+			// Displaying an info card
+			// Otherwise, just displaying a card saying there is no order yet
+			var info = {
+				title: 'Commande effectuée !',
+				text: 'Votre commande a bien été effectuée. <br />Pour consulter l\'historique de vos commandes, rendez-vous dans l\'onglet <b>Commandes</b> ou cliquez sur le bouton ci-dessous.',
+				action: 'Mes commandes',
+				actionLink: '#orders',
+				icon: ''
+			};
+
+			this.__defaultContainer.append(this.parent.getModule(Modules.Interface).__infoCard(info));			
+		}, (err) => {
+			console.error(err.error);
+			this.reload();
 		});
 	}
 
@@ -136,11 +164,8 @@
 
 	Modules.Cart.prototype.reload = function(){
 		this.clean();
-		
-		if(typeof this.parent.interface == 'undefined')
-			throw new Error('This module needs the Interface module in order to run properly.');
 
-		this.__defaultContainer.append(this.parent.interface.__loader());
+		this.__defaultContainer.append(this.parent.getModule(Modules.Interface).__loader());
 
 		var currentModule = this;
 
@@ -162,6 +187,10 @@
 				document.querySelector('.cart-card-clear-cart').addEventListener('click', function(e){
 					currentModule.clear();
 				});
+
+				document.querySelector('.cart-card-validate-cart').addEventListener('click', function(e){
+					currentModule.validate();
+				});
 			}
 			else {
 				// Otherwise, just displaying a card saying there is no order yet
@@ -173,7 +202,7 @@
 					icon: ''
 				};
 
-				currentModule.__defaultContainer.append(currentModule.parent.interface.__infoCard(info));
+				currentModule.__defaultContainer.append(currentModule.parent.getModule(Modules.Interface).__infoCard(info));
 			}
 
 			// Updating the game number in the tabs
@@ -204,7 +233,7 @@
 
 			currentModule.clean();
 
-			currentModule.__defaultContainer.append(currentModule.parent.interface.__errorCard(e));
+			currentModule.__defaultContainer.append(currentModule.parent.getModule(Modules.Interface).__errorCard(e));
 
 			console.error(err.error);
 		});		

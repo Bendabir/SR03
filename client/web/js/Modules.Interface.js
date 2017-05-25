@@ -4,6 +4,7 @@
 	'use strict';
 	Modules.Interface = function(){
 		this.__moduleName = 'interface';
+		this.__dependencies = [];
 	}
 
 	Modules.Interface.prototype.init = function(){

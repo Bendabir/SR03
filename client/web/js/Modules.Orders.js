@@ -75,6 +75,7 @@
 	Modules.Orders = function(){
 		this.__moduleName = 'orders';
 		this.__defaultContainer = null;
+		this.__dependencies = [Modules.Interface];	
 	}
 
 	// Public members
@@ -117,11 +118,8 @@
 	// Reload the interface with all games
 	Modules.Orders.prototype.reload = function(){
 		this.clean();
-		
-		if(typeof this.parent.interface == 'undefined')
-			throw new Error('This module needs the Interface module in order to run properly.');
 
-		this.__defaultContainer.append(this.parent.interface.__loader());
+		this.__defaultContainer.append(this.parent.getModule(Modules.Interface).__loader());
 
 		var currentModule = this;
 
@@ -151,7 +149,7 @@
 					icon: ''
 				};
 
-				currentModule.__defaultContainer.append(currentModule.parent.interface.__infoCard(info));
+				currentModule.__defaultContainer.append(currentModule.parent.getModule(Modules.Interface).__infoCard(info));
 			}
 
 			// Updating the game number in the tabs
@@ -182,7 +180,7 @@
 
 			currentModule.clean();
 
-			currentModule.__defaultContainer.append(currentModule.parent.interface.__errorCard(e));
+			currentModule.__defaultContainer.append(currentModule.parent.getModule(Modules.Interface).__errorCard(e));
 
 			console.error(err.error);
 		});		
