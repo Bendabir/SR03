@@ -141,10 +141,14 @@
 					text: 'Aucun jeu n\'est disponible à la vente pour le moment. Revenez plus tard.<br />',
 					action: 'Accéder à mes commandes',
 					actionLink: '#orders',
+					actionSimulateTabClick: true,
 					icon: ''
 				};
 
 				currentModule.__defaultContainer.append(currentModule.parent.getModule(Modules.Interface).__infoCard(info));
+				document.querySelector('#cart .info-action').addEventListener(function(e){
+					document.querySelector('a[href = "' + info.actionLink + '"]').click();
+				});
 			}			
 
 			// Updating the game number in the tabs

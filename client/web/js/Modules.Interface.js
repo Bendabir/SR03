@@ -41,7 +41,8 @@
 		template.content.querySelector('.info-title').textContent = info.title;
 		template.content.querySelector('.info-text').innerHTML = info.text + '<br /><br />';
 		template.content.querySelector('.info-action').textContent = info.action;
-		template.content.querySelector('.info-action').setAttribute('href', info.actionLink);
+		// template.content.querySelector('.info-action').setAttribute('href', info.actionLink);
+
 		template.content.querySelector('.info-icon .material-icons').textContent = info.icon;
 
 		return document.importNode(template.content, true);

@@ -117,6 +117,7 @@
 				text: 'Votre commande a bien été effectuée. <br />Pour consulter l\'historique de vos commandes, rendez-vous dans l\'onglet <b>Commandes</b> ou cliquez sur le bouton ci-dessous.',
 				action: 'Mes commandes',
 				actionLink: '#orders',
+				actionSimulateTabClick: true,	
 				icon: ''
 			};
 
@@ -199,6 +200,7 @@
 					text: 'Vous n\'avez pas ajouté de jeux au panier pour le moment. <br />Une fois des jeux ajouté au panier, ils apparaîtront dans cet onglet.',
 					action: 'Accéder à la liste des jeux',
 					actionLink: '#games',
+					actionSimulateTabClick: true,
 					icon: ''
 				};
 

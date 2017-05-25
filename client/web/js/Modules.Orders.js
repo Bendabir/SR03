@@ -20,9 +20,7 @@
 
 		// Building the card using a HTML5 template
 		var template = document.querySelector('#order-line-template');
-		
-		// template.content.querySelector('.order-line-game-title').textContent = line.game.title;
-		// template.content.querySelector('.order-line-game-console').textContent = line.game.console;
+
 		template.content.querySelector('.order-line-title').textContent = line.game.title + ' (' + line.game.console + ')';
 		template.content.querySelector('.order-line-game-description').textContent = line.game.description;
 		template.content.querySelector('.order-line-game-price').textContent = line.unitPrice.formatNumber(2, ',', ' ');
@@ -146,6 +144,7 @@
 					text: 'Vous n\'avez passé aucune commande pour le moment. <br />Une fois des commandes effectuées, elle apparaîtront dans cet onglet.',
 					action: 'Accéder à mon panier',
 					actionLink: '#cart',
+					actionSimulateTabClick: true,
 					icon: ''
 				};
 
