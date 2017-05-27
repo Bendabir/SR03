@@ -20,10 +20,11 @@
 
 		// Building the card using a HTML5 template
 		var template = document.querySelector('#cart-line-template');
-		
+
+		template.content.querySelector('li').setAttribute("game-id", line.game.id);
 		template.content.querySelector('.cart-line-title').textContent = line.game.title + ' (' + line.game.console + ')';
-		template.content.querySelector('.cart-line-game-description').textContent = line.game.description;
-		template.content.querySelector('.cart-line-game-price').textContent = line.game.price.formatNumber(2, ',', ' ');
+		// template.content.querySelector('.cart-line-game-description').textContent = line.game.description;
+		template.content.querySelector('.cart-line-game-price').textContent = line.game.price.formatNumber(2, ',', ' ') + '€';
 		template.content.querySelector('.cart-line-game-quantity').textContent = line.quantity;
 		template.content.querySelector('.cart-line-game-cover').setAttribute('src', typeof line.game.cover == 'undefined' ? './img/no_cover.png' : line.game.cover);
 
@@ -149,7 +150,7 @@
 	Modules.Cart.prototype.clear = function(){
 		this.parent.ajax({
 			method: 'DELETE',
-			url: this.parent.apiPath('cart'),
+			url: this.parent.apiPath('cart')
 		}, (obj) => {
 			console.log(obj.response);
 			this.reload();		
@@ -157,6 +158,19 @@
 			console.error(err.error);
 			this.reload();		
 		});		
+	}
+
+	Modules.Cart.prototype.delete = function(index){
+		this.parent.ajax({
+			method: 'DELETE',
+			url: this.parent.apiPath('cart/' + index)
+		}, (obj) => {
+			console.log(obj.response);
+			this.reload();		
+		}, (err) => {
+			console.error(err.error);
+			this.reload();		
+		});	
 	}
 
 	Modules.Cart.prototype.clean = function(){
@@ -191,6 +205,56 @@
 
 				document.querySelector('.cart-card-validate-cart').addEventListener('click', function(e){
 					currentModule.validate();
+				});
+
+				// Linking increase and decrease buttons
+				currentModule.__defaultContainer.querySelectorAll('li.game-line').forEach(function(gameLine, index){
+					// var gameID = parseInt(gameLine.getAttribute('game-id'));
+
+					// For each button
+					gameLine.querySelectorAll('.cart-line-game-modify-quantity').forEach(function(button){
+						var modifierType = button.getAttribute("modifier-type");
+	
+						// Preparing data for update
+						var data = {
+							quantity: parseInt(gameLine.querySelector('.cart-line-game-quantity').innerHTML)
+						};
+
+						switch(modifierType){
+							case 'increase': {
+								data.quantity++;
+							} break;
+
+							case 'decrease': {
+								data.quantity--;
+							} break;
+
+							default: {} break;
+						}
+
+						button.addEventListener('click', function(event){
+							if(data.quantity == 0){
+								// Delete from cart
+								currentModule.delete(index);
+							}
+							else {
+								currentModule.parent.ajax({
+									method: 'PUT',
+									url: currentModule.parent.apiPath('cart/' + index),
+									headers: {
+										'Content-Type': 'application/json'
+									},
+									data: data
+								}, function(obj){
+									currentModule.reload();
+									console.log(obj.response);
+								}, function(err){
+									currentModule.reload();
+									console.log(err.error);
+								});
+							}
+						});
+					});
 				});
 			}
 			else {

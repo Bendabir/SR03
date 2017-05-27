@@ -59,20 +59,20 @@
 </template>
 
 <template id="cart-line-template">
-	<li class="mdl-list__item mdl-list__item--three-line">
+	<li class="mdl-list__item mdl-list__item--three-line game-line" game-id="-1">
 		<span class="mdl-list__item-primary-content">
 			<img src="./img/no_cover.png" class="mdl-list__item-avatar cart-line-game-cover" />
 			<span class="cart-line-title">NAME (CONSOLE)</span>
 			<span class="mdl-list__item-text-body cart-line-game-description">
-				DESCRIPTION
+				<b class="cart-line-game-price">PRICE</b>
+				<!-- <br /> -->
+				x<b class="cart-line-game-quantity">QUANTITY</b>
+				<!-- DESCRIPTION -->
 			</span>
 		</span>
 		<span class="mdl-list__item-secondary-content">
-			<p>
-				<b class="cart-line-game-price">PRICE</b>
-				<br />
-				x<b class="cart-line-game-quantity">QUANTITY</b>
-			</p>
+			<a class="mdl-list__item-secondary-action cart-line-game-modify-quantity" href="#" modifier-type="decrease"><i class="material-icons">remove</i></a>
+			<a class="mdl-list__item-secondary-action cart-line-game-modify-quantity" href="#" modifier-type="increase"><i class="material-icons">add</i></a>
 		</span>
 	</li>	
 </template>
