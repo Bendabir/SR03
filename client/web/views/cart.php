@@ -47,13 +47,11 @@
 					Vider le panier
 				</a>
 			</div>
-		<!-- 
 			<div class="mdl-card__menu">
-				<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-					<i class="material-icons">close</i>
-				</button>
+				<p class="cart-card-amount">
+					Montant total: <span class="cart-card-order-amount">AMOUNT</span>
+				</p>
 			</div>
-		-->
 		</div>
 	</div>
 </template>

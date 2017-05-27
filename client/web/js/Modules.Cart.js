@@ -47,7 +47,9 @@
 		// Building the card using a HTML5 template
 		var template = document.querySelector('#cart-card-template');
 
-		template.content.querySelector('.cart-card-order-amount').textContent = cartAmount.formatNumber(2, ',', ' ');
+		template.content.querySelectorAll('.cart-card-order-amount').forEach(function(span){
+			span.textContent = cartAmount.formatNumber(2, ',', ' ') + '€';
+		});
 
 		var ul = template.content.querySelector('.cart-card-cart-lines');
 
