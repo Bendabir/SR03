@@ -54,6 +54,11 @@
 		return document.importNode(template.content, true);
 	}
 
+	function __search(gameName){
+
+	}
+
+
 	Modules.Games = function(){
 		this.__moduleName = 'games';
 		this.__defaultContainer = null;
@@ -63,8 +68,28 @@
 	Modules.Games.prototype.init = function(){
 		this.setDefaultContainer('#games .page-content .mdl-grid .mdl-cell .mdl-grid');
 
+		var module = this;
+
+		// Link the sort function
+		document.querySelectorAll('ul[for = "sort-menu"] li').forEach(function(choiceElement){
+			choiceElement.addEventListener('click', function(event){
+				module.__sort(this.getAttribute("sort-type"));
+			});
+		});
+
 		// Linking the tab to the reload function
-		document.querySelector('a[href="#games"]').addEventListener('click', e => this.reload());
+		document.querySelector('a[href="#games"]').addEventListener('click', (e) => {
+			this.reload();
+
+			var module = this;
+
+			// Link the sort function
+			document.querySelectorAll('ul[for = "sort-menu"] li').forEach(function(choiceElement){
+				choiceElement.addEventListener('click', function(event){
+					module.__sort(this.getAttribute("sort-type"));
+				});
+			});
+		});
 
 		this.reload();
 
@@ -114,6 +139,71 @@
 	Modules.Games.prototype.clean = function(){
 		this.__defaultContainer.innerHTML = '';
 	}
+
+	// Sort the interface
+	Modules.Games.prototype.__sort = function(choice){
+		// Game cards
+		var cards = [].slice.call(this.__defaultContainer.children);
+
+		switch(choice){
+			case 'by-name': {
+				// Sorting the array
+				cards.sort(function(a, b){
+					var titleA = a.querySelector('.mdl-card__title-text').innerHTML.split('<br>')[0],
+						titleB = b.querySelector('.mdl-card__title-text').innerHTML.split('<br>')[0];
+
+					return titleA.localeCompare(titleB);
+				});
+			} break;
+
+			case 'by-genre': {
+				// Sorting the array
+				cards.sort(function(a, b){
+					var genreA = a.querySelector('.game-card-genre').innerHTML,
+						genreB = b.querySelector('.game-card-genre').innerHTML;
+
+					return genreA.localeCompare(genreB);
+				});
+			} break;
+
+			case 'by-date': {
+				// Sorting the array
+				cards.sort(function(a, b){
+					var dateA = a.querySelector('.game-card-release-date').innerHTML,
+						dateB = b.querySelector('.game-card-release-date').innerHTML;
+
+					dateA = dateA.split('/');
+					dateB = dateB.split('/');
+
+					dateA = dateA[1] + '/' + dateA[0] + '/' + dateA[2];
+					dateB = dateB[1] + '/' + dateB[0] + '/' + dateB[2];
+
+					return new Date(dateA) - new Date(dateB);
+				});
+			} break;
+
+			case 'by-price': {
+				// Sorting the array
+				cards.sort(function(a, b){
+					var priceA = parseFloat(a.querySelector('.game-card-price').innerHTML.replace(',', '.')),
+						priceB = parseFloat(b.querySelector('.game-card-price').innerHTML.replace(',', '.'));
+
+					return priceA - priceB;
+				});
+			} break;
+
+			default: {
+				// No sort
+			} break;
+		}
+
+		// Cleaning and reappending sorted games
+		this.clean();
+
+		cards.forEach((e) => {
+			this.__defaultContainer.append(e);
+		});		
+	}	
 
 	// Reload the interface with all games
 	Modules.Games.prototype.reload = function(){

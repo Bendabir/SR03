@@ -16,8 +16,8 @@
 		</div>
 
 		<!-- Right aligned menu below button -->
-		<button id="filter-menu" class="mdl-button mdl-js-button mdl-button--icon">
-			<i class="material-icons">filter_list</i>
+		<button id="sort-menu" class="mdl-button mdl-js-button mdl-button--icon">
+			<i class="material-icons">sort_list</i>
 		</button>	
 	</div>
 
@@ -63,9 +63,9 @@
 	</nav>
 </div>
 
-<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="filter-menu">
-	<li class="mdl-menu__item">Par nom</li>
-	<li class="mdl-menu__item">Par date de sortie</li>
-	<li class="mdl-menu__item">Par prix</li>
-	<li class="mdl-menu__item">Par genre</li>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="sort-menu">
+	<li class="mdl-menu__item" sort-type="by-name">Par nom</li>
+	<li class="mdl-menu__item" sort-type="by-date">Par date de sortie</li>
+	<li class="mdl-menu__item" sort-type="by-price">Par prix</li>
+	<li class="mdl-menu__item" sort-type="by-genre">Par genre</li>
 </ul>
