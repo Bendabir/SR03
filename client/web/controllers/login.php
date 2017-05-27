@@ -25,14 +25,14 @@
 			$_SESSION["lastname"] = $information["lastname"];
 			$_SESSION["status"] = $information["status"];
 			$_SESSION["JSESSIONID"] = $information["session"];
-
-			// Redirecting to home
-			header("Location: ./");
 		}
 		else {
 			// Displaying error
 			print_r($information);
 		}
+
+		// Redirecting to home
+		header("Location: ./");
 	}
 	else {
 		if(!isset($_SESSION["JSESSIONID"]) || empty($_SESSION["JSESSIONID"])){

@@ -26,6 +26,10 @@
 		// Building the card using a HTML5 template
 		var template = document.querySelector('#game-card-template');
 
+		// Reinitializing the game cover
+		template.content.querySelector('.mdl-card__title').style.backgroundColor = '#2E2E2E';
+		template.content.querySelector('.mdl-card__title').style.backgroundImage = '';
+
 		// Filling the template
 		template.content.querySelector('.mdl-card__title-text').innerHTML = game.title + '<br />(' + game.console + ')';
 		template.content.querySelector('.game-card-description').textContent = game.description;
@@ -38,6 +42,14 @@
 		template.content.querySelector('.game-card-add-to-cart-button').removeAttribute('disabled'); // Cleaning template
 		template.content.querySelector('.game-card-add-to-cart-button').removeAttribute('enabled');
 		template.content.querySelector('.game-card-add-to-cart-button').setAttribute(game.stock == 0 ? 'disabled' : 'enabled', true);
+
+		// If we have an cover, then displaying it
+		if(typeof game.cover != 'undefined'){
+			template.content.querySelector('.mdl-card__title').style.backgroundImage = 'url(\'' + game.cover + '\')';
+			template.content.querySelector('.mdl-card__title').style.backgroundRepeat = 'no-repeat';
+			template.content.querySelector('.mdl-card__title').style.backgroundPosition = 'center center';
+			template.content.querySelector('.mdl-card__title').style.backgroundSize = '100%';
+		}
 
 		return document.importNode(template.content, true);
 	}
