@@ -5,6 +5,10 @@
 		<span class="mdl-layout-title">Game Store</span>
 		<!-- Add spacer, to align navigation to the right -->
 		<div class="mdl-layout-spacer"></div>
+
+	<?php 
+		if($_SERVER["REQUEST_URI"] == "/sr03/"){
+	?>
 		<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
 			<label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
 				<i class="material-icons">search</i>
@@ -19,6 +23,9 @@
 		<button id="sort-menu" class="mdl-button mdl-js-button mdl-button--icon">
 			<i class="material-icons">sort_list</i>
 		</button>	
+	<?php
+		}
+	?>
 	</div>
 
 	<!-- Tabs -->
