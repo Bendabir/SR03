@@ -49,6 +49,8 @@
 		<script type="text/javascript">
 			var main = new Handler.app();
 
+			main.setSessionId('<?php echo $_SESSION["JSESSIONID"]; ?>');
+
 			main.addModule(new Modules.Games(), 'games');
 			main.addModule(new Modules.Cart(), 'cart');
 			main.addModule(new Modules.Orders(), 'orders');

@@ -154,26 +154,16 @@
 		}
 	}
 
-	Handler.app.prototype.updateSessionId = function(){
-		var handler = this;
+	// Manually change the session id
+	Handler.app.prototype.setSessionId = function(sessionId){
+		if(typeof sessionId != 'string')
+			throw new Error('The session ID must be a string.');
 
-		// Loading session ID
-		this.ajax({
-			method: 'GET',
-			url: './jsessionid.php',
-			async: false // Dirty but otherwise, some other functions run without having the token...
-		}, function(obj){
-			handler.__sessionid = obj.response.id;
-		}, function(obj){
-			handler.__sessionid = null;
-		});
-
-		return this;
+		this.__sessionid = sessionId;
 	}
 
+	// Init the handler and its submodules
 	Handler.app.prototype.init = function(){
-		this.updateSessionId();
-
 		// Init all modules (if init function exists)
 		for(var m in this.__modules){
 			var module = this.__modules[m];
