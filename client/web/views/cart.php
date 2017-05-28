@@ -1,16 +1,3 @@
-<?php 
-	// require_once(dirname(__FILE__)."/../utils/config.php");
-	// require_once(dirname(__FILE__)."/../libraries/Requests.php");
-
-	// Requests::register_autoloader();
-
-	// $gamesRequest = Requests::get($apiEndPoint."/games");
-	// $games = $gamesRequest->body;
-
-	// Building interface from games
-	// $games = json_decode($games, true);
-?>
-
 <div class="mdl-grid">
 	<div class="mdl-cell mdl-cell--2-offset-desktop mdl-cell--8-col mdl-cell--12-col-phone">
 		<div class="mdl-grid">
@@ -49,7 +36,7 @@
 			</div>
 			<div class="mdl-card__menu">
 				<p class="cart-card-amount">
-					Montant total: <span class="cart-card-order-amount">AMOUNT</span>
+					Total: <span class="cart-card-order-amount">AMOUNT</span>
 				</p>
 			</div>
 		</div>

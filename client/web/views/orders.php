@@ -9,7 +9,7 @@
 <!-- Card template for orders -->
 <template id="order-card-template">
 	<div class="mdl-cell mdl-cell--12-col">
-		<div class="wide-card dark-card mdl-card mdl-shadow--2dp">
+		<div class="wide-card dark-card list-card mdl-card mdl-shadow--2dp">
 			<div class="mdl-card__title">
 				<h2 class="mdl-card__title-text order-card-title">
 					Commande n°NUM_COMMANDE
@@ -18,10 +18,10 @@
 			</div>
 			<div class="mdl-card__menu">
 				<p class="order-card-amount">
-					Montant total: <span class="order-card-order-amount">MONTANT</span>€
+					Total: <span class="order-card-order-amount">MONTANT</span>€
 				</p>
 			</div>
-			<div class="mdl-card__actions mdl-card--border">
+			<div class="mdl-card__supporting-text">
 				<ul class="demo-list-three mdl-list order-card-order-lines">
 					<!-- LINES -->
 					<hr class="order-lines-list-seperator" />
@@ -34,6 +34,11 @@
 						</span>
 					</li>											
 				</ul>
+			</div>
+			<div class="mdl-card__actions mdl-card--border">
+				<a class="mdl-button mdl-js-button mdl-js-ripple-effect cart-card-validate-cart" disabled>
+					Facture
+				</a>			
 			</div>
 		</div>
 	</div>
