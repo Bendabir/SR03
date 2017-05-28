@@ -35,6 +35,7 @@ public class Users {
 			}	
 			
 			res.close();
+			ps.close();
 			DatabaseConnection.getInstance().closeCnx();			
 		}
 		catch(SQLException e){
@@ -67,6 +68,7 @@ public class Users {
 			}		
 
 			res.close();
+			ps.close();
 			DatabaseConnection.getInstance().closeCnx();
 		}
 		catch(SQLException e){
@@ -115,7 +117,8 @@ public class Users {
 			}
 			
 			//Execution et traitement de la réponse
-			ps.executeUpdate();			
+			ps.executeUpdate();	
+			ps.close();
 
 			DatabaseConnection.getInstance().closeCnx();			
 		} catch (SQLException e) {
@@ -144,6 +147,7 @@ public class Users {
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
+			ps.close();
 			
 			DatabaseConnection.getInstance().closeCnx();			
 		} catch (SQLException e) {
@@ -168,6 +172,7 @@ public class Users {
 
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
+			ps.close();
 			
 			DatabaseConnection.getInstance().closeCnx();
 		}

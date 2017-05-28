@@ -25,19 +25,19 @@ public class Games {
 			
 			ResultSet res = ps.executeQuery();
 			
-			res.next();
-			
-			ArrayList<String> genres = new ArrayList<String>();
-			g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getDouble("price"), res.getString("release_date"), res.getInt("stock"), null);
-			g.setPublisher(res.getString("publisher")).setDescription(res.getString("description")).setCover(res.getString("cover"));
-			genres.add(res.getString("genre"));
-			
-			// Going through results
-			while(res.next()){
+			if(res.next()){				
+				ArrayList<String> genres = new ArrayList<String>();
+				g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getDouble("price"), res.getString("release_date"), res.getInt("stock"), null);
+				g.setPublisher(res.getString("publisher")).setDescription(res.getString("description")).setCover(res.getString("cover"));
 				genres.add(res.getString("genre"));
+				
+				// Going through results
+				while(res.next()){
+					genres.add(res.getString("genre"));
+				}
+				
+				g.setGenres(genres);				
 			}
-			
-			g.setGenres(genres);
 			
 			res.close();
 			DatabaseConnection.getInstance().closeCnx();					
@@ -100,8 +100,10 @@ public class Games {
 			}
 			
 			// Adding last game
-			g.setGenres(genres);
-			lg.add(g);
+			if(g != null){
+				g.setGenres(genres);
+				lg.add(g);
+			}
 			
 			res.close();
 			DatabaseConnection.getInstance().closeCnx();			

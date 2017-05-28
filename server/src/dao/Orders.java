@@ -20,40 +20,40 @@ public class Orders{
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
-			String sql = "SELECT * FROM orders WHERE num = ? ORDER BY num DESC;";
+			// Getting order information
+			String sql = "SELECT * FROM orders o INNER JOIN orders_lines l ON o.num = l.order_num INNER JOIN games g ON g.id = l.game WHERE o.num = ? ORDER BY o.num DESC;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setInt(1, orderNum);
 			
 			ResultSet res = ps.executeQuery();
 			
-			// What about res.first() ?
-			while(res.next()){
-				// Get lines
-				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.release_date, g.publisher, g.cover FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
-				PreparedStatement psLines = cnx.prepareStatement(sqlLines);
-				psLines.setInt(1, res.getInt("num"));
-				
+			// First order line
+			if(res.next()){
 				ArrayList<OrderLine> lines = new ArrayList<OrderLine>();
+				o = new Order();
+				o.setNum(orderNum)
+				 .setUser(res.getString("user"))
+				 .setLines(null)
+				 .setDate(res.getString("order_date"));
 				
-				ResultSet resLines = psLines.executeQuery();
-				
-				while(resLines.next()){
+				do {
 					Game g = new Game();
-					g.setTitle(resLines.getString("game"))
-					 .setConsole(resLines.getString("console"))
-					 .setDescription(resLines.getString("description"))
-					 .setReleaseDate(resLines.getString("release_date"))
-					 .setCover(resLines.getString("cover"))
-					 .setPublisher(resLines.getString("publisher"));
+					g.setTitle(res.getString("game"))
+					 .setConsole(res.getString("console"))
+					 .setDescription(res.getString("description"))
+					 .setReleaseDate(res.getString("release_date"))
+					 .setCover(res.getString("cover"))
+					 .setPublisher(res.getString("publisher"));				
 					
-					lines.add(new OrderLine(g, resLines.getDouble("unit_price"), resLines.getInt("quantity")));
-				}
+					lines.add(new OrderLine(g, res.getDouble("unit_price"), res.getInt("quantity")));					
+				} while(res.next());
 				
-				o = new Order(res.getInt("num"), res.getString("order_date"), res.getString("user"), lines);
-				break;
+				o.setLines(lines);
 			}
 			
 			res.close();
+			ps.close();
+			
 			DatabaseConnection.getInstance().closeCnx();			
 		}
 		catch(SQLException e){
@@ -70,41 +70,41 @@ public class Orders{
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
-			String sql = "SELECT * FROM orders WHERE user = ? AND num = ? ORDER BY num DESC;";
+			// Getting order information
+			String sql = "SELECT * FROM orders o INNER JOIN orders_lines l ON o.num = l.order_num INNER JOIN games g ON g.id = l.game WHERE o.num = ? AND o.user = ? ORDER BY o.num DESC;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
-			ps.setString(1, user);
-			ps.setInt(2, orderNum);
+			ps.setInt(1, orderNum);
+			ps.setString(2, user);
 			
 			ResultSet res = ps.executeQuery();
 			
-			// What about res.first() ?
-			while(res.next()){
-				// Get lines
-				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.publisher, g.release_date, g.cover FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
-				PreparedStatement psLines = cnx.prepareStatement(sqlLines);
-				psLines.setInt(1, res.getInt("num"));
-				
+			// First order line
+			if(res.next()){
 				ArrayList<OrderLine> lines = new ArrayList<OrderLine>();
+				o = new Order();
+				o.setNum(orderNum)
+				 .setUser(user)
+				 .setLines(null)
+				 .setDate(res.getString("order_date"));
 				
-				ResultSet resLines = psLines.executeQuery();
-				
-				while(resLines.next()){
+				do {
 					Game g = new Game();
-					g.setTitle(resLines.getString("game"))
-					 .setConsole(resLines.getString("console"))
-					 .setDescription(resLines.getString("description"))
-					 .setReleaseDate(resLines.getString("release_date"))
-					 .setCover(resLines.getString("cover"))
-					 .setPublisher(resLines.getString("publisher"));
+					g.setTitle(res.getString("game"))
+					 .setConsole(res.getString("console"))
+					 .setDescription(res.getString("description"))
+					 .setReleaseDate(res.getString("release_date"))
+					 .setCover(res.getString("cover"))
+					 .setPublisher(res.getString("publisher"));				
 					
-					lines.add(new OrderLine(g, resLines.getDouble("unit_price"), resLines.getInt("quantity")));
-				}
+					lines.add(new OrderLine(g, res.getDouble("unit_price"), res.getInt("quantity")));					
+				} while(res.next());
 				
-				o = new Order(res.getInt("num"), res.getString("order_date"), res.getString("user"), lines);
-				break;
+				o.setLines(lines);
 			}
 			
 			res.close();
+			ps.close();			
+			
 			DatabaseConnection.getInstance().closeCnx();			
 		}
 		catch(SQLException e){
@@ -121,42 +121,59 @@ public class Orders{
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 
-			// Jointure à la place, pour éviter les sous-requêtes dégueux ?
-			
-			// Requête
-			String sql = "SELECT * FROM orders WHERE user = ? ORDER BY num DESC;";
+			// Getting order information
+			String sql = "SELECT * FROM orders o INNER JOIN orders_lines l ON o.num = l.order_num INNER JOIN games g ON g.id = l.game WHERE o.user = ? ORDER BY o.num DESC;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, user);
 			
-			//Execution et traitement de la réponse
 			ResultSet res = ps.executeQuery();
 			
+			ArrayList<OrderLine> lines = null;
+			Order o = null;
+			int currentOrder = -1;
+			
 			while(res.next()){
-				// Get lines
-				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.publisher, g.cover, g.release_date FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
-				PreparedStatement psLines = cnx.prepareStatement(sqlLines);
-				psLines.setInt(1, res.getInt("num")); // Sometimes a 500 error is thrown here...
-				
-				ArrayList<OrderLine> lines = new ArrayList<OrderLine>();
-				
-				ResultSet resLines = psLines.executeQuery();
-				
-				while(resLines.next()){
-					Game g = new Game();
-					g.setTitle(resLines.getString("game"))
-					 .setConsole(resLines.getString("console"))
-					 .setDescription(resLines.getString("description"))
-					 .setReleaseDate(resLines.getString("release_date"))
-					 .setCover(resLines.getString("cover"))
-					 .setPublisher(resLines.getString("publisher"));
+				// When switching order
+				if(currentOrder != res.getInt("num")){
+					// Saving previous lines
+					if(currentOrder != -1){
+						o.setLines(lines);
+						lo.add(o);
+					}
 					
-					lines.add(new OrderLine(g, resLines.getDouble("unit_price"), resLines.getInt("quantity")));
+					// Going to next game
+					currentOrder = res.getInt("num");
+					
+					lines = new ArrayList<OrderLine>();
+					o = new Order();
+					
+					o.setNum(currentOrder)
+					 .setUser(user)
+					 .setLines(null)
+					 .setDate(res.getString("order_date"));					
 				}
+
+				// Filling lines
+				Game g = new Game();
+				g.setTitle(res.getString("game"))
+				 .setConsole(res.getString("console"))
+				 .setDescription(res.getString("description"))
+				 .setReleaseDate(res.getString("release_date"))
+				 .setCover(res.getString("cover"))
+				 .setPublisher(res.getString("publisher"));				
 				
-				lo.add(new Order(res.getInt("num"), res.getString("order_date"), res.getString("user"), lines));
+				lines.add(new OrderLine(g, res.getDouble("unit_price"), res.getInt("quantity")));				
+			}
+			
+			// Adding last game
+			if(o != null){
+				o.setLines(lines);
+				lo.add(o);					
 			}
 			
 			res.close();
+			ps.close();	
+			
 			DatabaseConnection.getInstance().closeCnx();					
 		}
 		catch(SQLException e){
@@ -172,40 +189,59 @@ public class Orders{
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
-			
-			// Requête
-			String sql = "SELECT * FROM orders ORDER BY num DESC;";
+
+			// Getting order information
+			String sql = "SELECT * FROM orders o INNER JOIN orders_lines l ON o.num = l.order_num INNER JOIN games g ON g.id = l.game ORDER BY o.num DESC;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			
-			//Execution et traitement de la réponse
 			ResultSet res = ps.executeQuery();
 			
+			ArrayList<OrderLine> lines = null;
+			Order o = null;
+			int currentOrder = -1;
+			
 			while(res.next()){
-				// Get lines
-				String sqlLines = "SELECT ol.unit_price, ol.quantity, g.title AS game, g.console, g.description, g.publisher, g.cover, g.release_date FROM orders_lines ol INNER JOIN games g ON ol.game = g.id WHERE ol.order_num = ?;";
-				PreparedStatement psLines = cnx.prepareStatement(sqlLines);
-				psLines.setInt(1, res.getInt("num"));
-				
-				ArrayList<OrderLine> lines = new ArrayList<OrderLine>();
-				
-				ResultSet resLines = psLines.executeQuery();
-				
-				while(resLines.next()){
-					Game g = new Game();
-					g.setTitle(resLines.getString("game"))
-					 .setConsole(resLines.getString("console"))
-					 .setDescription(resLines.getString("description"))
-					 .setReleaseDate(resLines.getString("release_date"))
-					 .setCover(resLines.getString("cover"))
-					 .setPublisher(resLines.getString("publisher"));
+				// When switching order
+				if(currentOrder != res.getInt("num")){
+					// Saving previous lines
+					if(currentOrder != -1){
+						o.setLines(lines);
+						lo.add(o);
+					}
 					
-					lines.add(new OrderLine(g, resLines.getDouble("unit_price"), resLines.getInt("quantity")));
+					// Going to next game
+					currentOrder = res.getInt("num");
+					
+					lines = new ArrayList<OrderLine>();
+					o = new Order();
+					
+					o.setNum(currentOrder)
+					 .setUser(res.getString("user"))
+					 .setLines(null)
+					 .setDate(res.getString("order_date"));					
 				}
+
+				// Filling lines
+				Game g = new Game();
+				g.setTitle(res.getString("game"))
+				 .setConsole(res.getString("console"))
+				 .setDescription(res.getString("description"))
+				 .setReleaseDate(res.getString("release_date"))
+				 .setCover(res.getString("cover"))
+				 .setPublisher(res.getString("publisher"));				
 				
-				lo.add(new Order(res.getInt("num"), res.getString("order_date"), res.getString("user"), lines));
+				lines.add(new OrderLine(g, res.getDouble("unit_price"), res.getInt("quantity")));				
+			}
+			
+			// Adding last game
+			if(o != null){
+				o.setLines(lines);
+				lo.add(o);						
 			}
 			
 			res.close();
+			ps.close();
+			
 			DatabaseConnection.getInstance().closeCnx();			
 		}
 		catch(SQLException e){
@@ -230,6 +266,7 @@ public class Orders{
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
+			ps.close();
 			
 			// Need a good way to retrieve added order (num)
 			sql = "SELECT MAX(num) AS order_num FROM orders;";
@@ -239,6 +276,8 @@ public class Orders{
 			res.next();
 			
 			Integer orderID = res.getInt("order_num");
+			res.close();
+			ps.close();
 			
 			// Updating lines
 			sql = "INSERT INTO orders_lines (order_num, game, unit_price, quantity) VALUES (?, ?, 0, ?);";
@@ -252,6 +291,7 @@ public class Orders{
 				ps.setInt(3, line.getQuantity());
 				
 				ps.executeUpdate();
+				ps.close();
 				
 				// Save price
 				String savePriceSql = "UPDATE orders_lines SET unit_price = (SELECT price FROM games WHERE id = ?) WHERE order_num = ? AND game = ?;";
@@ -261,6 +301,7 @@ public class Orders{
 				savePricePs.setInt(3, line.getGame().getId());
 				
 				savePricePs.executeUpdate();
+				savePricePs.close();
 				
 				// Update stock
 				String stockUpdateSql = "UPDATE games SET stock = stock - ? WHERE id = ?;";
@@ -269,6 +310,7 @@ public class Orders{
 				stockUpdatePs.setInt(2, line.getGame().getId());
 				
 				stockUpdatePs.executeUpdate();
+				stockUpdatePs.close();
 			}
 			
 			DatabaseConnection.getInstance().closeCnx();
