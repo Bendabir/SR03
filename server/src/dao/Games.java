@@ -17,32 +17,27 @@ public class Games {
 		
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
-
-			// Get game types
-			String sqlGenres = "SELECT genre FROM assoc_game_genres_games WHERE game = ?;";
-			PreparedStatement psGenres = cnx.prepareStatement(sqlGenres);
-			psGenres.setInt(1, id);
 			
-			ResultSet resGenres = psGenres.executeQuery();
-			ArrayList<String> genres = new ArrayList<String>();
-			
-			while(resGenres.next()){
-				genres.add(resGenres.getString("genre"));
-			}
-			
-			// Requête
-			String sql = "SELECT * FROM games WHERE id = ?;";
+			// Get information
+			String sql = "SELECT * FROM games g INNER JOIN assoc_game_genres_games a ON g.id = a.game WHERE id = ?;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setInt(1, id);
 			
-			//Execution et traitement de la réponse
 			ResultSet res = ps.executeQuery();
 			
+			res.next();
+			
+			ArrayList<String> genres = new ArrayList<String>();
+			g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getDouble("price"), res.getString("release_date"), res.getInt("stock"), null);
+			g.setPublisher(res.getString("publisher")).setDescription(res.getString("description")).setCover(res.getString("cover"));
+			genres.add(res.getString("genre"));
+			
+			// Going through results
 			while(res.next()){
-				g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getDouble("price"), res.getString("release_date"), res.getInt("stock"), genres);
-				g.setPublisher(res.getString("publisher")).setDescription(res.getString("description")).setCover(res.getString("cover"));
-				break;
+				genres.add(res.getString("genre"));
 			}
+			
+			g.setGenres(genres);
 			
 			res.close();
 			DatabaseConnection.getInstance().closeCnx();					
@@ -61,31 +56,52 @@ public class Games {
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
-			// Requête
-			String sql = "SELECT * FROM games;";
+			// Getting games with genres
+			String sql = "SELECT * FROM games g LEFT JOIN assoc_game_genres_games a ON g.id = a.game ORDER BY g.id;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
-			
-			//Execution et traitement de la réponse
 			ResultSet res = ps.executeQuery();
 			
+			// Filling objects
+			ArrayList<String> genres = null;
+			Game g = null;
+			int currentGame = -1;			
+			
 			while(res.next()){
-				// New request for types
-				String sqlGenres = "SELECT genre FROM assoc_game_genres_games WHERE game = ?;";
-				PreparedStatement psGenres = cnx.prepareStatement(sqlGenres);
-				psGenres.setInt(1, res.getInt("id"));
-				ResultSet resGenres = psGenres.executeQuery();
-				
-				ArrayList<String> genres = new ArrayList<String>();
-				
-				while(resGenres.next()){
-					genres.add(resGenres.getString("genre"));
+				// When switching game
+				if(currentGame != res.getInt("id")){
+					// Saving previous game genres
+					if(currentGame != -1){
+						g.setGenres(genres);
+						lg.add(g);
+					}
+					
+					// Going to next game
+					currentGame = res.getInt("id");
+					
+					genres = new ArrayList<String>();
+					g = new Game();
+					
+					g.setId(currentGame)
+					 .setTitle(res.getString("title"))
+					 .setConsole(res.getString("console"))
+					 .setPrice(res.getDouble("price"))
+					 .setReleaseDate(res.getString("release_date"))
+					 .setStock(res.getInt("stock"))
+					 .setGenres(null)
+					 .setPublisher(res.getString("publisher"))
+					 .setDescription(res.getString("description"))
+					 .setCover(res.getString("cover"));
 				}
-				
-				Game g = new Game(res.getInt("id"), res.getString("title"), res.getString("console"), res.getDouble("price"), res.getString("release_date"), res.getInt("stock"), genres);
-				g.setPublisher(res.getString("publisher")).setDescription(res.getString("description")).setCover(res.getString("cover"));
-				
-				lg.add(g);
+
+				// Filling genres
+				if(res.getString("genre") != null){
+					genres.add(res.getString("genre"));
+				}
 			}
+			
+			// Adding last game
+			g.setGenres(genres);
+			lg.add(g);
 			
 			res.close();
 			DatabaseConnection.getInstance().closeCnx();			
@@ -115,13 +131,21 @@ public class Games {
 			// If we have a result, we update the publisher with the good name (could be a bit different)
 			if(publisherRes.next()){
 				game.setPublisher(publisherRes.getString("name"));
+				
+				publisherRes.close();
+				publisherPs.close();
 			}
 			// Otherwise, let's add it in the db
 			else {
+				publisherRes.close();
+				publisherPs.close();				
+				
 				String addPublisherSql = "INSERT INTO publisher (name) VALUES (?);";
 				PreparedStatement addPublisherPs = cnx.prepareStatement(addPublisherSql);
 				addPublisherPs.setString(1, game.getPublisher());
 				addPublisherPs.executeQuery();
+				
+				addPublisherPs.close();
 			}
 			
 			// Requête
@@ -139,6 +163,7 @@ public class Games {
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
+			ps.close();
 			
 			// Getting ID
 			sql = "SELECT id FROM games WHERE title = ? AND console = ? AND release_date = ?;";
@@ -152,6 +177,9 @@ public class Games {
 			
 			Integer gameID = res.getInt("id");
 			
+			res.close();
+			ps.close();
+			
 			// Add genres
 			sql = "INSERT INTO assoc_game_genres_games (genre, game) VALUES (?, ?);";			
 			
@@ -163,7 +191,8 @@ public class Games {
 				ps.setString(1, genre);
 				ps.setInt(2, gameID);
 				
-				ps.executeUpdate();			    
+				ps.executeUpdate();
+				ps.close();
 			}
 			
 			DatabaseConnection.getInstance().closeCnx();
@@ -195,13 +224,21 @@ public class Games {
 			// If we have a result, we update the publisher with the good name (could be a bit different)
 			if(publisherRes.next()){
 				game.setPublisher(publisherRes.getString("name"));
+				
+				publisherRes.close();
+				publisherPs.close();
 			}
 			// Otherwise, let's add it in the db
 			else {
+				publisherRes.close();
+				publisherPs.close();
+				
 				String addPublisherSql = "INSERT INTO publisher (name) VALUES (?);";
 				PreparedStatement addPublisherPs = cnx.prepareStatement(addPublisherSql);
 				addPublisherPs.setString(1, game.getPublisher());
 				addPublisherPs.executeQuery();
+				
+				addPublisherPs.close();
 			}			
 			
 			// Requête
@@ -221,12 +258,16 @@ public class Games {
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
 			
+			ps.close();
+			
 			// Delete genres
 			sql = "DELETE FROM assoc_game_genres_games WHERE game = ?;";
 			
 			ps = cnx.prepareStatement(sql);
 			ps.setInt(1, game.getId());
-			ps.executeUpdate();				
+			ps.executeUpdate();
+			
+			ps.close();
 			
 			// Add new genres
 			sql = "INSERT INTO assoc_game_genres_games (genre, game) VALUES (?, ?);";			
@@ -239,7 +280,8 @@ public class Games {
 				ps.setString(1, genre);
 				ps.setInt(2, game.getId());
 				
-				ps.executeUpdate();			    
+				ps.executeUpdate();
+				ps.close();
 			}			
 			
 			DatabaseConnection.getInstance().closeCnx();	
@@ -264,7 +306,8 @@ public class Games {
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setInt(1, id);
 
-			ps.executeUpdate();			
+			ps.executeUpdate();
+			ps.close();
 			
 			// Requête
 			sql = "DELETE FROM games WHERE id = ?;";
@@ -273,6 +316,7 @@ public class Games {
 
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
+			ps.close();
 			
 			DatabaseConnection.getInstance().closeCnx();
 		}
@@ -296,10 +340,13 @@ public class Games {
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ResultSet res = ps.executeQuery();
 			
-			while(res.next()){
-				counter = res.getInt("counter");
-				break;
-			}	
+			res.first();
+			
+			counter = res.getInt("counter");
+			
+			res.close();
+			ps.close();
+			DatabaseConnection.getInstance().closeCnx();
 		}catch (SQLException e) {
 			e.printStackTrace();
 			return -1;

@@ -33,7 +33,7 @@ public final class DatabaseConnection {
 	} 
 	
 	public static synchronized DatabaseConnection getInstance() {
-		if(instance==null)
+		if(instance == null)
 			instance = new DatabaseConnection();
 		
 		return instance;
@@ -46,7 +46,7 @@ public final class DatabaseConnection {
 	public void closeCnx() throws SQLException{
 		if(cnx!=null){
 			cnx.close();
-			instance=null;
+			instance = null;
 		}
 	}
 }

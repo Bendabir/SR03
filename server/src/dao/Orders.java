@@ -298,10 +298,13 @@ public class Orders{
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ResultSet res = ps.executeQuery();
 			
-			while(res.next()){
-				counter = res.getInt("counter");
-				break;
-			}	
+			res.first();
+			
+			counter = res.getInt("counter");
+			
+			res.close();
+			ps.close();
+			DatabaseConnection.getInstance().closeCnx();
 		}catch (SQLException e) {
 			e.printStackTrace();
 			return -1;

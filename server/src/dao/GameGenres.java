@@ -25,13 +25,13 @@ public class GameGenres {
 			//Execution et traitement de la réponse
 			ResultSet res = ps.executeQuery();
 			
-			while(res.next()){
-				t = new GameGenre(res.getString("name"));
-				t.setDescription(res.getString("description"));
-				break;
-			}
+			res.first();
+
+			t = new GameGenre(res.getString("name"));
+			t.setDescription(res.getString("description"));
 			
 			res.close();
+			ps.close();
 			DatabaseConnection.getInstance().closeCnx();					
 		}
 		catch(SQLException e){
@@ -63,6 +63,7 @@ public class GameGenres {
 			}
 			
 			res.close();
+			ps.close();
 			DatabaseConnection.getInstance().closeCnx();			
 		}
 		catch(SQLException e){
@@ -88,7 +89,7 @@ public class GameGenres {
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
-			
+			ps.close();
 			DatabaseConnection.getInstance().closeCnx();
 			
 			gg = new GameGenre(); // Allow us to modify GameGenre in the future without modifying this part
@@ -117,7 +118,7 @@ public class GameGenres {
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
-			
+			ps.close();
 			DatabaseConnection.getInstance().closeCnx();
 			
 			gg = new GameGenre(); // Allow us to modify GameGenre in the future without modifying this part
@@ -142,7 +143,7 @@ public class GameGenres {
 
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
-			
+			ps.close();
 			DatabaseConnection.getInstance().closeCnx();
 		}
 		catch(SQLException e){
@@ -164,10 +165,13 @@ public class GameGenres {
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ResultSet res = ps.executeQuery();
 			
-			while(res.next()){
-				counter = res.getInt("counter");
-				break;
-			}	
+			res.first();
+			
+			counter = res.getInt("counter");
+			
+			res.close();
+			ps.close();
+			DatabaseConnection.getInstance().closeCnx();
 		}catch (SQLException e) {
 			e.printStackTrace();
 			return -1;

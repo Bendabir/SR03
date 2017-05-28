@@ -25,12 +25,12 @@ public class Consoles{
 			//Execution et traitement de la réponse
 			ResultSet res = ps.executeQuery();
 			
-			while(res.next()){
-				c = new Console(res.getString("name"), res.getString("launched_date"));
-				break;
-			}
+			res.first();
+			
+			c = new Console(res.getString("name"), res.getString("launched_date"));
 			
 			res.close();
+			ps.close();
 			DatabaseConnection.getInstance().closeCnx();					
 		}
 		catch(SQLException e){
@@ -59,6 +59,7 @@ public class Consoles{
 			}
 			
 			res.close();
+			ps.close();
 			DatabaseConnection.getInstance().closeCnx();			
 		}
 		catch(SQLException e){
@@ -85,6 +86,7 @@ public class Consoles{
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
 			
+			ps.close();
 			DatabaseConnection.getInstance().closeCnx();
 			
 			c = new Console();
@@ -113,7 +115,7 @@ public class Consoles{
 			
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
-			
+			ps.close();
 			DatabaseConnection.getInstance().closeCnx();
 			
 			c = new Console();
@@ -138,6 +140,7 @@ public class Consoles{
 
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
+			ps.close();
 			
 			DatabaseConnection.getInstance().closeCnx();
 		}
@@ -160,10 +163,13 @@ public class Consoles{
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ResultSet res = ps.executeQuery();
 			
-			while(res.next()){
-				counter = res.getInt("counter");
-				break;
-			}	
+			res.first();
+			
+			counter = res.getInt("counter");
+			
+			res.close();
+			ps.close();
+			DatabaseConnection.getInstance().closeCnx();
 		}catch (SQLException e) {
 			e.printStackTrace();
 			return -1;
