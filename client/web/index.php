@@ -47,7 +47,7 @@
 		<script src="./js/Modules.Orders.js"></script>
 		<script src="./js/Modules.Cart.js"></script>
 		<script type="text/javascript">
-			var main = new Handler.app(false);
+			var main = new Handler.app();
 
 			main.addModule(new Modules.Games(), 'games');
 			main.addModule(new Modules.Cart(), 'cart');

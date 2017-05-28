@@ -31,7 +31,7 @@ public class Consoles{
 			
 			res.close();
 			ps.close();
-			DatabaseConnection.getInstance().closeCnx();					
+//			DatabaseConnection.getInstance().closeCnx();					
 		}
 		catch(SQLException e){
 			e.printStackTrace();		
@@ -60,7 +60,7 @@ public class Consoles{
 			
 			res.close();
 			ps.close();
-			DatabaseConnection.getInstance().closeCnx();			
+//			DatabaseConnection.getInstance().closeCnx();			
 		}
 		catch(SQLException e){
 			e.printStackTrace();			
@@ -87,7 +87,7 @@ public class Consoles{
 			ps.executeUpdate();
 			
 			ps.close();
-			DatabaseConnection.getInstance().closeCnx();
+//			DatabaseConnection.getInstance().closeCnx();
 			
 			c = new Console();
 			c.setName(console.getName());
@@ -116,7 +116,7 @@ public class Consoles{
 			//Execution et traitement de la réponse
 			ps.executeUpdate();
 			ps.close();
-			DatabaseConnection.getInstance().closeCnx();
+//			DatabaseConnection.getInstance().closeCnx();
 			
 			c = new Console();
 			c.setName(console.getName());
@@ -142,7 +142,7 @@ public class Consoles{
 			ps.executeUpdate();
 			ps.close();
 			
-			DatabaseConnection.getInstance().closeCnx();
+//			DatabaseConnection.getInstance().closeCnx();
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -169,7 +169,7 @@ public class Consoles{
 			
 			res.close();
 			ps.close();
-			DatabaseConnection.getInstance().closeCnx();
+//			DatabaseConnection.getInstance().closeCnx();
 		}catch (SQLException e) {
 			e.printStackTrace();
 			return -1;

@@ -54,7 +54,7 @@ public class Orders{
 			res.close();
 			ps.close();
 			
-			DatabaseConnection.getInstance().closeCnx();			
+//			DatabaseConnection.getInstance().closeCnx();			
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -105,7 +105,7 @@ public class Orders{
 			res.close();
 			ps.close();			
 			
-			DatabaseConnection.getInstance().closeCnx();			
+//			DatabaseConnection.getInstance().closeCnx();			
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -116,6 +116,7 @@ public class Orders{
 	
 	public static ArrayList<Order> get(String user){
 		ArrayList<Order> lo = new ArrayList<Order>();
+		
 		Connection cnx = null;
 		
 		try {
@@ -173,8 +174,7 @@ public class Orders{
 			
 			res.close();
 			ps.close();	
-			
-			DatabaseConnection.getInstance().closeCnx();					
+//			DatabaseConnection.getInstance().closeCnx();
 		}
 		catch(SQLException e){
 			e.printStackTrace();		
@@ -242,7 +242,7 @@ public class Orders{
 			res.close();
 			ps.close();
 			
-			DatabaseConnection.getInstance().closeCnx();			
+//			DatabaseConnection.getInstance().closeCnx();			
 		}
 		catch(SQLException e){
 			e.printStackTrace();			
@@ -313,7 +313,7 @@ public class Orders{
 				stockUpdatePs.close();
 			}
 			
-			DatabaseConnection.getInstance().closeCnx();
+//			DatabaseConnection.getInstance().closeCnx();
 			
 			// For response
 			o = new Order();
@@ -346,7 +346,7 @@ public class Orders{
 			
 			res.close();
 			ps.close();
-			DatabaseConnection.getInstance().closeCnx();
+//			DatabaseConnection.getInstance().closeCnx();
 		}catch (SQLException e) {
 			e.printStackTrace();
 			return -1;

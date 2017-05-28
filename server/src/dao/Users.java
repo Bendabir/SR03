@@ -36,7 +36,7 @@ public class Users {
 			
 			res.close();
 			ps.close();
-			DatabaseConnection.getInstance().closeCnx();			
+//			DatabaseConnection.getInstance().closeCnx();			
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -69,7 +69,7 @@ public class Users {
 
 			res.close();
 			ps.close();
-			DatabaseConnection.getInstance().closeCnx();
+//			DatabaseConnection.getInstance().closeCnx();
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -120,7 +120,7 @@ public class Users {
 			ps.executeUpdate();	
 			ps.close();
 
-			DatabaseConnection.getInstance().closeCnx();			
+//			DatabaseConnection.getInstance().closeCnx();			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			
@@ -149,7 +149,7 @@ public class Users {
 			ps.executeUpdate();
 			ps.close();
 			
-			DatabaseConnection.getInstance().closeCnx();			
+//			DatabaseConnection.getInstance().closeCnx();			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			
@@ -174,7 +174,7 @@ public class Users {
 			ps.executeUpdate();
 			ps.close();
 			
-			DatabaseConnection.getInstance().closeCnx();
+//			DatabaseConnection.getInstance().closeCnx();
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -201,7 +201,7 @@ public class Users {
 			
 			res.close();
 			ps.close();
-			DatabaseConnection.getInstance().closeCnx();
+//			DatabaseConnection.getInstance().closeCnx();
 		}catch (SQLException e) {
 			e.printStackTrace();
 			return -1;

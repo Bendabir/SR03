@@ -81,7 +81,7 @@
 		}
 
 		if(typeof params.async == 'undefined'){
-			params.async = true;
+			params.async = this.__async;
 		}
 
 		// Update url with session id

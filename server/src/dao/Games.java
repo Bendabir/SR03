@@ -40,7 +40,7 @@ public class Games {
 			}
 			
 			res.close();
-			DatabaseConnection.getInstance().closeCnx();					
+//			DatabaseConnection.getInstance().closeCnx();					
 		}
 		catch(SQLException e){
 			e.printStackTrace();		
@@ -106,7 +106,7 @@ public class Games {
 			}
 			
 			res.close();
-			DatabaseConnection.getInstance().closeCnx();			
+//			DatabaseConnection.getInstance().closeCnx();			
 		}
 		catch(SQLException e){
 			e.printStackTrace();			
@@ -197,7 +197,7 @@ public class Games {
 				ps.close();
 			}
 			
-			DatabaseConnection.getInstance().closeCnx();
+//			DatabaseConnection.getInstance().closeCnx();
 			
 			g = new Game();
 			g.setId(gameID);
@@ -286,7 +286,7 @@ public class Games {
 				ps.close();
 			}			
 			
-			DatabaseConnection.getInstance().closeCnx();	
+//			DatabaseConnection.getInstance().closeCnx();	
 			
 			g = new Game();
 			g.setId(game.getId());			
@@ -320,7 +320,7 @@ public class Games {
 			ps.executeUpdate();
 			ps.close();
 			
-			DatabaseConnection.getInstance().closeCnx();
+//			DatabaseConnection.getInstance().closeCnx();
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -348,7 +348,7 @@ public class Games {
 			
 			res.close();
 			ps.close();
-			DatabaseConnection.getInstance().closeCnx();
+//			DatabaseConnection.getInstance().closeCnx();
 		}catch (SQLException e) {
 			e.printStackTrace();
 			return -1;
