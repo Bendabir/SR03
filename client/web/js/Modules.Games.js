@@ -193,7 +193,12 @@
 			} break;
 
 			default: {
-				// No sort
+				cards.sort(function(a, b){
+					var idA = parseInt(a.querySelector('.game-card-add-to-cart-button').getAttribute('game-id')),
+						idB = parseInt(b.querySelector('.game-card-add-to-cart-button').getAttribute('game-id'));
+
+					return idA - idB;
+				});
 			} break;
 		}
 

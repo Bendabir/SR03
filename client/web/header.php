@@ -71,6 +71,7 @@
 </div>
 
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="sort-menu">
+	<li class="mdl-menu__item" sort-type="by-default">Par défaut</li>
 	<li class="mdl-menu__item" sort-type="by-name">Par nom</li>
 	<li class="mdl-menu__item" sort-type="by-date">Par date de sortie</li>
 	<li class="mdl-menu__item" sort-type="by-price">Par prix</li>
