@@ -248,7 +248,9 @@
 				};
 
 				currentModule.__defaultContainer.append(currentModule.parent.getModule(Modules.Interface).__infoCard(info));
-				document.querySelector('#cart .info-action').addEventListener(function(e){
+				
+				// Simulating click
+				document.querySelector('#cart .info-action').addEventListener('click', function(e){
 					document.querySelector('a[href = "' + info.actionLink + '"]').click();
 				});
 			}			
