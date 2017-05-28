@@ -21,7 +21,7 @@
 
 <template id="cart-card-template">
 	<div class="mdl-cell mdl-cell--12-col">
-		<div class="wide-card dark-card mdl-card mdl-shadow--2dp">
+		<div class="wide-card dark-card list-card mdl-card mdl-shadow--2dp">
 			<div class="mdl-card__title">
 				<h2 class="mdl-card__title-text">Ma commande</h2>
 			</div>

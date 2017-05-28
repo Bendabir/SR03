@@ -124,7 +124,12 @@
 				icon: ''
 			};
 
-			this.__defaultContainer.append(this.parent.getModule(Modules.Interface).__infoCard(info));			
+			this.__defaultContainer.append(this.parent.getModule(Modules.Interface).__infoCard(info));
+
+			// Simulating click
+			document.querySelector('#cart .info-action').addEventListener('click', function(e){
+				document.querySelector('a[href = "' + info.actionLink + '"]').click();
+			});						
 		}, (err) => {
 			console.error(err.error);
 			this.reload();
