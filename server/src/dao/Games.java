@@ -19,7 +19,7 @@ public class Games {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
 			// Get information
-			String sql = "SELECT * FROM games g INNER JOIN assoc_game_genres_games a ON g.id = a.game WHERE id = ?;";
+			String sql = "SELECT * FROM games g INNER JOIN assoc_game_genres_games a ON g.id = a.game WHERE g.id = ? AND g.deleted = 0;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setInt(1, id);
 			
@@ -57,7 +57,7 @@ public class Games {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
 			// Getting games with genres
-			String sql = "SELECT * FROM games g LEFT JOIN assoc_game_genres_games a ON g.id = a.game ORDER BY g.id;";
+			String sql = "SELECT * FROM games g LEFT JOIN assoc_game_genres_games a ON g.id = a.game WHERE g.deleted = 0 ORDER BY g.id;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ResultSet res = ps.executeQuery();
 			
@@ -308,11 +308,12 @@ public class Games {
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setInt(1, id);
 
-			ps.executeUpdate();
+//			ps.executeUpdate();
 			ps.close();
 			
 			// Requête
-			sql = "DELETE FROM games WHERE id = ?;";
+//			sql = "DELETE FROM games WHERE id = ?;";
+			sql = "UPDATE games SET deleted = 1 WHERE id = ?;";
 			ps = cnx.prepareStatement(sql);
 			ps.setInt(1, id);
 
@@ -338,7 +339,7 @@ public class Games {
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 		
-			String sql = "SELECT COUNT(*) AS counter FROM games;";
+			String sql = "SELECT COUNT(*) AS counter FROM games WHERE deleted = 0;";
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ResultSet res = ps.executeQuery();
 			
