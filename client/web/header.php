@@ -42,11 +42,11 @@
 		else {
 	?>
 		<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-			<a href="#games" class="mdl-layout__tab is-active">Jeux</a>
-			<a href="#consoles" class="mdl-layout__tab">Consoles</a>
-			<a href="#genres" class="mdl-layout__tab">Genres</a>
-			<a href="#orders" class="mdl-layout__tab">Commandes</a>
-			<a href="#users" class="mdl-layout__tab">Utilisateurs</a>
+			<a href="#games" class="mdl-layout__tab is-active">Jeux (<span id="games-number">-</span>)</a>
+			<a href="#consoles" class="mdl-layout__tab">Consoles (<span id="consoles-number">-</span>)</a>
+			<a href="#genres" class="mdl-layout__tab">Genres (<span id="genres-number">-</span>)</a>
+			<a href="#orders" class="mdl-layout__tab">Commandes (<span id="orders-number">-</span>)</a>
+			<a href="#users" class="mdl-layout__tab">Utilisateurs (<span id="users-number">-</span>)</a>
 		</div>
 	<?php
 		}

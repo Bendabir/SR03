@@ -52,8 +52,21 @@
 			</main>
 		</div>
 
+		<?php require_once('../views/cards.php'); ?>
+
 		<script src="../js/material.min.js"></script>
-		<script src="../js/workshop.js"></script>
-		<script src="../js/gamesstore.js"></script>
+		<script src="../js/Handler.js"></script>
+		<script src="../js/Modules.Interface.js"></script>
+		<script src="../js/Modules.Admin.Games.js"></script>
+		<script type="text/javascript">
+			var admin = new Handler.app();
+
+			admin.setSessionId('<?php echo $_SESSION["JSESSIONID"]; ?>');
+
+			admin.addModule(new Modules.Admin.Games(), 'games');
+			admin.addModule(new Modules.Interface(), 'interface');
+
+			admin.init();
+		</script>
 	</body>
 </html>
