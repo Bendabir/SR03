@@ -193,8 +193,7 @@
 
 		this.parent.ajax({
 			method: 'GET',
-			url: this.parent.apiPath('cart'),
-			async: this.parent.__async		
+			url: this.parent.apiPath('cart')
 		}, function(obj){
 			var cart = obj.response;
 			

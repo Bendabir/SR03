@@ -123,8 +123,7 @@
 
 		this.parent.ajax({
 			method: 'GET',
-			url: this.parent.apiPath('orders'),
-			async: this.parent.__async		
+			url: this.parent.apiPath('orders')
 		}, function(obj){
 			var orders = obj.response;
 			

@@ -220,8 +220,7 @@
 
 		this.parent.ajax({
 			method: 'GET',
-			url: this.parent.apiPath('games'),
-			async: this.parent.__async
+			url: this.parent.apiPath('games')
 		}, function(obj){
 			var games = obj.response;
 			

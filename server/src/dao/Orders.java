@@ -258,6 +258,8 @@ public class Orders{
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
+			// Need to check if a game already exists and has been deleted
+			
 			// Requête
 			String sql = "INSERT INTO orders (order_date, user) VALUES (CURDATE(), ?);";
 			

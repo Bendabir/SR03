@@ -53,6 +53,9 @@
 
 		var table = template.content.querySelector('tbody');
 
+		// Cleaning previous lines
+		table.innerHTML = '';
+
 		games.forEach(function(g){
 			table.append(__line(g));
 		});
@@ -72,8 +75,6 @@
 
 	Modules.Admin.Games.prototype.init = function(){
 		this.setDefaultContainer('#games .page-content .mdl-grid .mdl-cell');
-
-		var module = this;
 
 		// Linking the tab to the reload function
 		document.querySelector('a[href="#games"]').addEventListener('click', (e) => {
@@ -139,8 +140,7 @@
 
 		this.parent.ajax({
 			method: 'GET',
-			url: this.parent.apiPath('games'),
-			async: this.parent.__async
+			url: this.parent.apiPath('games')
 		}, function(obj){
 			var games = obj.response;
 			
