@@ -24,6 +24,8 @@
 
 		if(typeof game.cover == 'undefined')
 			game.cover = 'Pas de jaquette.';
+		// else
+			// game.cover = '<a href="' + game.cover + '" target="_blank">' + game.cover + '</a>';
 
 		var maxLength = 25;
 
@@ -35,8 +37,8 @@
 		template.content.querySelector('.admin-games-line-game-release-date').innerHTML = (new Date(game.releaseDate)).toLocaleDateString();
 		template.content.querySelector('.admin-games-line-game-price').innerHTML = game.price.formatNumber(2, ',', ' ');
 		template.content.querySelector('.admin-games-line-game-publisher').innerHTML = game.publisher;
-		template.content.querySelector('.admin-games-line-game-description').innerHTML = (game.description.length > maxLength ? (game.description.substr(0, maxLength - 3) + '...') : game.description);
-		template.content.querySelector('.admin-games-line-game-cover').innerHTML = (game.cover.length > maxLength ? (game.cover.substr(0, maxLength - 3) + '...') : game.cover);
+		template.content.querySelector('.admin-games-line-game-description').innerHTML = game.description;
+		template.content.querySelector('.admin-games-line-game-cover').innerHTML = game.cover;
 		template.content.querySelector('.admin-games-line-game-genres').innerHTML = __stringifyGenres(game.genres);
 		template.content.querySelector('.admin-games-line-game-stock').innerHTML = game.stock;
 
@@ -149,6 +151,44 @@
 			// If we have orders, then buiding the interface
 			if(games.length > 0){
 				currentModule.__defaultContainer.append(__table(games));
+
+				// Modifiers
+				document.querySelectorAll('table tbody tr td').forEach(function(td){
+					td.addEventListener('click', function(e){
+						// If not already displayed
+						if(this.children.length == 0){
+							// Saving previous value
+							var previousContent = this.innerHTML;
+
+							// Append a text input
+							var input = document.createElement('input');
+							input.type = 'text';
+							input.className = 'mdl-textfield__input';
+							input.setAttribute('value', previousContent);
+
+							this.innerHTML = '';
+							this.append(input);
+	
+							// Focusing and add a behavior when clicking elsewhere
+							input.focus();
+							input.addEventListener('blur', function(e){
+								var content = this.value;
+								this.replaceWith(content);
+
+								if(content != previousContent){
+									console.log('Content modified !');
+								}
+							});
+
+							// If enter is pressed
+							input.addEventListener('keypress', function(e){
+								if(e.keyCode == 13){
+									this.blur(); // Releasing
+								}
+							});
+						}
+					});
+				});
 			}
 			else {
 				// Otherwise, just displaying a card saying there is no order yet

@@ -11,8 +11,8 @@
 		<td class="mdl-data-table__cell--non-numeric admin-games-line-game-release-date">RELEASE_DATE</td>
 		<td class="admin-games-line-game-price">PRICE</td>
 		<td class="mdl-data-table__cell--non-numeric admin-games-line-game-publisher">PUBLISHER</td>
-		<td class="mdl-data-table__cell--non-numeric admin-games-line-game-description">DESCRIPTION</td>
-		<td class="mdl-data-table__cell--non-numeric admin-games-line-game-cover">COVER</td>
+		<td class="mdl-data-table__cell--non-numeric admin-games-line-game-description text-truncation">DESCRIPTION</td>
+		<td class="mdl-data-table__cell--non-numeric admin-games-line-game-cover text-truncation">COVER</td>
 		<td class="mdl-data-table__cell--non-numeric admin-games-line-game-genres">GENRES</td>
 		<td class="admin-games-line-game-stock">STOCK</td>
 	</tr>
