@@ -32,6 +32,7 @@
 		// Building the card using a HTML5 template
 		var template = document.querySelector('#admin-games-line');
 
+		template.content.querySelector('tr').setAttribute('game-id', game.id);
 		template.content.querySelector('.admin-games-line-game-title').innerHTML = game.title;
 		template.content.querySelector('.admin-games-line-game-console').innerHTML = game.console;
 		template.content.querySelector('.admin-games-line-game-release-date').innerHTML = (new Date(game.releaseDate)).toLocaleDateString();
@@ -119,7 +120,7 @@
 	Modules.Admin.Games.prototype.delete = function(id, onSuccess, onError){
 		this.parent.ajax({
 			method: 'DELETE',
-			url: this.parent.__apiPath('games/' + id)
+			url: this.parent.apiPath('games/' + id)
 		}, function(obj){
 			console.log(obj.response);
 		}, function(err){
@@ -242,7 +243,63 @@
 								this.replaceWith(content);
 
 								if(content != previousContent){
-									console.log('Content modified !');
+									// Get line to update on database
+									var parent = td.parentElement;
+
+									// Building data
+									var game = {
+										title: parent.children[0].innerHTML,
+										console: parent.children[1].innerHTML,
+										releaseDate: parent.children[2].innerHTML.split('/').reverse().join('-'),
+										price: parseFloat(parent.children[3].innerHTML.replace(',', '.')),
+										publisher: (parent.children[4].innerHTML == 'Inconnu' ? null : parent.children[4].innerHTML),
+										description: (parent.children[5].innerHTML == 'Pas de description.' ? null : parent.children[5].innerHTML),
+										cover: (parent.children[6].innerHTML == 'Pas de jaquette.' ? null : parent.children[6].innerHTML),
+										genres: (parent.children[7].innerHTML == 'Inconnu' ? [] : parent.children[7].innerHTML.split(' | ')),
+										stock: parseInt(parent.children[8].innerHTML)
+									};
+
+									var gameID = parseInt(parent.getAttribute('game-id'));
+
+									// Updating the game
+									currentModule.parent.ajax({
+										method: 'PUT',
+										url: currentModule.parent.apiPath('games/' + gameID),
+										headers: {
+											'Content-Type': 'application/json'
+										},
+										data: game										
+									}, function(obj){
+										console.log(obj.response);
+										// currentModule.reload();
+									}, function(err){
+										// Building a card depending on the error
+										var e = {
+											message: err.error.message,
+											code: err.error.status,
+											moreInformation: null,
+											action: 'Recharger',
+											icon: 'loop'
+										};
+
+										// Depeding on the error code
+										switch (e.code) {
+											case 500: {
+												e.moreInformation = 'Une erreur critique s\'est produite. Veuillez contacter l\'administrateur.';
+											} break;
+											default: {
+												e.moreInformation = 'Une erreur inconnue s\'est produite. Tentez de recharger la page.';
+											} break;
+										}
+
+										currentModule.clean();
+
+										currentModule.__defaultContainer.append(currentModule.parent.getModule(Modules.Interface).__errorCard(e));
+
+										console.error(err.error);
+									});									
+
+									console.log(game);
 								}
 							});
 

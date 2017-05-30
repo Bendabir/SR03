@@ -127,7 +127,7 @@
 	Modules.Games.prototype.delete = function(id, onSuccess, onError){
 		this.parent.ajax({
 			method: 'DELETE',
-			url: this.parent.__apiPath('games/' + id)
+			url: this.parent.apiPath('games/' + id)
 		}, function(obj){
 			console.log(obj.response);
 		}, function(err){
