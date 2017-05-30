@@ -66,3 +66,7 @@ td > textarea {
 	bottom: 20px;
 	right: 20px;
 }
+
+.add-dialog {
+	width: 50%;
+}
