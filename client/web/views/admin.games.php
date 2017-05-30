@@ -16,39 +16,41 @@
 	<div class="mdl-dialog__content">
 		<div class="mdl-grid">
 			<div class="mdl-cell mdl-cell--12-col">
-				Tous les champs sont obligatoires à l'exception de l'éditeur, de la description, du lien de la jaquette ainsi que des genres.
+				Tous les champs sont obligatoires à l'exception de l'éditeur, de la description, du lien de la jaquette ainsi que des genres.<br />
+				Les genres doivent être séparés par des <b>|</b> (<i>pipe</i>).<br />
+				La date de sortie est au format <b>JJ/MM/AAAA</b>.
 			</div>
 			<div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 				<input class="mdl-textfield__input" type="text" id="dialog-game-title">
-				<label class="mdl-textfield__label" for="dialog-game-title">Titre *</label>
+				<label class="mdl-textfield__label" for="dialog-game-title">Titre <span class="mdl-color-text--pink-A200">*</span></label>
 			</div>
 			<div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 				<input class="mdl-textfield__input" type="text" id="dialog-game-console">
-				<label class="mdl-textfield__label" for="dialog-game-console">Console *</label>
+				<label class="mdl-textfield__label" for="dialog-game-console">Console <span class="mdl-color-text--pink-A200">*</span></label>
 			</div>
 			<div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-				<input class="mdl-textfield__input" type="text" id="dialog-game-release-date">
-				<label class="mdl-textfield__label" for="dialog-game-release-date">Date de sortie *</label>
+				<input class="mdl-textfield__input" type="text" pattern="(0[1-9]|[1-2][0-9]|3[0-1])/(0[1-9]|1[0-2])/[12][0-9]{3}" id="dialog-game-release-date">
+				<label class="mdl-textfield__label" for="dialog-game-release-date">Date de sortie <span class="mdl-color-text--pink-A200">*</span></label>
 			</div>
 			<div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-				<input class="mdl-textfield__input" type="number" min="0" step="0.01" id="dialog-game-release-price">
-				<label class="mdl-textfield__label" for="dialog-game-release-price">Prix *</label>
+				<input class="mdl-textfield__input" type="number" min="0" step="0.01" id="dialog-game-price">
+				<label class="mdl-textfield__label" for="dialog-game-price">Prix <span class="mdl-color-text--pink-A200">*</span></label>
 			</div>
 			<div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-				<input class="mdl-textfield__input" type="text" id="dialog-game-release-publisher">
-				<label class="mdl-textfield__label" for="dialog-game-release-publisher">Editeur</label>
+				<input class="mdl-textfield__input" type="text" id="dialog-game-publisher">
+				<label class="mdl-textfield__label" for="dialog-game-publisher">Editeur</label>
 			</div>
 			<div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-				<input class="mdl-textfield__input" type="number" min="0" id="dialog-game-release-stock">
-				<label class="mdl-textfield__label" for="dialog-game-release-stock">Stock *</label>
+				<input class="mdl-textfield__input" type="number" min="0" id="dialog-game-stock">
+				<label class="mdl-textfield__label" for="dialog-game-stock">Stock <span class="mdl-color-text--pink-A200">*</span></label>
 			</div>
 			<div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-				<input class="mdl-textfield__input" type="text" pattern="((\s)*[a-zA-Z0-9\s]+\|?)+" id="dialog-game-release-genres">
-				<label class="mdl-textfield__label" for="dialog-game-release-genres">Genres</label>
+				<input class="mdl-textfield__input" type="text" pattern="((\s)*[a-zA-Z0-9\s]+\|?)+" id="dialog-game-genres">
+				<label class="mdl-textfield__label" for="dialog-game-genres">Genres</label>
 			</div>
 			<div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-				<input class="mdl-textfield__input" type="url" id="dialog-game-release-cover">
-				<label class="mdl-textfield__label" for="dialog-game-release-cover">URL de la jaquette</label>
+				<input class="mdl-textfield__input" type="url" id="dialog-game-cover">
+				<label class="mdl-textfield__label" for="dialog-game-cover">URL de la jaquette</label>
 			</div>
 			<div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 				<textarea class="mdl-textfield__input" type="text" rows="5" id="dialog-game-description"></textarea>
@@ -57,7 +59,7 @@
 		</div>		
 	</div>
 	<div class="mdl-dialog__actions">
-		<button type="button" class="mdl-button">Ajouter</button>
+		<button type="button" class="mdl-button add">Ajouter</button>
 		<button type="button" class="mdl-button close">Fermer</button>
 	</div>
 </dialog>

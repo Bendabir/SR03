@@ -79,12 +79,48 @@
 	Modules.Admin.Games.prototype.init = function(){
 		this.setDefaultContainer('#games .page-content .mdl-grid .mdl-cell');
 
+		this.reload();
+
 		// Linking the tab to the reload function
 		document.querySelector('a[href="#games"]').addEventListener('click', (e) => {
 			this.reload();
 		});
 
-		this.reload();
+		// Binding click event to show the dialog window
+		var dialog = document.querySelector('#add-dialog'),
+			showDialogButton = document.querySelector('#add-game');
+
+		// Need to implement a polyfill
+		if(!dialog.showModal) {
+			dialogPolyfill.registerDialog(dialog);
+		}
+
+		// On click on the button, show the dialog
+		showDialogButton.addEventListener('click', function(e){
+			dialog.showModal();
+		});
+
+		// When clicking on close button
+		dialog.querySelector('.close').addEventListener('click', function(e){
+			dialog.close();
+		});
+
+		dialog.querySelector('.add').addEventListener('click', function(e){
+			// Building the game
+			var game = {
+				title: dialog.querySelector('#dialog-game-title').value,
+				console: dialog.querySelector('#dialog-game-console').value,
+				releaseDate: dialog.querySelector('#dialog-game-release-date').value.split('/').reverse().join('-'),
+				price: parseFloat(dialog.querySelector('#dialog-game-price').value || 0),
+				publisher: dialog.querySelector('#dialog-game-publisher').value || null,
+				description: dialog.querySelector('#dialog-game-description').innerText || null,
+				cover: dialog.querySelector('#dialog-game-cover').value || null,
+				genres: dialog.querySelector('#dialog-game-genres').value.split('|').map(function(s){return s.trim();}).clean(''),
+				stock: parseInt(dialog.querySelector('#dialog-game-stock').value || 0)
+			};
+
+			console.log(game);
+		});
 
 		console.log('Admin games module initialized.');
 	}
@@ -351,26 +387,6 @@
 
 			// Updating the game number in the tabs
 			document.querySelector('#games-number').textContent = games.length;
-
-			// Binding click event to show the dialog window
-			var dialog = document.querySelector('#add-dialog'),
-				showDialogButton = document.querySelector('#add-game');
-			
-			// Need to implement a polyfill
-			if(!dialog.showModal) {
-				dialogPolyfill.registerDialog(dialog);
-			}
-
-			// On click on the button, show the dialog
-			showDialogButton.addEventListener('click', function() {
-				dialog.showModal();
-			});
-
-			// When clicking on close button
-			dialog.querySelector('.close').addEventListener('click', function() {
-				dialog.close();
-			});
-
 		}, function(err){
 			// Building a card depending on the error
 			var e = {
