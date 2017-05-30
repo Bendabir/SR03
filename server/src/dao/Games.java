@@ -125,29 +125,31 @@ public class Games {
 			
 			// First inserting the publisher if not already in database
 			// Could use a regex to improve the test
-			String publisherSql = "SELECT * FROM publishers WHERE LOWER(name) = LOWER(?);";
-			PreparedStatement publisherPs = cnx.prepareStatement(publisherSql);
-			publisherPs.setString(1, game.getPublisher());
-			ResultSet publisherRes = publisherPs.executeQuery();
-			
-			// If we have a result, we update the publisher with the good name (could be a bit different)
-			if(publisherRes.next()){
-				game.setPublisher(publisherRes.getString("name"));
+			if(game.getPublisher() != null){
+				String publisherSql = "SELECT * FROM publishers WHERE LOWER(name) = LOWER(?);";
+				PreparedStatement publisherPs = cnx.prepareStatement(publisherSql);
+				publisherPs.setString(1, game.getPublisher());
+				ResultSet publisherRes = publisherPs.executeQuery();
 				
-				publisherRes.close();
-				publisherPs.close();
-			}
-			// Otherwise, let's add it in the db
-			else {
-				publisherRes.close();
-				publisherPs.close();				
-				
-				String addPublisherSql = "INSERT INTO publishers (name) VALUES (?);";
-				PreparedStatement addPublisherPs = cnx.prepareStatement(addPublisherSql);
-				addPublisherPs.setString(1, game.getPublisher());
-				addPublisherPs.executeQuery();
-				
-				addPublisherPs.close();
+				// If we have a result, we update the publisher with the good name (could be a bit different)
+				if(publisherRes.next()){
+					game.setPublisher(publisherRes.getString("name"));
+					
+					publisherRes.close();
+					publisherPs.close();
+				}
+				// Otherwise, let's add it in the db
+				else {
+					publisherRes.close();
+					publisherPs.close();				
+					
+					String addPublisherSql = "INSERT INTO publishers (name) VALUES (?);";
+					PreparedStatement addPublisherPs = cnx.prepareStatement(addPublisherSql);
+					addPublisherPs.setString(1, game.getPublisher());
+					addPublisherPs.executeQuery();
+					
+					addPublisherPs.close();
+				}			
 			}
 			
 			// Requête

@@ -105,21 +105,44 @@
 			dialog.close();
 		});
 
-		dialog.querySelector('.add').addEventListener('click', function(e){
+		dialog.querySelector('.add').addEventListener('click', (e) => {
 			// Building the game
 			var game = {
-				title: dialog.querySelector('#dialog-game-title').value,
-				console: dialog.querySelector('#dialog-game-console').value,
-				releaseDate: dialog.querySelector('#dialog-game-release-date').value.split('/').reverse().join('-'),
-				price: parseFloat(dialog.querySelector('#dialog-game-price').value || 0),
+				title: dialog.querySelector('#dialog-game-title').value || null,
+				console: dialog.querySelector('#dialog-game-console').value || null,
+				releaseDate: dialog.querySelector('#dialog-game-release-date').value.split('/').reverse().join('-') || null,
+				price: parseFloat(dialog.querySelector('#dialog-game-price').value) || null,
 				publisher: dialog.querySelector('#dialog-game-publisher').value || null,
 				description: dialog.querySelector('#dialog-game-description').innerText || null,
 				cover: dialog.querySelector('#dialog-game-cover').value || null,
 				genres: dialog.querySelector('#dialog-game-genres').value.split('|').map(function(s){return s.trim();}).clean(''),
-				stock: parseInt(dialog.querySelector('#dialog-game-stock').value || 0)
+				stock: parseInt(dialog.querySelector('#dialog-game-stock').value) || null
 			};
 
-			console.log(game);
+			// Checking required fields 
+			if(game.title != null && game.console != null && game.releaseDate != null && game.price != null && game.stock != null){
+				// Sending data
+				this.parent.ajax({
+					method: 'POST',
+					url: this.parent.apiPath('games'),
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					data: game
+				}, (obj) => {
+					console.log(obj.response);
+					console.log(obj);
+
+					var response = obj.response;
+
+					if(typeof response.id != 'undefined'){
+						this.reload();
+						dialog.close();
+					}
+				}, (err) => {
+					console.log(err.error);
+				});
+			}
 		});
 
 		console.log('Admin games module initialized.');
