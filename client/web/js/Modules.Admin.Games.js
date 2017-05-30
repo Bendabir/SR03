@@ -255,7 +255,7 @@
 										publisher: (parent.children[4].innerHTML == 'Inconnu' ? null : parent.children[4].innerHTML),
 										description: (parent.children[5].innerHTML == 'Pas de description.' ? null : parent.children[5].innerHTML),
 										cover: (parent.children[6].innerHTML == 'Pas de jaquette.' ? null : parent.children[6].innerHTML),
-										genres: (parent.children[7].innerHTML == 'Inconnu' ? [] : parent.children[7].innerHTML.split(' | ')),
+										genres: (parent.children[7].innerHTML == 'Inconnu' ? [] : parent.children[7].innerHTML.split('|').map(function(s){return s.trim();}).clean('')),
 										stock: parseInt(parent.children[8].innerHTML)
 									};
 
