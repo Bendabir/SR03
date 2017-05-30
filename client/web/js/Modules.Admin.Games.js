@@ -35,7 +35,7 @@
 		template.content.querySelector('.admin-games-line-game-title').innerHTML = game.title;
 		template.content.querySelector('.admin-games-line-game-console').innerHTML = game.console;
 		template.content.querySelector('.admin-games-line-game-release-date').innerHTML = (new Date(game.releaseDate)).toLocaleDateString();
-		template.content.querySelector('.admin-games-line-game-price').innerHTML = game.price.formatNumber(2, ',', ' ');
+		template.content.querySelector('.admin-games-line-game-price').innerHTML = game.price.formatNumber(2, ',', ' ') + '€';
 		template.content.querySelector('.admin-games-line-game-publisher').innerHTML = game.publisher;
 		template.content.querySelector('.admin-games-line-game-description').innerHTML = game.description;
 		template.content.querySelector('.admin-games-line-game-cover').innerHTML = game.cover;
@@ -161,10 +161,23 @@
 							var previousContent = this.innerHTML;
 
 							// Append a text input
-							var input = document.createElement('input');
-							input.type = 'text';
-							input.className = 'mdl-textfield__input';
-							input.setAttribute('value', previousContent);
+							var input = null;
+
+							switch(this.getAttribute('input-type')){
+								case 'textarea': {
+									input = document.createElement('textarea');
+									input.type = 'text';
+									input.className = 'mdl-textfield__input';
+									input.innerHTML = previousContent;
+								} break;
+
+								default: {
+									input = document.createElement('input');
+									input.type = 'text';
+									input.className = 'mdl-textfield__input';
+									input.setAttribute('value', previousContent);
+								} break;
+							}
 
 							this.innerHTML = '';
 							this.append(input);

@@ -38,7 +38,8 @@ public class Orders{
 				
 				do {
 					Game g = new Game();
-					g.setTitle(res.getString("game"))
+					g.setId(res.getInt("game"))
+					 .setTitle(res.getString("title"))
 					 .setConsole(res.getString("console"))
 					 .setDescription(res.getString("description"))
 					 .setReleaseDate(res.getString("release_date"))
@@ -89,7 +90,8 @@ public class Orders{
 				
 				do {
 					Game g = new Game();
-					g.setTitle(res.getString("game"))
+					g.setId(res.getInt("game"))
+					 .setTitle(res.getString("title"))
 					 .setConsole(res.getString("console"))
 					 .setDescription(res.getString("description"))
 					 .setReleaseDate(res.getString("release_date"))
@@ -156,7 +158,8 @@ public class Orders{
 
 				// Filling lines
 				Game g = new Game();
-				g.setTitle(res.getString("game"))
+				g.setId(res.getInt("game"))
+				 .setTitle(res.getString("title"))
 				 .setConsole(res.getString("console"))
 				 .setDescription(res.getString("description"))
 				 .setReleaseDate(res.getString("release_date"))
@@ -223,7 +226,8 @@ public class Orders{
 
 				// Filling lines
 				Game g = new Game();
-				g.setTitle(res.getString("game"))
+				g.setId(res.getInt("game"))
+				 .setTitle(res.getString("title"))
 				 .setConsole(res.getString("console"))
 				 .setDescription(res.getString("description"))
 				 .setReleaseDate(res.getString("release_date"))
