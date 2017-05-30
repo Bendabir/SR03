@@ -4,6 +4,10 @@
 	</div>
 </div>
 
+<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored add-button add-game">
+	<i class="material-icons">add</i>
+</button>
+
 <template id="admin-games-line">
 	<tr game-id="-1">
 		<td input-type="text" class="mdl-data-table__cell--non-numeric admin-games-line-game-title">TITLE</td>

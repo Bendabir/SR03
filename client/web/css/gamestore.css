@@ -59,3 +59,10 @@ td > input, td > textarea {
 td > textarea {
 	height: auto;
 }
+
+.add-button {
+	display: block;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+}
