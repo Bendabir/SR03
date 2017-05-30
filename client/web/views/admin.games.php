@@ -8,7 +8,7 @@
 	<tr game-id="-1">
 		<td input-type="text" class="mdl-data-table__cell--non-numeric admin-games-line-game-title">TITLE</td>
 		<td input-type="text" class="mdl-data-table__cell--non-numeric admin-games-line-game-console">CONSOLE</td>
-		<td input-type="text" class="mdl-data-table__cell--non-numeric admin-games-line-game-release-date">RELEASE_DATE</td>
+		<td input-type="date" class="mdl-data-table__cell--non-numeric admin-games-line-game-release-date">RELEASE_DATE</td>
 		<td input-type="price" class="admin-games-line-game-price">PRICE</td>
 		<td input-type="text" class="mdl-data-table__cell--non-numeric admin-games-line-game-publisher">PUBLISHER</td>
 		<td input-type="textarea" class="mdl-data-table__cell--non-numeric admin-games-line-game-description text-truncation" style="text-align: justify;">DESCRIPTION</td>

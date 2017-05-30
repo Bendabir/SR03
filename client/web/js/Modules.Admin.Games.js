@@ -197,6 +197,14 @@
 									input.setAttribute('value', previousContent);
 								} break;
 
+								case 'date': {
+									input = document.createElement('input');
+									input.type = 'date';
+									input.className = 'mdl-textfield__input';
+									input.setAttribute('min', '1950-01-01');
+									input.setAttribute('value', previousContent.split('/').reverse().join('-'));
+								} break;
+
 								// case 'link': {
 								// 	var dummy = document.createElement('div');
 								// 	dummy.innerHTML = previousContent;
@@ -233,6 +241,10 @@
 									case 'price': {
 										content = parseFloat(content).formatNumber(2, ',', ' ') + '€';
 									} break;
+
+									case 'date' : {
+										content = content.split('-').reverse().join('/');
+									}
 
 									default: {
 
