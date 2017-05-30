@@ -249,17 +249,22 @@
 									// Get line to update on database
 									var parent = td.parentElement;
 
+									var publisherElement = parent.querySelector('.admin-games-line-game-publisher'),
+										descriptionElement = parent.querySelector('.admin-games-line-game-description'),
+										coverElement = parent.querySelector('.admin-games-line-game-cover'),
+										genresElement = parent.querySelector('.admin-games-line-game-genres');
+
 									// Building data
 									var game = {
-										title: parent.children[1].innerHTML,
-										console: parent.children[2].innerHTML,
-										releaseDate: parent.children[3].innerHTML.split('/').reverse().join('-'),
-										price: parseFloat(parent.children[4].innerHTML.replace(',', '.')),
-										publisher: (parent.children[5].innerHTML == 'Inconnu' ? null : parent.children[5].innerHTML),
-										description: (parent.children[6].innerHTML == 'Pas de description.' ? null : parent.children[6].innerHTML),
-										cover: (parent.children[7].innerHTML == 'Pas de jaquette.' ? null : parent.children[7].innerHTML),
-										genres: (parent.children[8].innerHTML == 'Inconnu' ? [] : parent.children[8].innerHTML.split('|').map(function(s){return s.trim();}).clean('')),
-										stock: parseInt(parent.children[9].innerHTML)
+										title: parent.querySelector('.admin-games-line-game-title').innerHTML,
+										console: parent.querySelector('.admin-games-line-game-console').innerHTML,
+										releaseDate: parent.querySelector('.admin-games-line-game-release-date').innerHTML.split('/').reverse().join('-'),
+										price: parseFloat(parent.querySelector('.admin-games-line-game-price').innerHTML.replace(',', '.')),
+										publisher: (publisherElement.innerHTML == 'Inconnu' ? null : publisherElement.innerHTML),
+										description: (descriptionElement.innerHTML == 'Pas de description.' ? null : descriptionElement.innerHTML),
+										cover: (coverElement.innerHTML == 'Pas de jaquette.' ? null : coverElement.innerHTML),
+										genres: (genresElement.innerHTML == 'Inconnu' ? [] : genresElement.innerHTML.split('|').map(function(s){return s.trim();}).clean('')),
+										stock: parseInt(parent.querySelector('.admin-games-line-game-stock').innerHTML)
 									};
 
 									var gameID = parseInt(parent.getAttribute('game-id'));
