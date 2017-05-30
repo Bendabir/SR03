@@ -271,7 +271,10 @@
 										data: game										
 									}, function(obj){
 										console.log(obj.response);
-										// currentModule.reload();
+
+										// If update failed, reload
+										if(obj.response == null)
+											currentModule.reload();
 									}, function(err){
 										// Building a card depending on the error
 										var e = {
