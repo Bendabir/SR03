@@ -34,7 +34,7 @@
 		template.content.querySelector('.mdl-card__title-text').innerHTML = game.title + '<br />(' + game.console + ')';
 		template.content.querySelector('.game-card-description').textContent = game.description;
 		template.content.querySelector('.game-card-publisher').textContent = ' ' + game.publisher;
-		template.content.querySelector('.game-card-release-date').textContent = ' ' + (new Date(game.releaseDate)).toLocaleDateString();
+		template.content.querySelector('.game-card-release-date').textContent = ' ' + game.releaseDate.split('-').reverse().join('/');
 		template.content.querySelector('.game-card-genre').textContent = ' ' + __stringifyGenres(game.genres);
 		template.content.querySelector('.game-card-price').textContent = ' ' + game.price.formatNumber(2, ',', ' ');
 		template.content.querySelector('.game-card-add-to-cart-button').textContent = (game.stock > 0 ? 'Ajouter au panier' : 'En rupture de stock');

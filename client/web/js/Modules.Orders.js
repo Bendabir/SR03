@@ -51,7 +51,7 @@
 
 		// template.content.querySelector('.order-card-order-num').textContent = order.num;
 		// template.content.querySelector('.order-card-order-date').textContent = (new Date(order.date)).toLocaleDateString();
-		template.content.querySelector('.order-card-title').innerHTML = 'Commande n°' + order.num + '<br />Effectuée le ' + (new Date(order.date)).toLocaleDateString();
+		template.content.querySelector('.order-card-title').innerHTML = 'Commande n°' + order.num + '<br />Effectuée le ' + order.date.split('-').reverse().join('/');
 		template.content.querySelectorAll('.order-card-order-amount').forEach(function(e){
 			e.textContent = orderAmount.formatNumber(2, ',', ' ');
 		});
