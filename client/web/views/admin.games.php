@@ -1,13 +1,28 @@
+<!-- The main "frame" -->
 <div class="mdl-grid">
 	<div class="mdl-cell mdl-cell--10-col mdl-cell--12-col-phone mdl-cell--1-offset-desktop">
 	
 	</div>
 </div>
 
-<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored add-button add-game">
+<!-- Button that will show the dialog -->
+<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored add-button" id="add-game">
 	<i class="material-icons">add</i>
 </button>
 
+<!-- The dialog to add a game -->
+<dialog class="mdl-dialog" id="add-dialog">
+	<h4 class="mdl-dialog__title">Ajouter un jeu</h4>
+	<div class="mdl-dialog__content">
+		Formulaire pour ajouter un jeu
+	</div>
+	<div class="mdl-dialog__actions">
+		<button type="button" class="mdl-button">Ajouter</button>
+		<button type="button" class="mdl-button close">Fermer</button>
+	</div>
+</dialog>
+
+<!-- Our templates for dynamic filling -->
 <template id="admin-games-line">
 	<tr game-id="-1">
 		<td input-type="text" class="mdl-data-table__cell--non-numeric admin-games-line-game-title">TITLE</td>

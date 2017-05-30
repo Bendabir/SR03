@@ -351,6 +351,26 @@
 
 			// Updating the game number in the tabs
 			document.querySelector('#games-number').textContent = games.length;
+
+			// Binding click event to show the dialog window
+			var dialog = document.querySelector('#add-dialog'),
+				showDialogButton = document.querySelector('#add-game');
+			
+			// Need to implement a polyfill
+			if(!dialog.showModal) {
+				dialogPolyfill.registerDialog(dialog);
+			}
+
+			// On click on the button, show the dialog
+			showDialogButton.addEventListener('click', function() {
+				dialog.showModal();
+			});
+
+			// When clicking on close button
+			dialog.querySelector('.close').addEventListener('click', function() {
+				dialog.close();
+			});
+
 		}, function(err){
 			// Building a card depending on the error
 			var e = {
