@@ -158,18 +158,56 @@
 						// If not already displayed
 						if(this.children.length == 0){
 							// Saving previous value
-							var previousContent = this.innerHTML;
+							var previousContent = this.innerHTML,
+								inputType = this.getAttribute('input-type');
 
 							// Append a text input
 							var input = null;
 
-							switch(this.getAttribute('input-type')){
+							switch(inputType){
 								case 'textarea': {
 									input = document.createElement('textarea');
 									input.type = 'text';
 									input.className = 'mdl-textfield__input';
 									input.innerHTML = previousContent;
 								} break;
+
+								case 'number': {
+									input = document.createElement('input');
+									input.type = 'number';
+									input.setAttribute('min', 0);
+									input.className = 'mdl-textfield__input';
+									input.setAttribute('value', previousContent);
+								} break;
+
+								case 'price': {
+									input = document.createElement('input');
+									input.type = 'number';
+									input.setAttribute('min', 0);
+									input.setAttribute('step', 0.01);
+									input.className = 'mdl-textfield__input';
+
+									// Modifying value
+									previousContent = parseFloat(previousContent.slice(0, -1).replace(',', '.'));
+
+									input.setAttribute('value', previousContent);
+								} break;
+
+								// case 'link': {
+								// 	var dummy = document.createElement('div');
+								// 	dummy.innerHTML = previousContent;
+
+								// 	// If no children, then it's a string (there is no link)
+								// 	if(dummy.children.length == 0)
+								// 		previousContent = dummy.innerHTML;
+								// 	else
+								// 		previousContent = dummy.firstChild.innerHTML;
+
+								// 	input = document.createElement('input');
+								// 	input.type = 'text';
+								// 	input.className = 'mdl-textfield__input';
+								// 	input.setAttribute('value', previousContent);
+								// }
 
 								default: {
 									input = document.createElement('input');
@@ -186,6 +224,21 @@
 							input.focus();
 							input.addEventListener('blur', function(e){
 								var content = this.value;
+
+								switch(inputType){
+									case 'price': {
+										content = parseFloat(content).formatNumber(2, ',', ' ') + '€';
+									} break;
+
+									default: {
+
+									} break;
+								}
+
+								// // If we have a link, rebuilding it
+								// if(inputType == 'link')
+								// 	content = '<a href="' + content + '">' + content + '</a>';
+
 								this.replaceWith(content);
 
 								if(content != previousContent){
