@@ -153,6 +153,9 @@
 			if(games.length > 0){
 				currentModule.__defaultContainer.append(__table(games));
 
+				// Say MDL to upgrade the element
+				componentHandler.upgradeElement(document.querySelector('table'));
+
 				// Modifiers
 				document.querySelectorAll('table tbody tr td').forEach(function(td){
 					td.addEventListener('click', function(e){
@@ -248,15 +251,15 @@
 
 									// Building data
 									var game = {
-										title: parent.children[0].innerHTML,
-										console: parent.children[1].innerHTML,
-										releaseDate: parent.children[2].innerHTML.split('/').reverse().join('-'),
-										price: parseFloat(parent.children[3].innerHTML.replace(',', '.')),
-										publisher: (parent.children[4].innerHTML == 'Inconnu' ? null : parent.children[4].innerHTML),
-										description: (parent.children[5].innerHTML == 'Pas de description.' ? null : parent.children[5].innerHTML),
-										cover: (parent.children[6].innerHTML == 'Pas de jaquette.' ? null : parent.children[6].innerHTML),
-										genres: (parent.children[7].innerHTML == 'Inconnu' ? [] : parent.children[7].innerHTML.split('|').map(function(s){return s.trim();}).clean('')),
-										stock: parseInt(parent.children[8].innerHTML)
+										title: parent.children[1].innerHTML,
+										console: parent.children[2].innerHTML,
+										releaseDate: parent.children[3].innerHTML.split('/').reverse().join('-'),
+										price: parseFloat(parent.children[4].innerHTML.replace(',', '.')),
+										publisher: (parent.children[5].innerHTML == 'Inconnu' ? null : parent.children[5].innerHTML),
+										description: (parent.children[6].innerHTML == 'Pas de description.' ? null : parent.children[6].innerHTML),
+										cover: (parent.children[7].innerHTML == 'Pas de jaquette.' ? null : parent.children[7].innerHTML),
+										genres: (parent.children[8].innerHTML == 'Inconnu' ? [] : parent.children[8].innerHTML.split('|').map(function(s){return s.trim();}).clean('')),
+										stock: parseInt(parent.children[9].innerHTML)
 									};
 
 									var gameID = parseInt(parent.getAttribute('game-id'));
