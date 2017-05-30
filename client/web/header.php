@@ -1,5 +1,5 @@
 <!-- Always shows a header, even in smaller screens. -->
-<header class="mdl-layout__header">
+<header class="mdl-layout__header mdl-color--grey-900">
 	<div class="mdl-layout__header-row">
 		<!-- Title -->
 		<span class="mdl-layout-title">Game Store</span>
@@ -32,7 +32,7 @@
 	<?php 
 		if(!strpos($_SERVER["REQUEST_URI"], "admin")){
 	?>
-		<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+		<div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--grey-900">
 			<a href="#games" class="mdl-layout__tab is-active">Jeux (<span id="games-number">-</span>)</a>
 			<a href="#cart" class="mdl-layout__tab">Mon panier (<span id="products-in-cart-number">-</span>)</a>
 			<a href="#orders" class="mdl-layout__tab">Mes commandes (<span id="orders-number">-</span>)</a>
@@ -41,7 +41,7 @@
 		}
 		else {
 	?>
-		<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+		<div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--grey-900">
 			<a href="#games" class="mdl-layout__tab is-active">Jeux (<span id="games-number">-</span>)</a>
 			<a href="#consoles" class="mdl-layout__tab">Consoles (<span id="consoles-number">-</span>)</a>
 			<a href="#genres" class="mdl-layout__tab">Genres (<span id="genres-number">-</span>)</a>
