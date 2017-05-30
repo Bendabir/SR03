@@ -300,7 +300,7 @@
 										currentModule.__defaultContainer.append(currentModule.parent.getModule(Modules.Interface).__errorCard(e));
 
 										console.error(err.error);
-									});									
+									});
 
 									console.log(game);
 								}

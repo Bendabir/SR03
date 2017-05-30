@@ -261,6 +261,9 @@
 
 			// Updating the game number in the tabs
 			document.querySelector('#games-number').textContent = games.length;
+
+			// Displaying the sort button
+			document.querySelector('#sort-menu').style.display = '';
 		}, function(err){
 			// Building a card depending on the error
 			var e = {

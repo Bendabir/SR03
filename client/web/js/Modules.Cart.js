@@ -283,7 +283,10 @@
 			}
 
 			// Updating the game number in the tabs
-			document.querySelector('#products-in-cart-number').textContent = cart.length;			
+			document.querySelector('#products-in-cart-number').textContent = cart.length;
+
+			// Hidding the sort button because not used
+			document.querySelector('#sort-menu').style.display = 'none';				
 		}, function(err){
 			// Building a card depending on the error
 			var e = {

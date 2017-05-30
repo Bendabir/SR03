@@ -125,7 +125,7 @@ public class Games {
 			
 			// First inserting the publisher if not already in database
 			// Could use a regex to improve the test
-			String publisherSql = "SELECT * FROM publisher WHERE LOWER(name) = LOWER(?);";
+			String publisherSql = "SELECT * FROM publishers WHERE LOWER(name) = LOWER(?);";
 			PreparedStatement publisherPs = cnx.prepareStatement(publisherSql);
 			publisherPs.setString(1, game.getPublisher());
 			ResultSet publisherRes = publisherPs.executeQuery();
@@ -142,7 +142,7 @@ public class Games {
 				publisherRes.close();
 				publisherPs.close();				
 				
-				String addPublisherSql = "INSERT INTO publisher (name) VALUES (?);";
+				String addPublisherSql = "INSERT INTO publishers (name) VALUES (?);";
 				PreparedStatement addPublisherPs = cnx.prepareStatement(addPublisherSql);
 				addPublisherPs.setString(1, game.getPublisher());
 				addPublisherPs.executeQuery();
@@ -219,7 +219,7 @@ public class Games {
 			// First inserting the publisher if not already in database
 			// Could use a regex to improve the test
 			if(game.getPublisher() != null){
-				String publisherSql = "SELECT * FROM publisher WHERE LOWER(name) = LOWER(?);";
+				String publisherSql = "SELECT * FROM publishers WHERE LOWER(name) = LOWER(?);";
 				PreparedStatement publisherPs = cnx.prepareStatement(publisherSql);
 				publisherPs.setString(1, game.getPublisher());
 				ResultSet publisherRes = publisherPs.executeQuery();
@@ -236,7 +236,7 @@ public class Games {
 					publisherRes.close();
 					publisherPs.close();
 					
-					String addPublisherSql = "INSERT INTO publisher (name) VALUES (?);";
+					String addPublisherSql = "INSERT INTO publishers (name) VALUES (?);";
 					PreparedStatement addPublisherPs = cnx.prepareStatement(addPublisherSql);
 					addPublisherPs.setString(1, game.getPublisher());
 					addPublisherPs.executeQuery();

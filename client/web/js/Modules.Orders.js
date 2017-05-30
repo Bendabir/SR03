@@ -156,7 +156,10 @@
 			}
 
 			// Updating the game number in the tabs
-			document.querySelector('#orders-number').textContent = orders.length;			
+			document.querySelector('#orders-number').textContent = orders.length;
+
+			// Hidding the sort button because not used
+			document.querySelector('#sort-menu').style.display = 'none';
 		}, function(err){
 			// Building a card depending on the error
 			var e = {
