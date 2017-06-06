@@ -26,6 +26,8 @@
 		
 		if($statusCode != 200)
 			$logoutError = $information["message"];
+		else
+			header("Location: ".$casLogoutEndPoint); // Logging out from CAS as well
 	}
 
 	// Cleaning PHP session
