@@ -57,7 +57,7 @@
 			main.addModule(new Modules.Games(), 'games');
 
 			main.init();
-
+			
 			// Show sort icon
 			document.querySelector('#sort-menu').style.display = '';
 		</script>		

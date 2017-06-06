@@ -145,6 +145,30 @@
 			}
 		});
 
+		// Bind delete game on button click event
+		document.querySelector('#delete-game').addEventListener('click', (e) => {
+			console.log('Will delete following games : ');
+
+			// Getting selected games
+			var gamesToDelete = document.querySelectorAll('tr.is-selected');
+
+			gamesToDelete.forEach((g, index) => {
+				this.parent.ajax({
+					method: 'DELETE',
+					url: this.parent.apiPath('games/' + g.getAttribute('game-id'))
+				}, (obj) => {
+					console.log(obj.response);
+
+					// If done
+					if(index == gamesToDelete.length - 1){
+						this.reload();
+					}
+				}, (err) => {
+					console.error(err.error);
+				});
+			});
+		});
+
 		console.log('Admin games module initialized.');
 	}
 

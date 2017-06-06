@@ -60,11 +60,18 @@ td > textarea {
 	height: auto;
 }
 
-.add-button {
+.bottom-right-button {
 	display: block;
 	position: fixed;
-	bottom: 20px;
 	right: 20px;
+	bottom: 20px;
+}
+
+.bottom-left-button {
+	display: block;
+	position: fixed;
+	left: 20px;
+	bottom: 20px;
 }
 
 .add-dialog {

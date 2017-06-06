@@ -6,8 +6,13 @@
 </div>
 
 <!-- Button that will show the dialog -->
-<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored add-button" id="add-game">
+<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored bottom-right-button" id="add-game">
 	<i class="material-icons">add</i>
+</button>
+
+<!-- Button that will delete (a) game(s) -->
+<button class="mdl-button mdl-js-button mdl-button--fab bottom-left-button" id="delete-game">
+	<i class="material-icons">delete</i>
 </button>
 
 <!-- The dialog to add a game -->
@@ -94,7 +99,7 @@
 				<th>Stock</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="games-list">
 
 		</tbody>
 	</table>		
