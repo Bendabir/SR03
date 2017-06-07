@@ -36,10 +36,12 @@
 			<div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 				<input class="mdl-textfield__input" type="text" pattern="(0[1-9]|[1-2][0-9]|3[0-1])/(0[1-9]|1[0-2])/[12][0-9]{3}" id="dialog-game-release-date">
 				<label class="mdl-textfield__label" for="dialog-game-release-date">Date de sortie <span class="mdl-color-text--pink-A200">*</span></label>
+				<span class="mdl-textfield__error">La date n'a pas le format requis</span>
 			</div>
 			<div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 				<input class="mdl-textfield__input" type="number" min="0" step="0.01" id="dialog-game-price">
 				<label class="mdl-textfield__label" for="dialog-game-price">Prix <span class="mdl-color-text--pink-A200">*</span></label>
+				<span class="mdl-textfield__error">Le prix doit être un réel supérieur ou égal à 0</span>
 			</div>
 			<div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 				<input class="mdl-textfield__input" type="text" id="dialog-game-publisher" maxlength="64">
@@ -48,14 +50,17 @@
 			<div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 				<input class="mdl-textfield__input" type="number" min="0" id="dialog-game-stock">
 				<label class="mdl-textfield__label" for="dialog-game-stock">Stock <span class="mdl-color-text--pink-A200">*</span></label>
+				<span class="mdl-textfield__error">La quantité doit être un entier supérieur ou égal à 0</span>
 			</div>
 			<div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 				<input class="mdl-textfield__input" type="text" pattern="((\s)*[a-zA-Z0-9\s]+\|?)+" id="dialog-game-genres">
 				<label class="mdl-textfield__label" for="dialog-game-genres">Genres</label>
+				<span class="mdl-textfield__error">Les genres doivent être séparés par des |</span>
 			</div>
 			<div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 				<input class="mdl-textfield__input" type="url" id="dialog-game-cover" maxlength="4096">
 				<label class="mdl-textfield__label" for="dialog-game-cover">URL de la jaquette</label>
+				<span class="mdl-textfield__error">L'adresse de la jaquette doit être une URL</span>
 			</div>
 			<div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 				<textarea class="mdl-textfield__input" type="text" rows="5" id="dialog-game-description" maxlength="4096"></textarea>

@@ -25,7 +25,7 @@
 				<th class="mdl-data-table__cell--non-numeric">Status</th>
 			</tr>
 		</thead>
-		<tbody id="game-users-list">
+		<tbody id="admin-users-list">
 
 		</tbody>
 	</table>		

@@ -27,6 +27,7 @@
 			<div class="mdl-cell mdl-cell--6-col mdl-cell--12-col-phone mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 				<input class="mdl-textfield__input" type="text" pattern="(0[1-9]|[1-2][0-9]|3[0-1])/(0[1-9]|1[0-2])/[12][0-9]{3}" id="dialog-console-launch-date">
 				<label class="mdl-textfield__label" for="dialog-console-launch-date">Date de lancement <span class="mdl-color-text--pink-A200">*</span></label>
+				<span class="mdl-textfield__error">La date n'a pas le format requis</span>
 			</div>
 		</div>		
 	</div>

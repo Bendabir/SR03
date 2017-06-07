@@ -42,6 +42,7 @@
 				</section>
 				<section class="mdl-layout__tab-panel" id="orders">
 					<div class="page-content">
+						<?php require_once('../views/admin.orders.php'); ?>
 					</div>
 				</section>
 				<section class="mdl-layout__tab-panel" id="users">
