@@ -243,7 +243,7 @@
 						// If not already displayed
 						if(this.children.length == 0){
 							// Saving previous value
-							var previousContent = this.innerHTML,
+							var previousContent = this.textContent,
 								inputType = this.getAttribute('input-type');
 
 							// Append a text input
@@ -349,15 +349,15 @@
 
 									// Building data
 									var game = {
-										title: parent.querySelector('.admin-games-line-game-title').innerHTML,
-										console: parent.querySelector('.admin-games-line-game-console').innerHTML,
-										releaseDate: parent.querySelector('.admin-games-line-game-release-date').innerHTML.split('/').reverse().join('-'),
-										price: parseFloat(parent.querySelector('.admin-games-line-game-price').innerHTML.replace(',', '.')),
-										publisher: (publisherElement.innerHTML == 'Inconnu' ? null : publisherElement.innerHTML),
-										description: (descriptionElement.innerHTML == 'Pas de description.' ? null : descriptionElement.innerHTML),
-										cover: (coverElement.innerHTML == 'Pas de jaquette.' ? null : coverElement.innerHTML),
-										genres: (genresElement.innerHTML == 'Inconnu' ? [] : genresElement.innerHTML.split('|').map(function(s){return s.trim();}).clean('')),
-										stock: parseInt(parent.querySelector('.admin-games-line-game-stock').innerHTML)
+										title: parent.querySelector('.admin-games-line-game-title').textContent,
+										console: parent.querySelector('.admin-games-line-game-console').textContent,
+										releaseDate: parent.querySelector('.admin-games-line-game-release-date').textContent.split('/').reverse().join('-'),
+										price: parseFloat(parent.querySelector('.admin-games-line-game-price').textContent.replace(',', '.')),
+										publisher: (publisherElement.textContent == 'Inconnu' ? null : publisherElement.textContent),
+										description: (descriptionElement.textContent == 'Pas de description.' ? null : descriptionElement.textContent),
+										cover: (coverElement.textContent == 'Pas de jaquette.' ? null : coverElement.textContent),
+										genres: (genresElement.textContent == 'Inconnu' ? [] : genresElement.textContent.split('|').map(function(s){return s.trim();}).clean('')),
+										stock: parseInt(parent.querySelector('.admin-games-line-game-stock').textContent)
 									};
 
 									var gameID = parseInt(parent.getAttribute('game-id'));

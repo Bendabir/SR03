@@ -10,8 +10,6 @@ import java.util.Iterator;
 import bdd.DatabaseConnection;
 import beans.Game;
 
-//import utils.htmlspecialchars.*;
-
 public class Games {
 	public static Game get(int id){
 		Game g = null;
