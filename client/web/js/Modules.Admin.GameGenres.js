@@ -3,37 +3,38 @@
 (function(){
 	'use stict';
 
-	function __line(console){
-		// Checking the console
-		if(typeof console != 'object' || !console)
-			throw new Error('The console attribute must be an object.');
+	function __line(genre){
+		// Checking the genre
+		if(typeof genre != 'object' || !genre)
+			throw new Error('The genre attribute must be an object.');
 
-		var maxLength = 25;
+		if(typeof genre.description == 'undefined')
+			genre.description = 'Pas de description.';
 
 		// Building the card using a HTML5 template
-		var template = document.querySelector('#admin-consoles-line');
+		var template = document.querySelector('#admin-game-genres-line');
 
-		template.content.querySelector('.admin-consoles-line-console-name').textContent = console.name;
-		template.content.querySelector('.admin-consoles-line-console-launch-date').textContent = console.launchedDate.split('-').reverse().join('/');
+		template.content.querySelector('.admin-game-genres-line-genre-name').textContent = genre.name;
+		template.content.querySelector('.admin-game-genres-line-genre-description').textContent = genre.description;
 
 		return document.importNode(template.content, true);
 	}
 
-	function __table(consoles){
+	function __table(genres){
 		// Checking the line
-		if(!Array.isArray(consoles) || !consoles)
-			throw new Error('The consoles attribute must be an array.');
+		if(!Array.isArray(genres) || !genres)
+			throw new Error('The genres attribute must be an array.');
 
 		// Building the card using a HTML5 template
-		var template = document.querySelector('#admin-consoles-table');
+		var template = document.querySelector('#admin-game-genres-table');
 
 		var table = template.content.querySelector('tbody');
 
 		// Cleaning previous lines
 		table.innerHTML = '';
 
-		consoles.forEach(function(c){
-			table.append(__line(c));
+		genres.forEach(function(g){
+			table.append(__line(g));
 		});
 
 		return document.importNode(template.content, true);	
@@ -43,25 +44,25 @@
 	Modules.Admin = Modules.Admin || {};
 
 
-	Modules.Admin.Consoles = function(){
-		this.__moduleName = 'consoles';
+	Modules.Admin.GameGenres = function(){
+		this.__moduleName = 'gameGenres';
 		this.__defaultContainer = null;
 		this.__dependencies = [Modules.Interface]; // List of classes for dependencies
 	}
 
-	Modules.Admin.Consoles.prototype.init = function(){
-		this.setDefaultContainer('#consoles .page-content .mdl-grid .mdl-cell');
+	Modules.Admin.GameGenres.prototype.init = function(){
+		this.setDefaultContainer('#genres .page-content .mdl-grid .mdl-cell');
 
 		this.reload();
 
 		// Linking the tab to the reload function
-		document.querySelector('a[href="#consoles"]').addEventListener('click', (e) => {
+		document.querySelector('a[href="#genres"]').addEventListener('click', (e) => {
 			this.reload();
 		});
 
 		// Binding click event to show the dialog window
-		var dialog = document.querySelector('#add-console-dialog'),
-			showDialogButton = document.querySelector('#add-console');
+		var dialog = document.querySelector('#add-game-genre-dialog'),
+			showDialogButton = document.querySelector('#add-game-genre');
 
 		// Need to implement a polyfill
 		if(!dialog.showModal) {
@@ -80,21 +81,21 @@
 
 		dialog.querySelector('.add').addEventListener('click', (e) => {
 			// Building the console
-			var consoleData = {
-				name: dialog.querySelector('#dialog-console-name').value.substr(0, 255) || null,
-				launchedDate: dialog.querySelector('#dialog-console-launch-date').value.split('/').reverse().join('-') || null,
+			var genre = {
+				name: dialog.querySelector('#dialog-game-genre-name').value.substr(0, 255) || null,
+				launchedDate: dialog.querySelector('#dialog-game-genre-description').value || null,
 			};
 
 			// Checking required fields 
-			if(consoleData.name != null && consoleData.launchedDate != null){
+			if(genre.name != null){
 				// Sending data
 				this.parent.ajax({
 					method: 'POST',
-					url: this.parent.apiPath('consoles'),
+					url: this.parent.apiPath('gameGenres'),
 					headers: {
 						'Content-Type': 'application/json'
 					},
-					data: consoleData
+					data: genre
 				}, (obj) => {
 					console.log(obj.response);
 
@@ -110,11 +111,11 @@
 			}
 		});
 
-		console.log('Admin consoles module initialized.');
+		console.log('Admin game genres module initialized.');
 	}
 
 	// Set the default container when modifying content
-	Modules.Admin.Consoles.prototype.setDefaultContainer = function(container){
+	Modules.Admin.GameGenres.prototype.setDefaultContainer = function(container){
 		if(typeof container != 'string' || !container)
 			throw new Error('The container attribute must be a string (CSS selector of the container).');
 
@@ -122,10 +123,10 @@
 	}
 
 	// Defining methods
-	Modules.Admin.Consoles.prototype.get = function(id = '', onSuccess, onError){
+	Modules.Admin.GameGenres.prototype.get = function(id = '', onSuccess, onError){
 		this.parent.ajax({
 			method: 'GET',
-			url: this.parent.apiPath('consoles' + (id == '' ? '' : '/') + id)
+			url: this.parent.apiPath('gameGenres' + (id == '' ? '' : '/') + id)
 		}, function(obj){
 			console.log(obj.response);
 		}, function(err){
@@ -134,12 +135,12 @@
 	}
 
 	// Clean the interface
-	Modules.Admin.Consoles.prototype.clean = function(){
+	Modules.Admin.GameGenres.prototype.clean = function(){
 		this.__defaultContainer.innerHTML = '';
 	}
 
 	// Reload the interface with all consoles
-	Modules.Admin.Consoles.prototype.reload = function(){
+	Modules.Admin.GameGenres.prototype.reload = function(){
 		this.clean();
 
 		this.__defaultContainer.append(this.parent.getModule(Modules.Interface).__loader());
@@ -148,15 +149,15 @@
 
 		this.parent.ajax({
 			method: 'GET',
-			url: this.parent.apiPath('consoles')
+			url: this.parent.apiPath('gameGenres')
 		}, function(obj){
-			var consoles = obj.response;
+			var genres = obj.response;
 			
 			currentModule.clean();
 
 			// If we have orders, then buiding the interface
-			if(consoles.length > 0){
-				currentModule.__defaultContainer.append(__table(consoles));
+			if(genres.length > 0){
+				currentModule.__defaultContainer.append(__table(genres));
 
 				// Say MDL to upgrade the element
 				// componentHandler.upgradeElement(document.querySelector('table'));
@@ -174,12 +175,11 @@
 							var input = null;
 
 							switch(inputType){
-								case 'date': {
-									input = document.createElement('input');
-									input.type = 'date';
+								case 'textarea': {
+									input = document.createElement('textarea');
+									input.type = 'text';
 									input.className = 'mdl-textfield__input';
-									input.setAttribute('min', '1950-01-01');
-									input.setAttribute('value', previousContent.split('/').reverse().join('-'));
+									input.innerHTML = previousContent;
 								} break;
 
 								default: {
@@ -198,16 +198,6 @@
 							input.addEventListener('blur', function(e){
 								var content = this.value;
 
-								switch(inputType){
-									case 'date' : {
-										content = content.split('-').reverse().join('/');
-									}
-
-									default: {
-
-									} break;
-								}
-
 								this.replaceWith(content);
 
 								if(content != previousContent){
@@ -215,19 +205,19 @@
 									var parent = td.parentElement;
 
 									// Building data
-									var consoleData = {
-										name: parent.querySelector('.admin-consoles-line-console-name').textContent.substr(0, 32),
-										launchedDate: parent.querySelector('.admin-consoles-line-console-launch-date').textContent.split('/').reverse().join('-'),
+									var genre = {
+										name: parent.querySelector('.admin-game-genres-line-genre-name').textContent.substr(0, 64),
+										launchedDate: parent.querySelector('.admin-game-genres-line-genre-launch-date').textContent,
 									};
 
-									// Updating the console
+									// Updating the genre
 									currentModule.parent.ajax({
 										method: 'PUT',
-										url: currentModule.parent.apiPath('consoles/' + consoleData.title),
+										url: currentModule.parent.apiPath('gameGenres/' + genre.title),
 										headers: {
 											'Content-Type': 'application/json'
 										},
-										data: consoleData										
+										data: genre										
 									}, function(obj){
 										console.log(obj.response);
 
@@ -276,9 +266,9 @@
 			else {
 				// Otherwise, just displaying a card saying there is no order yet
 				var info = {
-					title: 'Aucune console disponible',
-					text: 'Aucune console n\'a été ajouté pour le moment. Ajoutez en !<br />',
-					action: 'Ajouter une console',
+					title: 'Aucune genre disponible',
+					text: 'Aucune genre de jeu n\'a été ajouté pour le moment. Ajoutez en !<br />',
+					action: 'Ajouter un genre',
 					actionLink: '',
 					icon: ''
 				};
@@ -287,7 +277,7 @@
 			}			
 
 			// Updating the game number in the tabs
-			document.querySelector('#consoles-number').textContent = consoles.length;
+			document.querySelector('#genres-number').textContent = genres.length;
 		}, function(err){
 			// Building a card depending on the error
 			var e = {
