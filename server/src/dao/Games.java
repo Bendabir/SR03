@@ -10,6 +10,8 @@ import java.util.Iterator;
 import bdd.DatabaseConnection;
 import beans.Game;
 
+//import utils.htmlspecialchars.*;
+
 public class Games {
 	public static Game get(int id){
 		Game g = null;
@@ -141,7 +143,7 @@ public class Games {
 				// Otherwise, let's add it in the db
 				else {
 					publisherRes.close();
-					publisherPs.close();				
+					publisherPs.close();
 					
 					String addPublisherSql = "INSERT INTO publishers (name) VALUES (?);";
 					PreparedStatement addPublisherPs = cnx.prepareStatement(addPublisherSql);
@@ -153,7 +155,8 @@ public class Games {
 			}
 			
 			// Requête
-			String sql = "INSERT INTO games (title, console, price, publisher, release_date, description, stock, cover) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+			String sql = "INSERT INTO games (title, console,odl"
+					+ " price, publisher, release_date, description, stock, cover) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, game.getTitle());

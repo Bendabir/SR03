@@ -33,6 +33,129 @@
 		return this;
 	};
 
+	// Escape HTML special chars
+	String.prototype.htmlspecialchars = function(){
+		var lastWasBlankChar = false,
+			str = '';
+
+		for(var i = 0; i < this.length; i++){
+			var c = this[i];
+
+			if(c == ' '){
+				if(lastWasBlankChar){
+					lastWasBlankChar = false;
+					str += "&nbsp;";
+				}
+				else {
+					lastWasBlankChar = true;
+					str += ' ';
+				}
+			}
+			else {
+				lastWasBlankChar = false;
+
+				// HTML special chars
+				switch(c){
+					case '"' : {
+						str += '&quot;';
+					} break;
+
+					case '&' : {
+						str += '&amp;';
+					} break;
+
+					case '<' : {
+						str += '&lt;';
+					} break;
+
+					case '>' : {
+						str += '&gt;';
+					} break;
+
+					case '\n' : {
+						str += '&lt;br/&gt;';
+					} break;
+
+					case '\'' : {
+						str += '&#39;';
+					} break;
+
+					default : {
+						var ci = 0xFFFF & c.charCodeAt(0);
+
+						// Nothing special if normal char
+						if(ci < 160){	
+							str += c;
+						}
+						else {
+							str += '&#';
+							str += ci;
+							str += ';';
+						}						
+					} break;
+				}
+			}
+		}
+
+		return str;
+	}
+
+	// public static final String parse(String string){
+	//     StringBuffer sb = new StringBuffer(string.length());
+	//     // true if last char was blank
+	//     boolean lastWasBlankChar = false;
+	//     int len = string.length();
+	//     char c;
+
+	//     for (int i = 0; i < len; i++)
+	//         {
+	//         c = string.charAt(i);
+	//         if (c == ' ') {
+	//             // blank gets extra work,
+	//             // this solves the problem you get if you replace all
+	//             // blanks with &nbsp;, if you do that you loss 
+	//             // word breaking
+	//             if (lastWasBlankChar) {
+	//                 lastWasBlankChar = false;
+	//                 sb.append("&nbsp;");
+	//                 }
+	//             else {
+	//                 lastWasBlankChar = true;
+	//                 sb.append(' ');
+	//                 }
+	//             }
+	//         else {
+	//             lastWasBlankChar = false;
+	//             //
+	//             // HTML Special Chars
+	//             if (c == '"')
+	//                 sb.append("&quot;");
+	//             else if (c == '&')
+	//                 sb.append("&amp;");
+	//             else if (c == '<')
+	//                 sb.append("&lt;");
+	//             else if (c == '>')
+	//                 sb.append("&gt;");
+	//             else if (c == '\n')
+	//                 // Handle Newline
+	//                 sb.append("&lt;br/&gt;");
+	//             else {
+	//                 int ci = 0xffff & c;
+	//                 if (ci < 160 )
+	//                     // nothing special only 7 Bit
+	//                     sb.append(c);
+	//                 else {
+	//                     // Not 7 Bit use the unicode system
+	//                     sb.append("&#");
+	//                     sb.append(new Integer(ci).toString());
+	//                     sb.append(';');
+	//                     }
+	//                 }
+	//             }
+	//         }
+	//     return sb.toString();
+	// }	
+
 	
 
 	// Application

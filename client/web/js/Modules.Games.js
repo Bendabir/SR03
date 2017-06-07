@@ -31,7 +31,7 @@
 		template.content.querySelector('.mdl-card__title').style.backgroundImage = '';
 
 		// Filling the template
-		template.content.querySelector('.mdl-card__title-text').innerHTML = game.title + '<br />(' + game.console + ')';
+		template.content.querySelector('.mdl-card__title-text').innerHTML = game.title.htmlspecialchars() + '<br />(' + game.console.htmlspecialchars() + ')';
 		template.content.querySelector('.game-card-description').textContent = game.description;
 		template.content.querySelector('.game-card-publisher').textContent = ' ' + game.publisher;
 		template.content.querySelector('.game-card-release-date').textContent = ' ' + game.releaseDate.split('-').reverse().join('/');

@@ -33,15 +33,15 @@
 		var template = document.querySelector('#admin-games-line');
 
 		template.content.querySelector('tr').setAttribute('game-id', game.id);
-		template.content.querySelector('.admin-games-line-game-title').innerHTML = game.title;
-		template.content.querySelector('.admin-games-line-game-console').innerHTML = game.console;
-		template.content.querySelector('.admin-games-line-game-release-date').innerHTML = game.releaseDate.split('-').reverse().join('/');
-		template.content.querySelector('.admin-games-line-game-price').innerHTML = game.price.formatNumber(2, ',', ' ') + '€';
-		template.content.querySelector('.admin-games-line-game-publisher').innerHTML = game.publisher;
-		template.content.querySelector('.admin-games-line-game-description').innerHTML = game.description;
-		template.content.querySelector('.admin-games-line-game-cover').innerHTML = game.cover;
-		template.content.querySelector('.admin-games-line-game-genres').innerHTML = __stringifyGenres(game.genres);
-		template.content.querySelector('.admin-games-line-game-stock').innerHTML = game.stock;
+		template.content.querySelector('.admin-games-line-game-title').textContent = game.title;
+		template.content.querySelector('.admin-games-line-game-console').textContent = game.console;
+		template.content.querySelector('.admin-games-line-game-release-date').textContent = game.releaseDate.split('-').reverse().join('/');
+		template.content.querySelector('.admin-games-line-game-price').textContent = game.price.formatNumber(2, ',', ' ') + '€';
+		template.content.querySelector('.admin-games-line-game-publisher').textContent = game.publisher;
+		template.content.querySelector('.admin-games-line-game-description').textContent = game.description;
+		template.content.querySelector('.admin-games-line-game-cover').textContent = game.cover;
+		template.content.querySelector('.admin-games-line-game-genres').textContent = __stringifyGenres(game.genres);
+		template.content.querySelector('.admin-games-line-game-stock').textContent = game.stock;
 
 		return document.importNode(template.content, true);
 	}
@@ -147,8 +147,6 @@
 
 		// Bind delete game on button click event
 		document.querySelector('#delete-game').addEventListener('click', (e) => {
-			console.log('Will delete following games : ');
-
 			// Getting selected games
 			var gamesToDelete = document.querySelectorAll('tr.is-selected');
 
