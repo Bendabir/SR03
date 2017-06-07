@@ -123,6 +123,37 @@ public class Games {
 		try {
 			cnx = DatabaseConnection.getInstance().getCnx();
 			
+			// If game already exists
+			String checkExistsSql = "SELECT * FROM games WHERE title = ? AND console = ? AND release_date = ? AND deleted = 1;";
+			PreparedStatement checkExistsPs = cnx.prepareStatement(checkExistsSql);
+			checkExistsPs.setString(1, game.getTitle());
+			checkExistsPs.setString(2, game.getConsole());
+			checkExistsPs.setString(3, game.getReleaseDate());
+			ResultSet checkExistsRes = checkExistsPs.executeQuery();
+			
+			if(checkExistsRes.next()){
+				int gameID = checkExistsRes.getInt("id");
+				
+				checkExistsRes.close();
+				checkExistsPs.close();
+				
+				// Reactivating game
+				String undeleteGameSql = "UPDATE games SET deleted = 0 WHERE id = ?;";
+				PreparedStatement undeletePs = cnx.prepareStatement(undeleteGameSql);
+				undeletePs.setInt(1, gameID);
+				undeletePs.executeUpdate();
+				
+				undeletePs.close();
+				
+				g = new Game();
+				g.setId(gameID);
+				
+				return g;
+			}
+			
+			checkExistsRes.close();
+			checkExistsPs.close();
+			
 			// First inserting the publisher if not already in database
 			// Could use a regex to improve the test
 			if(game.getPublisher() != null){
@@ -153,8 +184,7 @@ public class Games {
 			}
 			
 			// Requête
-			String sql = "INSERT INTO games (title, console,odl"
-					+ " price, publisher, release_date, description, stock, cover) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+			String sql = "INSERT INTO games (title, console, price, publisher, release_date, description, stock, cover) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 			
 			PreparedStatement ps = cnx.prepareStatement(sql);
 			ps.setString(1, game.getTitle());

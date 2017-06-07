@@ -26,11 +26,11 @@
 				La date de sortie est au format <b>JJ/MM/AAAA</b>.
 			</div>
 			<div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-				<input class="mdl-textfield__input" type="text" id="dialog-game-title">
+				<input class="mdl-textfield__input" type="text" id="dialog-game-title" maxlength="255">
 				<label class="mdl-textfield__label" for="dialog-game-title">Titre <span class="mdl-color-text--pink-A200">*</span></label>
 			</div>
 			<div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-				<input class="mdl-textfield__input" type="text" id="dialog-game-console">
+				<input class="mdl-textfield__input" type="text" id="dialog-game-console" maxlength="32">
 				<label class="mdl-textfield__label" for="dialog-game-console">Console <span class="mdl-color-text--pink-A200">*</span></label>
 			</div>
 			<div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -42,7 +42,7 @@
 				<label class="mdl-textfield__label" for="dialog-game-price">Prix <span class="mdl-color-text--pink-A200">*</span></label>
 			</div>
 			<div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-				<input class="mdl-textfield__input" type="text" id="dialog-game-publisher">
+				<input class="mdl-textfield__input" type="text" id="dialog-game-publisher" maxlength="64">
 				<label class="mdl-textfield__label" for="dialog-game-publisher">Editeur</label>
 			</div>
 			<div class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -54,11 +54,11 @@
 				<label class="mdl-textfield__label" for="dialog-game-genres">Genres</label>
 			</div>
 			<div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-				<input class="mdl-textfield__input" type="url" id="dialog-game-cover">
+				<input class="mdl-textfield__input" type="url" id="dialog-game-cover" maxlength="4096">
 				<label class="mdl-textfield__label" for="dialog-game-cover">URL de la jaquette</label>
 			</div>
 			<div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-				<textarea class="mdl-textfield__input" type="text" rows="5" id="dialog-game-description"></textarea>
+				<textarea class="mdl-textfield__input" type="text" rows="5" id="dialog-game-description" maxlength="4096"></textarea>
 				<label class="mdl-textfield__label" for="dialog-game-description">Description</label>
 			</div>			
 		</div>		

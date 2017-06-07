@@ -108,13 +108,13 @@
 		dialog.querySelector('.add').addEventListener('click', (e) => {
 			// Building the game
 			var game = {
-				title: dialog.querySelector('#dialog-game-title').value || null,
-				console: dialog.querySelector('#dialog-game-console').value || null,
+				title: dialog.querySelector('#dialog-game-title').value.substr(0, 255) || null,
+				console: dialog.querySelector('#dialog-game-console').value.substr(0, 32) || null,
 				releaseDate: dialog.querySelector('#dialog-game-release-date').value.split('/').reverse().join('-') || null,
 				price: parseFloat(dialog.querySelector('#dialog-game-price').value) || null,
-				publisher: dialog.querySelector('#dialog-game-publisher').value || null,
-				description: dialog.querySelector('#dialog-game-description').innerText || null,
-				cover: dialog.querySelector('#dialog-game-cover').value || null,
+				publisher: dialog.querySelector('#dialog-game-publisher').value.substr(0, 64) || null,
+				description: dialog.querySelector('#dialog-game-description').value.substr(0, 4096) || null,
+				cover: dialog.querySelector('#dialog-game-cover').value.substr(0, 4096) || null,
 				genres: dialog.querySelector('#dialog-game-genres').value.split('|').map(function(s){return s.trim();}).clean(''),
 				stock: parseInt(dialog.querySelector('#dialog-game-stock').value) || null
 			};
@@ -188,14 +188,6 @@
 		}, function(err){
 			console.error(err.error);
 		});
-	}
-
-	Modules.Admin.Games.prototype.post = function(onSuccess, onError){
-
-	}
-
-	Modules.Admin.Games.prototype.put = function(id, onSuccess, onError){
-
 	}
 
 	Modules.Admin.Games.prototype.delete = function(id, onSuccess, onError){
@@ -286,22 +278,6 @@
 									input.setAttribute('value', previousContent.split('/').reverse().join('-'));
 								} break;
 
-								// case 'link': {
-								// 	var dummy = document.createElement('div');
-								// 	dummy.innerHTML = previousContent;
-
-								// 	// If no children, then it's a string (there is no link)
-								// 	if(dummy.children.length == 0)
-								// 		previousContent = dummy.innerHTML;
-								// 	else
-								// 		previousContent = dummy.firstChild.innerHTML;
-
-								// 	input = document.createElement('input');
-								// 	input.type = 'text';
-								// 	input.className = 'mdl-textfield__input';
-								// 	input.setAttribute('value', previousContent);
-								// }
-
 								default: {
 									input = document.createElement('input');
 									input.type = 'text';
@@ -332,10 +308,6 @@
 									} break;
 								}
 
-								// // If we have a link, rebuilding it
-								// if(inputType == 'link')
-								// 	content = '<a href="' + content + '">' + content + '</a>';
-
 								this.replaceWith(content);
 
 								if(content != previousContent){
@@ -349,13 +321,13 @@
 
 									// Building data
 									var game = {
-										title: parent.querySelector('.admin-games-line-game-title').textContent,
-										console: parent.querySelector('.admin-games-line-game-console').textContent,
+										title: parent.querySelector('.admin-games-line-game-title').textContent.substr(0, 255),
+										console: parent.querySelector('.admin-games-line-game-console').textContent.substr(0, 32),
 										releaseDate: parent.querySelector('.admin-games-line-game-release-date').textContent.split('/').reverse().join('-'),
 										price: parseFloat(parent.querySelector('.admin-games-line-game-price').textContent.replace(',', '.')),
-										publisher: (publisherElement.textContent == 'Inconnu' ? null : publisherElement.textContent),
-										description: (descriptionElement.textContent == 'Pas de description.' ? null : descriptionElement.textContent),
-										cover: (coverElement.textContent == 'Pas de jaquette.' ? null : coverElement.textContent),
+										publisher: (publisherElement.textContent == 'Inconnu' ? null : publisherElement.textContent.substr(0, 64)),
+										description: (descriptionElement.textContent == 'Pas de description.' ? null : descriptionElement.textContent.substr(0, 4095)),
+										cover: (coverElement.textContent == 'Pas de jaquette.' ? null : coverElement.textContent.substr(0, 4095)),
 										genres: (genresElement.textContent == 'Inconnu' ? [] : genresElement.textContent.split('|').map(function(s){return s.trim();}).clean('')),
 										stock: parseInt(parent.querySelector('.admin-games-line-game-stock').textContent)
 									};
