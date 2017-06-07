@@ -58,13 +58,15 @@
 		<script src="../js/Handler.js"></script>
 		<script src="../js/Modules.Interface.js"></script>
 		<script src="../js/Modules.Admin.Games.js"></script>
+		<script src="../js/Modules.Admin.Consoles.js"></script>
 		<script type="text/javascript">
 			var admin = new Handler.app();
 
 			admin.setSessionId('<?php echo $_SESSION["JSESSIONID"]; ?>');
 
-			admin.addModule(new Modules.Admin.Games(), 'games');
 			admin.addModule(new Modules.Interface(), 'interface');
+			admin.addModule(new Modules.Admin.Games(), 'games');
+			admin.addModule(new Modules.Admin.Consoles(), 'consoles');
 
 			admin.init();
 		</script>

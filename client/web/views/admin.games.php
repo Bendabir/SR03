@@ -16,7 +16,7 @@
 </button>
 
 <!-- The dialog to add a game -->
-<dialog class="mdl-dialog add-dialog" id="add-dialog">
+<dialog class="mdl-dialog add-dialog" id="add-game-dialog">
 	<h4 class="mdl-dialog__title">Ajouter un jeu</h4>
 	<div class="mdl-dialog__content">
 		<div class="mdl-grid">

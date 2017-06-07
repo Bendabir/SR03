@@ -87,7 +87,7 @@
 		});
 
 		// Binding click event to show the dialog window
-		var dialog = document.querySelector('#add-dialog'),
+		var dialog = document.querySelector('#add-game-dialog'),
 			showDialogButton = document.querySelector('#add-game');
 
 		// Need to implement a polyfill
@@ -131,7 +131,6 @@
 					data: game
 				}, (obj) => {
 					console.log(obj.response);
-					console.log(obj);
 
 					var response = obj.response;
 
@@ -374,8 +373,6 @@
 
 										console.error(err.error);
 									});
-
-									console.log(game);
 								}
 							});
 
