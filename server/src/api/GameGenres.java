@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+import beans.Game;
 import beans.GameGenre;
 
 import utils.SessionChecker;
@@ -81,7 +82,7 @@ public class GameGenres extends Application {
     		
 		// Else process
     	// Getting data from client
-    	GameGenre gg = new GameGenre(genreName);
+    	GameGenre gg = this.gson.fromJson(genreData, GameGenre.class);
     	GameGenre gg2 = dao.GameGenres.update(gg);
 		
 		return Response.ok(this.gson.toJson(gg2)).build();	    	

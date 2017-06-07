@@ -83,7 +83,7 @@
 			// Building the console
 			var genre = {
 				name: dialog.querySelector('#dialog-game-genre-name').value.substr(0, 255) || null,
-				launchedDate: dialog.querySelector('#dialog-game-genre-description').value || null,
+				description: dialog.querySelector('#dialog-game-genre-description').value || null,
 			};
 
 			// Checking required fields 
@@ -207,13 +207,13 @@
 									// Building data
 									var genre = {
 										name: parent.querySelector('.admin-game-genres-line-genre-name').textContent.substr(0, 64),
-										launchedDate: parent.querySelector('.admin-game-genres-line-genre-launch-date').textContent,
+										description: parent.querySelector('.admin-game-genres-line-genre-description').textContent,
 									};
 
 									// Updating the genre
 									currentModule.parent.ajax({
 										method: 'PUT',
-										url: currentModule.parent.apiPath('gameGenres/' + genre.title),
+										url: currentModule.parent.apiPath('gameGenres/' + genre.name),
 										headers: {
 											'Content-Type': 'application/json'
 										},

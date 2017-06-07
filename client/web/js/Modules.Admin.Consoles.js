@@ -223,7 +223,7 @@
 									// Updating the console
 									currentModule.parent.ajax({
 										method: 'PUT',
-										url: currentModule.parent.apiPath('consoles/' + consoleData.title),
+										url: currentModule.parent.apiPath('consoles/' + consoleData.name),
 										headers: {
 											'Content-Type': 'application/json'
 										},

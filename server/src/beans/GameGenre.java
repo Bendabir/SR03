@@ -14,6 +14,11 @@ public class GameGenre implements Comparable<GameGenre> {
 		this.description = null;
 	}
 	
+	public GameGenre(String name, String description){
+		this.name = name;
+		this.description = description;
+	}
+	
 	// SETTERS
 	public GameGenre setName(String uname){
 		this.name = uname;
