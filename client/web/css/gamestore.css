@@ -77,3 +77,13 @@ td > textarea {
 .add-dialog {
 	width: 50%;
 }
+
+.clean-button {
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	outline: none;
+	display: inline;
+	position: relative;
+	vertical-align: middle;
+}

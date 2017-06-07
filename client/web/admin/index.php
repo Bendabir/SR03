@@ -61,6 +61,7 @@
 		<script src="../js/Modules.Admin.Games.js"></script>
 		<script src="../js/Modules.Admin.Consoles.js"></script>
 		<script src="../js/Modules.Admin.GameGenres.js"></script>
+		<script src="../js/Modules.Admin.Orders.js"></script>
 		<script src="../js/Modules.Admin.Users.js"></script>
 		<script type="text/javascript">
 			var admin = new Handler.app();
@@ -71,6 +72,7 @@
 			admin.addModule(new Modules.Admin.Games(), 'games');
 			admin.addModule(new Modules.Admin.Consoles(), 'consoles');
 			admin.addModule(new Modules.Admin.GameGenres(), 'gameGenres');
+			admin.addModule(new Modules.Admin.Orders(), 'orders');
 			admin.addModule(new Modules.Admin.Users(), 'users');
 
 			admin.init();
