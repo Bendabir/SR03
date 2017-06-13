@@ -325,9 +325,9 @@
 										releaseDate: parent.querySelector('.admin-games-line-game-release-date').textContent.split('/').reverse().join('-'),
 										price: parseFloat(parent.querySelector('.admin-games-line-game-price').textContent.replace(',', '.')),
 										publisher: (publisherElement.textContent == 'Inconnu' ? null : publisherElement.textContent.substr(0, 64)),
-										description: (descriptionElement.textContent == 'Pas de description.' ? null : descriptionElement.textContent.substr(0, 4095)),
-										cover: (coverElement.textContent == 'Pas de jaquette.' ? null : coverElement.textContent.substr(0, 4095)),
-										genres: (genresElement.textContent == 'Inconnu' ? [] : genresElement.textContent.split('|').map(function(s){return s.trim();}).clean('')),
+										description: (['Pas de description.', ''].indexOf(descriptionElement.textContent) != -1 ? null : descriptionElement.textContent.substr(0, 4095)),
+										cover: (['Pas de jaquette.', ''].indexOf(coverElement.textContent) != -1 ? null : coverElement.textContent.substr(0, 4095)),
+										genres: (['Inconnu', ''].indexOf(genresElement.textContent) != -1 ? [] : genresElement.textContent.split('|').map(function(s){return s.trim();}).clean('')),
 										stock: parseInt(parent.querySelector('.admin-games-line-game-stock').textContent)
 									};
 
