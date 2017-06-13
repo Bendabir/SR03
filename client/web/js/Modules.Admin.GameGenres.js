@@ -79,6 +79,16 @@
 			dialog.close();
 		});
 
+		// On clicking outstide
+		dialog.addEventListener('click', function(e){
+			var r = dialog.getBoundingClientRect(),
+				isInDialog = (r.top <= e.clientY && e.clientY <= r.top + r.height && r.left <= e.clientX && e.clientX <= r.left + r.width);
+			
+			if(!isInDialog && e.target.tagName === 'DIALOG'){
+				dialog.close();
+			}	
+		});		
+
 		dialog.querySelector('.add').addEventListener('click', (e) => {
 			// Building the console
 			var genre = {
