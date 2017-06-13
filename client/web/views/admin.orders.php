@@ -21,7 +21,7 @@
 		<td class="mdl-data-table__cell--non-numeric admin-orders-line-order-login">LOGIN</td>
 		<td class="admin-orders-line-order-num">NUM</td>
 		<td class="mdl-data-table__cell--non-numeric admin-orders-line-order-date">DATE</td>
-		<td class="mdl-data-table__cell--non-numeric admin-orders-line-order-lines text-truncation" style="text-align: justify;">
+		<td class="mdl-data-table__cell--non-numeric admin-orders-line-order-lines text-full" style="text-align: justify;">
 			<ul class="mdl-list table-order-lines">
 					<!-- LINES -->											
 			</ul>

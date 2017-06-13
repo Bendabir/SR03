@@ -53,7 +53,7 @@
 				<span class="mdl-textfield__error">La quantité doit être un entier supérieur ou égal à 0</span>
 			</div>
 			<div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-				<input class="mdl-textfield__input" type="text" pattern="((\s)*[a-zA-Z0-9\s]+\|?)+" id="dialog-game-genres">
+				<input class="mdl-textfield__input" type="text" pattern="((\s)*[a-zA-Z0-9\s-]+\|?)+" id="dialog-game-genres">
 				<label class="mdl-textfield__label" for="dialog-game-genres">Genres</label>
 				<span class="mdl-textfield__error">Les genres doivent être séparés par des |</span>
 			</div>

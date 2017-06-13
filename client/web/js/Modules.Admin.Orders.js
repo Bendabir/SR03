@@ -175,6 +175,11 @@
 						console.error(err.error);
 					});					
 				}
+				// else {
+				// 	currentModule.reload();
+				// }
+
+				componentHandler.upgradeElement(this);
 			}
 		});
 
