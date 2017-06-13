@@ -177,7 +177,7 @@ public class Games {
 					String addPublisherSql = "INSERT INTO publishers (name) VALUES (?);";
 					PreparedStatement addPublisherPs = cnx.prepareStatement(addPublisherSql);
 					addPublisherPs.setString(1, game.getPublisher());
-					addPublisherPs.executeQuery();
+					addPublisherPs.executeUpdate();
 					
 					addPublisherPs.close();
 				}			
@@ -272,7 +272,7 @@ public class Games {
 					String addPublisherSql = "INSERT INTO publishers (name) VALUES (?);";
 					PreparedStatement addPublisherPs = cnx.prepareStatement(addPublisherSql);
 					addPublisherPs.setString(1, game.getPublisher());
-					addPublisherPs.executeQuery();
+					addPublisherPs.executeUpdate();
 					
 					addPublisherPs.close();
 				}				
