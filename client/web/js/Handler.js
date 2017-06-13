@@ -243,7 +243,7 @@
 							stackTrace = null;
 
 						try {
-							response = JSON.parse(xhr.responseText);
+							response = JSON.parse(xhr.responseText).message;
 						}
 						catch(e){
 							stackTrace = e;
