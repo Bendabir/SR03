@@ -82,7 +82,7 @@
 		<td input-type="date" class="mdl-data-table__cell--non-numeric admin-games-line-game-release-date">RELEASE_DATE</td>
 		<td input-type="price" class="admin-games-line-game-price">PRICE</td>
 		<td input-type="text" class="mdl-data-table__cell--non-numeric admin-games-line-game-publisher">PUBLISHER</td>
-		<td input-type="textarea" class="mdl-data-table__cell--non-numeric admin-games-line-game-description text-truncation" style="text-align: justify;">DESCRIPTION</td>
+		<td input-type="textarea" class="mdl-data-table__cell--non-numeric admin-games-line-game-description text-full" style="text-align: justify;">DESCRIPTION</td>
 		<td input-type="link" class="mdl-data-table__cell--non-numeric admin-games-line-game-cover text-truncation">COVER</td>
 		<td input-type="text" class="mdl-data-table__cell--non-numeric admin-games-line-game-genres">GENRES</td>
 		<td input-type="number" class="admin-games-line-game-stock">STOCK</td>

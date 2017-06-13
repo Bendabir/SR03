@@ -39,7 +39,7 @@
 <template id="admin-game-genres-line">
 	<tr>
 		<td input-type="text" class="mdl-data-table__cell--non-numeric admin-game-genres-line-genre-name">NAME</td>
-		<td input-type="textarea" class="mdl-data-table__cell--non-numeric admin-game-genres-line-genre-description text-truncation" style="text-align: justify;">DESCRIPTION</td>
+		<td input-type="textarea" class="mdl-data-table__cell--non-numeric admin-game-genres-line-genre-description text-full" style="text-align: justify;">DESCRIPTION</td>
 	</tr>
 </template>
 
