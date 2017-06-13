@@ -239,16 +239,28 @@
 				}
 				else {
 					if(typeof onError != 'undefined')
-						onError({
-							error: {
-								message: xhr.statusText,
-								state: xhr.readyState,
-								status: xhr.status
-							},
-							response: JSON.parse(xhr.responseText),
-							status: xhr.status,
-							xhr: xhr
-						});
+						var response = 'Erreur de connexion avec le serveur.',
+							stackTrace = null;
+
+						try {
+							response = JSON.parse(xhr.responseText);
+						}
+						catch(e){
+							stackTrace = e;
+						}
+						finally {
+							onError({
+								error: {
+									message: response,
+									state: xhr.readyState,
+									status: (xhr.status > 0 ? xhr.status : 'Code HTTP inconnu'),
+									stackTrace: stackTrace
+								},
+								response: response,
+								status: (xhr.status > 0 ? xhr.status : 'Code HTTP inconnu'),
+								xhr: xhr
+							});							
+						}
 				}
 			}
 		});
